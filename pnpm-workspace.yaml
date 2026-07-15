@@ -1,0 +1,14 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+onlyBuiltDependencies:
+  - "@openai/codex"
+  - "@openai/codex-darwin-arm64"
+  - "@openai/codex-darwin-x64"
+  - "@openai/codex-linux-arm64"
+  - "@openai/codex-linux-x64"
+  - "@openai/codex-win32-x64"
+  - "@resvg/resvg-js"
+  - "esbuild"
+  - "sharp"

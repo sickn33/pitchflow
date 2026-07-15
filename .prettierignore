@@ -1,0 +1,8 @@
+.next
+node_modules
+dist
+coverage
+playwright-report
+test-results
+artifacts/dogfood/exports
+pnpm-lock.yaml

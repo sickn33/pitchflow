@@ -1,0 +1,12 @@
+{
+  "name": "@pitchflow/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "pitchflow": "./src/index.ts"
+  },
+  "dependencies": {
+    "open": "11.0.0"
+  }
+}

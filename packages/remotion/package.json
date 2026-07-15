@@ -1,0 +1,15 @@
+{
+  "name": "@pitchflow/remotion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@pitchflow/core": "workspace:*",
+    "@remotion/bundler": "4.0.489",
+    "@remotion/renderer": "4.0.489",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "remotion": "4.0.489"
+  }
+}

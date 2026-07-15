@@ -1,0 +1,13 @@
+{
+  "name": "@pitchflow/codex",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@openai/codex": "0.144.4",
+    "@openai/codex-sdk": "0.144.4",
+    "@pitchflow/core": "workspace:*",
+    "zod": "4.4.3"
+  }
+}

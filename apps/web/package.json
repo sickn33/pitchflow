@@ -1,0 +1,16 @@
+{
+  "name": "@pitchflow/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --hostname 127.0.0.1 --port ${PITCHFLOW_PORT:-3210}",
+    "start": "next start --hostname 127.0.0.1 --port ${PITCHFLOW_PORT:-3210}"
+  },
+  "dependencies": {
+    "next": "16.2.10",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  }
+}
