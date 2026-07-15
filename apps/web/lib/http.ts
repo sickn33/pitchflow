@@ -3,6 +3,21 @@ import { z } from "zod";
 
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "::1", "localhost"]);
 
+function isSameLoopbackOrigin(origin: string, requestUrl: URL): boolean {
+  try {
+    const candidate = new URL(origin);
+    return (
+      LOOPBACK_HOSTS.has(candidate.hostname) &&
+      candidate.protocol === requestUrl.protocol &&
+      candidate.port === requestUrl.port &&
+      candidate.username === "" &&
+      candidate.password === ""
+    );
+  } catch {
+    return false;
+  }
+}
+
 export async function readTrustedLocalJson(
   request: Request,
   maximumBytes: number,
@@ -16,7 +31,10 @@ export async function readTrustedLocalJson(
     );
   }
   const origin = request.headers.get("origin");
-  if (origin && origin !== url.origin) {
+  // Next.js normalizes the bound 127.0.0.1 host to localhost in Request.url.
+  // Treat loopback aliases on the same scheme and port as one local origin,
+  // while continuing to reject every non-loopback or cross-port mutation.
+  if (origin && origin !== url.origin && !isSameLoopbackOrigin(origin, url)) {
     throw new PitchFlowError(
       "LOCAL_REQUEST_ORIGIN_REJECTED",
       "PitchFlow rejected a cross-origin local mutation request.",

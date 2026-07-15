@@ -26,6 +26,7 @@ artifacts/verification/2026-07-15-connected-engine/vibepalette-fresh/videos/
 artifacts/verification/2026-07-15-connected-engine/vibepalette-fresh/pitchflow-campaign.zip
 artifacts/verification/2026-07-15-connected-engine/vibepalette-candidate-02/videos/
 artifacts/verification/2026-07-15-connected-engine/vibepalette-candidate-02/pitchflow-campaign.zip
+artifacts/verification/2026-07-15-connected-engine/live/*.zip
 packages/remotion/.remotion/
 packages/remotion/artifacts/
 submission/demo/*.aiff

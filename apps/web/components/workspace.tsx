@@ -2247,6 +2247,7 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
   const [pendingLocalPairing, setPendingLocalPairing] = useState<PendingPairing | null>(null);
   const [pairDecisionBusy, setPairDecisionBusy] = useState(false);
   const [transferNotice, setTransferNotice] = useState<string | null>(null);
+  const transferredProjectPending = useRef(false);
   const bridgeObjectUrls = useRef<string[]>([]);
 
   useEffect(
@@ -2329,6 +2330,7 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
           }),
         );
         accepted = true;
+        transferredProjectPending.current = true;
         setRepositoryUrl(canonical);
         setPreferences(transfer.project.preferences);
         setCaptures(transferredCaptures);
@@ -2882,7 +2884,7 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
     setCampaign(null);
     setDemoAssets([]);
     setCreditAcknowledged(false);
-    setCaptures([]);
+    if (!transferredProjectPending.current) setCaptures([]);
     setCaptureError(null);
     setExportReceipt(null);
     setStage("analyzing");
@@ -2896,6 +2898,12 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
       );
       setSnapshot(payload.snapshot);
       setStage("review");
+      if (transferredProjectPending.current) {
+        transferredProjectPending.current = false;
+        setTransferNotice(
+          "Project transferred from the public workspace. Repository evidence is pinned locally; review the preserved direction and captures before generation.",
+        );
+      }
     } catch (caught) {
       setStage("idle");
       setError(caught instanceof Error ? caught.message : "Repository analysis failed.");

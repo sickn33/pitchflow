@@ -173,19 +173,18 @@ try {
   const repositoryInput = page.getByLabel("Public GitHub repository", { exact: true });
   await repositoryInput.fill(repositoryUrl);
   await page.getByRole("button", { name: "Analyze repository", exact: true }).click();
-  await page
-    .getByText("Your repository is ready for the local workspace.", { exact: true })
-    .waitFor();
-  const handoff = page.locator(".handoff-deep-link a");
-  assert((await handoff.count()) === 1, "Public repository handoff link is missing or ambiguous.");
-  const handoffHref = await handoff.getAttribute("href");
-  assert(handoffHref, "Public repository handoff has no href.");
-  const handoffUrl = new URL(handoffHref);
+  await page.getByRole("heading", { name: "Repository ready for your local engine." }).waitFor();
+  await page.getByRole("heading", { name: "Connect your generation engine." }).waitFor();
+  await page.getByText("Local engine not connected", { exact: true }).waitFor();
   assert(
-    handoffUrl.origin === "http://127.0.0.1:3210",
-    "Handoff does not target the loopback workspace.",
+    (await page.getByText("pnpm pitchflow connect", { exact: true }).count()) >= 1,
+    "Disconnected public state does not show the exact companion command.",
   );
-  assert(handoffUrl.searchParams.get("repo") === repositoryUrl, "Handoff lost the repository URL.");
+  assert(
+    (await page.getByRole("button", { name: "Open local workspace with this project" }).count()) ===
+      1,
+    "Disconnected state omitted the explicit local-workspace fallback.",
+  );
   assert(
     mutationRequests.length === 0,
     `Public mode sent mutation requests: ${mutationRequests.join(", ")}`,
@@ -255,7 +254,12 @@ try {
       screenshot: mobileScreenshot,
     },
     deliveryTabs: ["Website", "Images", "Videos", "Copy", "Export"],
-    repositoryHandoff: handoffUrl.href,
+    engineBoundary: {
+      disconnected: true,
+      command: "pnpm pitchflow connect",
+      localFallback: true,
+      credentialsStayLocal: true,
+    },
     mutationRequests,
     consoleErrors,
   };
