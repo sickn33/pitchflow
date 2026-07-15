@@ -1,0 +1,58 @@
+{
+  "format": "pitchflow-live-browser-verification",
+  "version": 1,
+  "status": "ok",
+  "verifiedAt": "2026-07-15T10:03:50+02:00",
+  "url": "https://pitchflow-ten.vercel.app",
+  "deploymentId": "dpl_AMyxxKDQmoHjod85fGk683mALVXy",
+  "metadata": {
+    "openGraphImage": "https://pitchflow-ten.vercel.app/opengraph-image?6d607ba463f283e3",
+    "twitterImage": "https://pitchflow-ten.vercel.app/opengraph-image",
+    "containsLocalhost": false
+  },
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "anchor": {
+      "top": 447.0546875,
+      "bottom": 812.0546875
+    },
+    "rootOverflowPixels": 0,
+    "consoleWarningsOrErrors": 0,
+    "screenshot": {
+      "path": "artifacts/verification/2026-07-15-pitchflow/responsive/live-public-desktop-anchor-1440x1000.png",
+      "sha256": "8784084c200bfea22e39e49cda5bb2cb0ed24ab040551f96f69736fba126e3d6"
+    }
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "anchor": {
+      "top": 206.6171875,
+      "bottom": 644.171875
+    },
+    "rootOverflowPixels": 0,
+    "carousel": {
+      "clientWidth": 332,
+      "scrollWidth": 1448,
+      "contained": true
+    },
+    "consoleWarningsOrErrors": 0,
+    "screenshots": [
+      {
+        "path": "artifacts/verification/2026-07-15-pitchflow/responsive/live-public-mobile-top-390x844.png",
+        "sha256": "fbd34f34a5f5e956e97d4dfac2a4ca9d9ca0508300cf7588b7f51a0f6e170180"
+      },
+      {
+        "path": "artifacts/verification/2026-07-15-pitchflow/responsive/live-public-mobile-anchor-390x844.png",
+        "sha256": "fd0b69d069daef831d4134e6e1dacc464bd858a0cf07abf427d2817400dfc025"
+      }
+    ]
+  },
+  "viewportOverrideReset": true,
+  "browserTabsFinalized": true
+}
