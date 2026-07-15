@@ -1,6 +1,6 @@
 # PitchFlow — final Devpost submission copy
 
-Status: **content complete; public YouTube publication, Devpost field edits, `/feedback`, and final submission remain explicit approval/manual gates.**
+Status: **content complete; public YouTube publication, Devpost field edits, and final submission remain explicit approval gates.**
 
 ## Submission fields
 
@@ -10,7 +10,7 @@ Status: **content complete; public YouTube publication, Devpost field edits, `/f
 - **Public viewer:** <https://pitchflow-ten.vercel.app>
 - **Public repository:** <https://github.com/sickn33/pitchflow>
 - **YouTube demo:** insert the approved public URL after the finished local video passes verification
-- **Primary `/feedback` Session ID:** insert after Nicco invokes `/feedback` in the primary build task
+- **Primary `/feedback` Session ID:** `019f63f6-0b11-7310-a7c1-d62b3a51e774`
 
 ## Short description
 
@@ -113,8 +113,7 @@ The media manifest at `submission/media/manifest.json` records the real UI sourc
 
 ## Remaining gated fields
 
-The finished local narrated demo has passed FFprobe, full decode, audio, dense timeline, and full-resolution parent review. Do not describe the project as submitted until all three external/manual gates are real:
+The finished local narrated demo has passed FFprobe, full decode, audio, dense timeline, and full-resolution parent review. The required `/feedback` Session ID is recorded. Do not describe the project as submitted until both external approval gates are real:
 
 1. Nicco explicitly authorizes YouTube publication and the public URL is read back;
-2. Nicco invokes `/feedback` in the primary task and supplies the Session ID;
-3. Nicco explicitly authorizes Devpost field edits and final submission, followed by a public submission readback.
+2. Nicco explicitly authorizes Devpost field edits and final submission, followed by a public submission readback.

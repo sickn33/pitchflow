@@ -1,12 +1,12 @@
 # PitchFlow Result
 
-Status: **SUBMISSION-READY LOCALLY — THREE EXTERNAL/MANUAL GATES REMAIN**  
+Status: **SUBMISSION-READY LOCALLY — TWO EXTERNAL APPROVAL GATES REMAIN**  
 Started: 2026-07-15  
 Last evidence update: 2026-07-15  
 Category: Developer Tools  
 Public language: English
 
-This is the final evidence index. The implementation, immutable judge path, real Codex/GPT-5.6 path, generated package, social masters, narrated demo, and submission media are real and verified. Completion remains forbidden until the explicit YouTube, `/feedback`, and Devpost gates are closed and the unchanged final state passes `pnpm check:all` twice consecutively.
+This is the final evidence index. The implementation, immutable judge path, real Codex/GPT-5.6 path, generated package, social masters, narrated demo, and submission media are real and verified. The required `/feedback` Session ID is recorded. Completion remains forbidden until the explicit YouTube and Devpost approval gates are closed and the unchanged final state passes `pnpm check:all` twice consecutively.
 
 ## Public surfaces
 
@@ -110,7 +110,7 @@ The delivery retains an audio stream, uses no music or third-party footage, full
 | License audit                | Pass; 480 packages, zero missing/disallowed findings                                         | `artifacts/verification/2026-07-15-pitchflow/license-audit.json`                                                                             |
 | Provenance audit             | Pass; creator-owned captures rehashed, real UI enforced, media ledger complete               | `docs/PROVENANCE.md`, `capture-provenance.json`, `submission/media/manifest.json`, and bundle verification                                   |
 | Public Vercel readback       | Pass; all 25 assets rehashed, immutable caching, local generation unavailable                | `artifacts/verification/2026-07-15-pitchflow/public-url-verification.json`                                                                   |
-| Submission readiness         | Gated; 36 files checked, zero errors, exactly three external/manual gates                    | `pnpm verify:submission -- --allow-gates`                                                                                                    |
+| Submission readiness         | Gated; 36 files checked, zero errors, exactly two explicit approval gates                    | `pnpm verify:submission -- --allow-gates`                                                                                                    |
 | Final `pnpm check:all` run 1 | **Not run yet by design**                                                                    | Must run after all three gates close; preserve as `artifacts/verification/2026-07-15-pitchflow/final-runs/check-all-1.log`                   |
 | Final `pnpm check:all` run 2 | **Not run yet by design**                                                                    | Must run immediately after run 1 with unchanged source; preserve as `artifacts/verification/2026-07-15-pitchflow/final-runs/check-all-2.log` |
 
@@ -131,11 +131,11 @@ The README and five-minute public judge path were replayed against the deployed 
 - Evidence gallery: `submission/media/pitchflow-evidence-1800x1200.png`, SHA-256 `9a9c08e8172f3844707e2da50d675a9209ea9e9e2a003107fb821e2b066fde42`
 - Handoff gallery: `submission/media/pitchflow-handoff-1800x1200.png`, SHA-256 `6e15a8a0d208877e01634b2203573d8e268624df961dacaaba8874c4d49f5b77`
 - Narrated demo: `submission/demo/pitchflow-build-week-demo.mp4`, SHA-256 `ce868accdc0b15552b3dd3e9a8413177e6d64119724441f4155376f4d1fd9459`
-- Primary task `/feedback` Session ID: **manual gate open**. Nicco must invoke `/feedback` in source task `019f63d1-eab8-7be0-a525-aaa329c92bdf`; the returned Session ID must be recorded in `submission/status.json` and read back before completion.
+- Primary build task `/feedback` Session ID: `019f63f6-0b11-7310-a7c1-d62b3a51e774`, recorded in `submission/status.json`. This is the thread where the majority of core functionality was built.
 
 ## Residual risks
 
-- Publication/submission state is intentionally incomplete until Nicco authorizes YouTube publication, invokes `/feedback`, and authorizes Devpost edits/final submission.
+- Publication/submission state is intentionally incomplete until Nicco authorizes YouTube publication and Devpost edits/final submission.
 - A fresh live generation depends on the judge having network access, a supported local Codex installation, and GPT-5.6 Sol entitlement. The immutable public package removes this dependency from scoring the demonstrated output.
 - The checked-in demo and immutable package make a fresh clone large; the measured filtered public clone took about 82 seconds before the 4-second frozen install. The browser viewer avoids cloning for the judge path.
 - The public viewer is read-only and has strong baseline headers but does not currently deploy a Content Security Policy. It accepts no public generation authority or user content, which limits the exposure; CSP remains a future hardening item.
@@ -146,8 +146,7 @@ The README and five-minute public judge path were replayed against the deployed 
 **NOT COMPLETE.** No mandatory product, media, evidence, public-viewer, or submission-asset defect is known. The only open conditions are:
 
 1. explicit approval to publish and then read back the narrated demo on YouTube;
-2. manual `/feedback` invocation and Session ID provenance from the primary task;
-3. explicit approval to edit and submit the final Devpost entry, followed by readback; and
-4. two consecutive strict `pnpm check:all` passes on the unchanged, fully gated state.
+2. explicit approval to edit and submit the final Devpost entry, followed by readback; and
+3. two consecutive strict `pnpm check:all` passes on the unchanged, fully gated state.
 
 The goal must remain active until those conditions are real and verified.
