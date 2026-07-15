@@ -195,6 +195,13 @@ try {
   await page
     .getByRole("heading", { name: "Explore the finished PitchFlow demo.", exact: true })
     .waitFor();
+  await page.waitForFunction(
+    (expectedRepository) =>
+      (document.querySelector("#repository-url") as HTMLInputElement | null)?.value ===
+        expectedRepository && !document.querySelector(".handoff-deep-link"),
+    "https://github.com/sickn33/pitchflow",
+    { timeout: 60_000 },
+  );
   const restoredRepository = await repositoryInput.inputValue();
   assert(
     restoredRepository === "https://github.com/sickn33/pitchflow",
