@@ -14,6 +14,7 @@ import type { CampaignManifest, CampaignPreferences, RepoSnapshot } from "@pitch
 
 import {
   DOGFOOD_PACKAGE_URL,
+  getDogfoodImageDimensions,
   parseDogfoodPackage,
   selectDogfoodGalleryAssets,
   type DogfoodAsset,
@@ -781,10 +782,28 @@ function AssetFingerprint({ asset }: { asset: DogfoodAsset }) {
 }
 
 function GalleryImage({ asset }: { asset: DogfoodAsset }) {
+  const dimensions = getDogfoodImageDimensions(asset);
+
   return (
     <figure className="gallery-image-card">
       {/* This is a same-origin, immutable dogfood asset rather than reconstructed product UI. */}
-      <img src={asset.href} alt={asset.label} loading="lazy" decoding="async" />
+      {dimensions ? (
+        <img
+          src={asset.href}
+          alt={asset.label}
+          loading="lazy"
+          decoding="async"
+          width={dimensions.width}
+          height={dimensions.height}
+          style={{ aspectRatio: `${dimensions.width} / ${dimensions.height}` }}
+        />
+      ) : (
+        <a className="gallery-image-fallback" href={asset.href} target="_blank" rel="noreferrer">
+          <span>Preview withheld</span>
+          <strong>Open the immutable image</strong>
+          <small>Its dimensions are not part of this viewer contract.</small>
+        </a>
+      )}
       <figcaption>
         <strong>{asset.label}</strong>
         <span>

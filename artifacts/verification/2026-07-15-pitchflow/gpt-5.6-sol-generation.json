@@ -1,0 +1,32 @@
+{
+  "status": "ok",
+  "startedAt": "2026-07-15T05:36:17.261Z",
+  "completedAt": "2026-07-15T05:37:24.505Z",
+  "repository": "https://github.com/sickn33/pitchflow",
+  "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+  "provider": "codex-sdk",
+  "model": "gpt-5.6-sol",
+  "promptVersion": "creative-director-2026-07-15.2",
+  "threadId": "019f6446-a899-7ac0-9995-b6e936c03427",
+  "repairAttempts": 0,
+  "usage": {
+    "inputTokens": 28353,
+    "cachedInputTokens": 0,
+    "outputTokens": 3902,
+    "reasoningOutputTokens": 849
+  },
+  "evidenceAudit": {
+    "valid": true,
+    "checkedClaims": 8,
+    "checkedLinks": 49,
+    "errors": []
+  },
+  "codex": {
+    "authenticated": true,
+    "method": "chatgpt",
+    "cliVersion": "0.144.4",
+    "credentialValuesRead": false
+  },
+  "manifestPath": "apps/web/public/dogfood/pitchflow/v1/campaign-manifest.json",
+  "credentialValuesPrinted": false
+}

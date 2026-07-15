@@ -20,6 +20,8 @@
     "lint": "eslint . --max-warnings=0",
     "pitchflow": "node --disable-warning=DEP0205 --import tsx/esm packages/cli/src/index.ts",
     "promote:dogfood": "node --disable-warning=DEP0205 --import tsx/esm scripts/promote-dogfood.ts",
+    "render:submission-media": "node --disable-warning=DEP0205 --import tsx/esm scripts/render-submission-media.ts",
+    "render:demo-narration": "node --disable-warning=DEP0205 --import tsx/esm scripts/render-demo-narration.ts",
     "smoke:codex": "node --disable-warning=DEP0205 --import tsx/esm scripts/codex-smoke.ts",
     "smoke:github": "node --disable-warning=DEP0205 --import tsx/esm scripts/ingest-smoke.ts",
     "smoke:render": "node --disable-warning=DEP0205 --import tsx/esm scripts/render-smoke.ts",

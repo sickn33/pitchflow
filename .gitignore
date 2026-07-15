@@ -22,3 +22,4 @@ artifacts/verification/*/rejected/
 artifacts/verification/*/trace/
 packages/remotion/.remotion/
 packages/remotion/artifacts/
+submission/demo/*.aiff

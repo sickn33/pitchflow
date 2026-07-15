@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   DOGFOOD_PACKAGE_URL,
+  getDogfoodImageDimensions,
   parseDogfoodPackage,
   selectDogfoodGalleryAssets,
   type DogfoodAsset,
@@ -75,5 +76,37 @@ describe("cached dogfood integration", () => {
     expect(gallery.productCaptures).toEqual([]);
     expect(gallery.microsite).toBeNull();
     expect(gallery.archive).toBeNull();
+  });
+
+  it("reserves the exact dimensions of every public gallery image contract", () => {
+    const expected = [
+      ["images/og-1200x630.png", "Open Graph image", 1200, 630],
+      ["images/x-1600x900.png", "X launch image", 1600, 900],
+      ["images/linkedin-1200x627.png", "LinkedIn launch image", 1200, 627],
+      ["images/instagram-1080x1080.png", "Instagram launch image", 1080, 1080],
+      ["carousel/slide-01-1080x1350.png", "Carousel slide 1", 1080, 1350],
+      ["carousel/slide-05-1080x1350.png", "Carousel slide 5", 1080, 1350],
+      ["images/product-capture-01.png", "Real product UI capture 1", 1600, 1000],
+      ["images/product-capture-04.png", "Real product UI capture 4", 1600, 1000],
+    ] as const;
+
+    for (const [path, label, width, height] of expected) {
+      expect(
+        getDogfoodImageDimensions(asset(`/dogfood/pitchflow/v1/${path}`, "image/png", label)),
+      ).toEqual({ width, height });
+    }
+  });
+
+  it("fails closed for unknown paths and label mismatches", () => {
+    expect(
+      getDogfoodImageDimensions(
+        asset("/dogfood/pitchflow/v1/images/future-format.png", "image/png", "Future image"),
+      ),
+    ).toBeNull();
+    expect(
+      getDogfoodImageDimensions(
+        asset("/dogfood/pitchflow/v1/images/og-1200x630.png", "image/png", "Wrong label"),
+      ),
+    ).toBeNull();
   });
 });

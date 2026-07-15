@@ -34,6 +34,62 @@ export type DogfoodGalleryAssets = {
   archive: DogfoodAsset | null;
 };
 
+export type DogfoodImageDimensions = {
+  width: number;
+  height: number;
+};
+
+const dogfoodSocialDimensions = new Map<string, DogfoodImageDimensions & { label: string }>([
+  [
+    "/dogfood/pitchflow/v1/images/og-1200x630.png",
+    { label: "Open Graph image", width: 1200, height: 630 },
+  ],
+  [
+    "/dogfood/pitchflow/v1/images/x-1600x900.png",
+    { label: "X launch image", width: 1600, height: 900 },
+  ],
+  [
+    "/dogfood/pitchflow/v1/images/linkedin-1200x627.png",
+    { label: "LinkedIn launch image", width: 1200, height: 627 },
+  ],
+  [
+    "/dogfood/pitchflow/v1/images/instagram-1080x1080.png",
+    { label: "Instagram launch image", width: 1080, height: 1080 },
+  ],
+]);
+
+/**
+ * Returns dimensions only for the exact, validated public image contract. Unknown
+ * paths or mismatched labels deliberately return null so the UI can avoid loading
+ * an unreserved image and reintroducing layout shift.
+ */
+export function getDogfoodImageDimensions(asset: DogfoodAsset): DogfoodImageDimensions | null {
+  const social = dogfoodSocialDimensions.get(asset.href);
+  if (social) {
+    return asset.label === social.label ? { width: social.width, height: social.height } : null;
+  }
+
+  const carousel = /^\/dogfood\/pitchflow\/v1\/carousel\/slide-(0[1-5])-1080x1350\.png$/.exec(
+    asset.href,
+  );
+  if (carousel) {
+    return asset.label === `Carousel slide ${Number(carousel[1])}`
+      ? { width: 1080, height: 1350 }
+      : null;
+  }
+
+  const capture = /^\/dogfood\/pitchflow\/v1\/images\/product-capture-(0[1-4])\.png$/.exec(
+    asset.href,
+  );
+  if (capture) {
+    return asset.label === `Real product UI capture ${Number(capture[1])}`
+      ? { width: 1600, height: 1000 }
+      : null;
+  }
+
+  return null;
+}
+
 const naturalPathOrder = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
 
 function assetSearchText(asset: DogfoodAsset): string {

@@ -1,0 +1,19 @@
+{
+  "status": "ok",
+  "campaignId": "campaign_a6278deb1d98cf0c",
+  "snapshotId": "snapshot_45dfba35b837aa64",
+  "repository": "https://github.com/sickn33/pitchflow",
+  "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+  "manifest": {
+    "path": "apps/web/public/dogfood/pitchflow/v1/campaign-manifest.json",
+    "sha256": "06a171624d4585032f3de27250a28135e1567ab71c29ac2b7327998cedee00ce"
+  },
+  "snapshot": {
+    "path": "apps/web/public/dogfood/pitchflow/v1/repository-snapshot.json",
+    "sha256": "5a95b611e1e4a7f22b2dd66fd744b689d4ea36b49a4ddee358e7ae0f05994b0c"
+  },
+  "checkedClaims": 8,
+  "checkedLinks": 49,
+  "errors": [],
+  "valid": true
+}

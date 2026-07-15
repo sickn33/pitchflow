@@ -1714,6 +1714,7 @@ select {
   width: 100%;
   height: auto;
   background: #07080a;
+  object-fit: contain;
 }
 
 .carousel-grid .gallery-image-card img {
@@ -1726,6 +1727,35 @@ select {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.gallery-image-fallback {
+  display: grid;
+  min-height: 240px;
+  place-content: center;
+  gap: 0.45rem;
+  padding: 2rem;
+  background: #07080a;
+  color: var(--ink);
+  text-align: center;
+  text-decoration: none;
+}
+
+.gallery-image-fallback span {
+  color: var(--acid);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gallery-image-fallback small {
+  color: var(--muted);
+}
+
+.gallery-image-fallback:hover strong,
+.gallery-image-fallback:focus-visible strong {
+  color: var(--acid);
 }
 
 .gallery-empty {

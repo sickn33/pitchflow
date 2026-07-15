@@ -1,0 +1,59 @@
+{
+  "format": "pitchflow-submission-media",
+  "version": 1,
+  "introductionDate": "2026-07-15",
+  "owner": "Nicco Lucioli",
+  "license": "Creator-owned; submitted for OpenAI Build Week judging",
+  "generation": "Deterministic Sharp composition using real locally captured PitchFlow UI",
+  "fakeProductUi": false,
+  "sourceJudgePackageSha256": "74d2bc013fc5e628c99091bba74df373d363efff3122c1edbb383bfcd5cfc93b",
+  "sources": [
+    {
+      "href": "/dogfood/pitchflow/v1/images/product-capture-02.png",
+      "bytes": 359473,
+      "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2",
+      "provenance": "Creator-owned real PitchFlow browser capture"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/product-capture-01.png",
+      "bytes": 238771,
+      "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+      "provenance": "Creator-owned real PitchFlow browser capture"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/product-capture-04.png",
+      "bytes": 444156,
+      "sha256": "99560315c64fe328144d97d8623dae97ff7562e5a9cdfb3af6973882363d7ae7",
+      "provenance": "Creator-owned real PitchFlow browser capture"
+    }
+  ],
+  "outputs": [
+    {
+      "filename": "pitchflow-cover-1800x1200.png",
+      "mediaType": "image/png",
+      "width": 1800,
+      "height": 1200,
+      "aspectRatio": "3:2",
+      "bytes": 476374,
+      "sha256": "aece40e4e081dde45f532f98c910b23a5334b7c12b19011333f3059d0eb1697a"
+    },
+    {
+      "filename": "pitchflow-evidence-1800x1200.png",
+      "mediaType": "image/png",
+      "width": 1800,
+      "height": 1200,
+      "aspectRatio": "3:2",
+      "bytes": 435304,
+      "sha256": "9a9c08e8172f3844707e2da50d675a9209ea9e9e2a003107fb821e2b066fde42"
+    },
+    {
+      "filename": "pitchflow-handoff-1800x1200.png",
+      "mediaType": "image/png",
+      "width": 1800,
+      "height": 1200,
+      "aspectRatio": "3:2",
+      "bytes": 570655,
+      "sha256": "6e15a8a0d208877e01634b2203573d8e268624df961dacaaba8874c4d49f5b77"
+    }
+  ]
+}

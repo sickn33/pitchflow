@@ -1,0 +1,30 @@
+{
+  "format": "pitchflow-demo-narration",
+  "version": 1,
+  "language": "en-US",
+  "author": "Nicco Lucioli",
+  "script": "docs/DEMO_SCRIPT.md",
+  "scriptSha256": "f8512c1315c89f1d7f7966fdc5c3735f8563f67ee8e76e8dcde0dbf22952523d",
+  "transcript": "submission/demo/narration.txt",
+  "transcriptSha256": "6d0ece7cf303823123ee7b3e5ec60ec5c4eae9fea405d49239b2a84edb860995",
+  "wordCount": 408,
+  "voice": {
+    "engine": "macOS Speech Synthesis Manager",
+    "name": "Samantha",
+    "aiAssisted": true,
+    "rateWordsPerMinute": 205
+  },
+  "audio": {
+    "path": "submission/demo/narration.m4a",
+    "mediaType": "audio/mp4",
+    "codec": "AAC",
+    "channels": 1,
+    "sampleRate": 48000,
+    "targetBitrate": 192000,
+    "durationSeconds": 159.6,
+    "bytes": 3544453,
+    "sha256": "8a2d33c74e70b1bdde34b6779deee8887e9a6446763fb8bc2fbc21efdc8bca11"
+  },
+  "music": null,
+  "thirdPartyFootage": false
+}

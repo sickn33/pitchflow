@@ -17,9 +17,11 @@ The public Vercel experience is an immutable, no-login PitchFlow dogfood package
 
 ## Judge path
 
-The final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.
+Open the no-login production viewer: **<https://pitchflow-ten.vercel.app>**.
 
-For the shortest local inspection:
+The viewer presents the exact accepted PitchFlow dogfood campaign pinned to source commit `87d70cc297dc4320ed0a3e6aa059739565d0de43`. Judges can inspect the evidence, campaign, copy, real product captures, social system, five-slide carousel, both Remotion masters, visible SHA-256 values, static microsite, and complete ZIP without waiting for a model call. `GET /api/status` reports `generationEnabled: false`, and the public analyze/generate/export routes fail closed before parsing.
+
+For fresh generation through your own Codex entitlement:
 
 ```bash
 pnpm install --frozen-lockfile
@@ -39,6 +41,21 @@ Then:
 7. export the complete package. The browser downloads the ZIP only after both Remotion masters finish.
 
 No OpenAI Platform API key is required or supported by the current product path.
+
+## How Codex and GPT-5.6 built PitchFlow
+
+Codex was the primary development partner across architecture, implementation, testing, media, and deployment. It accelerated the work by turning the finish line into executable contracts; implementing the evidence engine, local SDK boundary, export pipeline, browser workspace, launcher, and Remotion renderer; and tracing failures across unit, browser, media, security, and public-deployment gates.
+
+The key product and engineering decisions remained explicit:
+
+- keep the user's authenticated Codex session local and deploy no personal OAuth or generation proxy;
+- pin and integrity-check repository evidence before any model turn;
+- make GPT-5.6 Sol the schema-constrained cross-channel creative director, with no fallback model or accepted tool activity;
+- keep public claims linked to exact source records and mark human edits as user-supplied;
+- require real product UI captures and deterministic Remotion outputs; and
+- reject technically valid work when independent content review shows weak proof, then repair and rerun the same gate.
+
+The accepted real dogfood turn used `gpt-5.6-sol` through the official Codex SDK, required zero schema repairs, produced eight claims, and passed forty-nine evidence-link checks. See [docs/CODEX_COLLABORATION.md](docs/CODEX_COLLABORATION.md) for the exact runtime and collaboration boundary and [WORKLOG.md](WORKLOG.md) for the preserved repair history.
 
 ## Requirements
 
@@ -72,7 +89,7 @@ pnpm --filter @pitchflow/codex exec codex login
 - Public deployment mode rejects analyze, generate, and export before request payload processing.
 - Product captures are validated locally and never included in the Codex prompt.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/CODEX_COLLABORATION.md](docs/CODEX_COLLABORATION.md), [docs/JUDGING.md](docs/JUDGING.md), and [docs/PROVENANCE.md](docs/PROVENANCE.md) for the full judge and audit trail.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/CODEX_COLLABORATION.md](docs/CODEX_COLLABORATION.md), [docs/JUDGING.md](docs/JUDGING.md), [docs/PROVENANCE.md](docs/PROVENANCE.md), and [docs/DEVPOST.md](docs/DEVPOST.md) for the full judge, submission, and audit trail.
 
 ## Verification
 

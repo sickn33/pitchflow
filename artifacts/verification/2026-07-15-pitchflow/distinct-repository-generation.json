@@ -1,0 +1,35 @@
+{
+  "status": "ok",
+  "purpose": "Fresh-path proof against a repository distinct from the cached PitchFlow judge campaign",
+  "repository": "https://github.com/sickn33/VibePalette",
+  "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+  "snapshotId": "snapshot_68055acac65fc66d",
+  "campaignId": "campaign_1ca3c7f139d40be4",
+  "startedAt": "2026-07-15T04:44:32.158Z",
+  "completedAt": "2026-07-15T04:45:32.333Z",
+  "provider": "codex-sdk",
+  "model": "gpt-5.6-sol",
+  "promptVersion": "creative-director-2026-07-15.1",
+  "threadId": "019f6417-3f29-7ed0-bf18-bccf8364811b",
+  "repairAttempts": 0,
+  "usage": {
+    "inputTokens": 26779,
+    "cachedInputTokens": 0,
+    "outputTokens": 4065,
+    "reasoningOutputTokens": 689
+  },
+  "evidenceAudit": {
+    "valid": true,
+    "checkedClaims": 8,
+    "checkedLinks": 15,
+    "errors": []
+  },
+  "codex": {
+    "authenticated": true,
+    "method": "chatgpt",
+    "cliVersion": "0.144.4",
+    "credentialValuesRead": false
+  },
+  "credentialValuesPrinted": false,
+  "acceptanceNote": "The generation/evidence path passed. Its initial social media was retained only as failed engineering evidence and was never promoted to the immutable PitchFlow judge package."
+}

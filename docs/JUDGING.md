@@ -4,7 +4,7 @@ PitchFlow targets **Developer Tools**. The public viewer is designed to be under
 
 ## Five-minute public path
 
-The production URL will be inserted here immediately after the pre-authorized Vercel deployment.
+Open **<https://pitchflow-ten.vercel.app>**. No sign-in or test account is required.
 
 1. Open the viewer without signing in.
 2. Confirm the subject is `sickn33/pitchflow` and note the pinned commit.
@@ -14,6 +14,8 @@ The production URL will be inserted here immediately after the pre-authorized Ve
 6. Download the static site, images, carousel, two MP4s, copy, manifest, asset index, and ZIP.
 7. Compare the displayed SHA-256 values with the downloaded bytes.
 8. Observe that public analyze/generate/export routes are read-only and that the page directs fresh generation to the local tool.
+
+The accepted cached campaign is pinned to PitchFlow commit `87d70cc297dc4320ed0a3e6aa059739565d0de43`. The deployment was independently read back on 2026-07-15: all 25 declared assets (183,781,036 bytes) matched their package SHA-256 values and immutable-cache contract.
 
 ## Fresh local path
 
