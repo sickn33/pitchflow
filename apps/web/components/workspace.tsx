@@ -32,6 +32,14 @@ import {
   type CaptureProvenance,
   type CaptureUpload,
 } from "../lib/capture-contract";
+import {
+  approveCampaignClaim,
+  buildLocalWorkspaceDeepLink,
+  canonicalGitHubRepositoryUrl,
+  editCampaignClaim,
+  evidenceAnchorId,
+  pendingClaimCount,
+} from "../lib/product-flow";
 
 type RuntimeStatus = {
   mode: "local" | "public-viewer";
@@ -46,7 +54,7 @@ type RuntimeStatus = {
 
 type ApiFailure = { error?: { code?: string; message?: string } };
 type Stage = "idle" | "analyzing" | "review" | "generating" | "ready";
-type Panel = "evidence" | "preview" | "copy" | "handoff";
+type Panel = "website" | "images" | "videos" | "copy" | "export";
 type ExportReceipt = {
   filename: string;
   assetCount: number;
@@ -59,7 +67,14 @@ type CaptureDraft = Omit<CaptureUpload, "provenance"> & {
   bytes: number;
 };
 
-const panels: Panel[] = ["evidence", "preview", "copy"];
+const panels: Panel[] = ["website", "images", "videos", "copy", "export"];
+const panelLabels: Record<Panel, string> = {
+  website: "Website",
+  images: "Images",
+  videos: "Videos",
+  copy: "Copy",
+  export: "Export",
+};
 const channelLabels: Record<CampaignPreferences["channels"][number], string> = {
   x: "X",
   linkedin: "LinkedIn",
@@ -70,6 +85,7 @@ const channelLabels: Record<CampaignPreferences["channels"][number], string> = {
 const defaultPreferences: CampaignPreferences = {
   audience: "Indie developers and open-source maintainers",
   positioning: "A developer tool with a concrete, evidence-backed reason to exist",
+  visualDirection: "Editorial product clarity with confident motion and high-contrast type",
   tone: "precise",
   channels: ["x", "linkedin", "product-hunt", "email"],
 };
@@ -100,34 +116,36 @@ function formatBytes(bytes: number): string {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
-function AppHeader({ publicViewer }: { publicViewer: boolean }) {
+function AppHeader({ evidence = false }: { evidence?: boolean }) {
   return (
     <>
       <a className="skip-link" href="#main-content">
         Skip to main content
       </a>
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="PitchFlow home">
+        <a className="brand" href={evidence ? "/" : "#top"} aria-label="PitchFlow home">
           <span className="brand-mark" aria-hidden="true">
             PF
           </span>
           <span>PitchFlow</span>
         </a>
-        <div className="mode-pill" data-mode={publicViewer ? "viewer" : "local"}>
-          <span className="pulse" aria-hidden="true" />
-          <span className="mode-label-full">
-            {publicViewer ? "Cached judge viewer" : "Local Codex workspace"}
-          </span>
-          <span className="mode-label-short" aria-hidden="true">
-            {publicViewer ? "Judge viewer" : "Local workspace"}
-          </span>
-        </div>
+        {evidence ? (
+          <div className="mode-pill" data-mode="viewer">
+            <span className="pulse" aria-hidden="true" />
+            <span>Evidence</span>
+          </div>
+        ) : (
+          <a className="run-locally" href="#generate">
+            <span aria-hidden="true">&gt;_</span>
+            Run locally
+          </a>
+        )}
       </header>
     </>
   );
 }
 
-function Hero() {
+function EvidenceHero() {
   return (
     <section className="hero" id="top" aria-labelledby="hero-heading">
       <div className="hero-copy">
@@ -160,6 +178,142 @@ function Hero() {
   );
 }
 
+function ProductHero({
+  repositoryUrl,
+  assets,
+  publicViewer,
+  busy,
+  error,
+  onRepositoryUrlChange,
+  onAnalyze,
+  onTryDemo,
+}: {
+  repositoryUrl: string;
+  assets: DogfoodAsset[];
+  publicViewer: boolean;
+  busy: boolean;
+  error: string | null;
+  onRepositoryUrlChange: (value: string) => void;
+  onAnalyze: (event: FormEvent<HTMLFormElement>) => void;
+  onTryDemo: () => void;
+}) {
+  return (
+    <section className="product-hero" id="top" aria-labelledby="hero-heading">
+      <div className="product-hero-left">
+        <div className="product-hero-copy">
+          <h1 id="hero-heading">
+            Paste your repo. Get a launch-ready site, social kit, and product video.
+          </h1>
+          <p>
+            PitchFlow understands your product from repository evidence and directs a complete
+            launch campaign with GPT‑5.6.
+          </p>
+        </div>
+        <form className="hero-repo-form" onSubmit={onAnalyze}>
+          <label className="sr-only" htmlFor="repository-url">
+            Public GitHub repository
+          </label>
+          <input
+            id="repository-url"
+            type="url"
+            value={repositoryUrl}
+            onChange={(event) => onRepositoryUrlChange(event.target.value)}
+            placeholder="https://github.com/owner/repository"
+            title="Enter a canonical public GitHub repository URL"
+            required
+            disabled={busy}
+            autoComplete="url"
+          />
+          <div>
+            <button type="submit" disabled={busy || !repositoryUrl.trim()}>
+              {busy ? "Analyzing repository…" : "Analyze repository"}
+            </button>
+            <button className="demo-button" type="button" onClick={onTryDemo} disabled={busy}>
+              <span aria-hidden="true">▶</span> Try the PitchFlow demo
+            </button>
+          </div>
+          <p className="hero-input-contract">
+            Then add 2–4 real product captures plus audience, positioning, tone, and visual
+            direction.
+          </p>
+          {publicViewer ? (
+            <p>Fresh repository analysis runs in the local PitchFlow workspace.</p>
+          ) : null}
+          {error ? <ErrorBanner message={error} /> : null}
+        </form>
+      </div>
+      <HeroMediaMontage assets={assets} />
+    </section>
+  );
+}
+
+function HeroMediaMontage({ assets }: { assets: DogfoodAsset[] }) {
+  const gallery = selectDogfoodGalleryAssets(assets);
+  const leadImage = gallery.socialGraphics[0] ?? gallery.productCaptures[0];
+  if (!leadImage && !gallery.landscapeVideo && !gallery.portraitVideo) return null;
+  const leadDimensions = leadImage ? getDogfoodImageDimensions(leadImage) : null;
+  return (
+    <div className="hero-media-montage" aria-label="Real outputs from the PitchFlow demo">
+      {leadImage && leadDimensions ? (
+        <img
+          src={leadImage.href}
+          alt={leadImage.label}
+          width={leadDimensions.width}
+          height={leadDimensions.height}
+        />
+      ) : null}
+      {gallery.landscapeVideo ? (
+        <video controls playsInline preload="metadata" aria-label={gallery.landscapeVideo.label}>
+          <source src={gallery.landscapeVideo.href} type={gallery.landscapeVideo.mediaType} />
+        </video>
+      ) : null}
+      {gallery.portraitVideo ? (
+        <video controls playsInline preload="metadata" aria-label={gallery.portraitVideo.label}>
+          <source src={gallery.portraitVideo.href} type={gallery.portraitVideo.mediaType} />
+        </video>
+      ) : null}
+    </div>
+  );
+}
+
+function ProductStepper({ activeStep }: { activeStep: number }) {
+  const steps = ["Analyze", "Direct", "Generate", "Deliver", "Export"];
+  return (
+    <nav className="product-stepper" aria-label="PitchFlow workflow" tabIndex={0}>
+      <ol>
+        {steps.map((step, index) => {
+          const number = index + 1;
+          return (
+            <li
+              key={step}
+              data-state={
+                number < activeStep ? "complete" : number === activeStep ? "active" : "upcoming"
+              }
+            >
+              <span>{number < activeStep ? "✓" : number}</span>
+              <strong>{step}</strong>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function ProductOutputs() {
+  const outputs = ["Website", "Images", "Videos", "Copy", "Export"];
+  return (
+    <section className="product-outputs" aria-labelledby="product-outputs-heading">
+      <p id="product-outputs-heading">What you get</p>
+      <ul>
+        {outputs.map((output) => (
+          <li key={output}>{output}</li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 function ErrorBanner({ message, onDismiss }: { message: string; onDismiss?: () => void }) {
   return (
     <div className="error-banner" role="alert">
@@ -176,19 +330,13 @@ function ErrorBanner({ message, onDismiss }: { message: string; onDismiss?: () =
 function Tabs({
   active,
   hasCampaign,
-  hasExport,
   onChange,
 }: {
   active: Panel;
   hasCampaign: boolean;
-  hasExport: boolean;
   onChange: (panel: Panel) => void;
 }) {
-  const enabled = hasCampaign
-    ? hasExport
-      ? [...panels, "handoff" as const]
-      : panels
-    : (["evidence"] as Panel[]);
+  const enabled = hasCampaign ? panels : (["website"] as Panel[]);
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
     event.preventDefault();
@@ -217,68 +365,9 @@ function Tabs({
           tabIndex={active === panel ? 0 : -1}
           onClick={() => onChange(panel)}
         >
-          {panel}
+          {panelLabels[panel]}
         </button>
       ))}
-    </div>
-  );
-}
-
-function HandoffPanel({ receipt }: { receipt: ExportReceipt }) {
-  const outputs = [
-    ["Microsite", "Responsive static site"],
-    ["Social system", "OG, X, LinkedIn, Instagram"],
-    ["Carousel", "Five 1080×1350 slides"],
-    ["Channel copy", "X, LinkedIn, Product Hunt, email"],
-    ["Landscape master", "1920×1080 H.264"],
-    ["Portrait master", "1080×1920 H.264"],
-    ["Integrity", "Asset index + SHA-256"],
-    ["Archive", "Traversal-safe ZIP"],
-  ] as const;
-  return (
-    <div
-      className="handoff-view"
-      id="campaign-panel-handoff"
-      role="tabpanel"
-      aria-labelledby="campaign-tab-handoff"
-      data-receipt-sha256={receipt.sha256}
-    >
-      <header className="handoff-hero">
-        <div>
-          <p className="kicker">Verified export receipt</p>
-          <h3>Your launch package is ready.</h3>
-          <p>
-            One evidence-linked manifest produced the complete handoff. The download remains local
-            until you choose where to publish it.
-          </p>
-        </div>
-        <div className="handoff-stat" aria-label={`${receipt.assetCount} indexed assets`}>
-          <strong>{receipt.assetCount}</strong>
-          <span>indexed assets</span>
-        </div>
-      </header>
-      <ul className="handoff-grid" aria-label="Rendered package contents">
-        {outputs.map(([label, detail], index) => (
-          <li key={label}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <div>
-              <strong>{label}</strong>
-              <small>{detail}</small>
-            </div>
-            <span aria-hidden="true">✓</span>
-          </li>
-        ))}
-      </ul>
-      <footer className="handoff-footer">
-        <div>
-          <span>Downloaded package</span>
-          <code>{receipt.filename}</code>
-        </div>
-        <div>
-          <span>Integrity</span>
-          <strong>SHA-256 recorded in asset-index.json</strong>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -291,13 +380,7 @@ function EvidencePanel({
   selectedEvidenceId: string | null;
 }) {
   return (
-    <div
-      className="evidence-view"
-      id="campaign-panel-evidence"
-      role="tabpanel"
-      aria-labelledby="campaign-tab-evidence"
-      tabIndex={0}
-    >
+    <div className="evidence-view" aria-label="Repository evidence records" tabIndex={0}>
       <div className="canvas-title">
         <div>
           <p className="kicker">Pinned evidence</p>
@@ -322,7 +405,7 @@ function EvidencePanel({
           <article
             className="evidence-card"
             data-selected={selectedEvidenceId === item.id}
-            id={`evidence-${item.id}`}
+            id={evidenceAnchorId(item.id)}
             key={item.id}
             tabIndex={-1}
           >
@@ -359,9 +442,7 @@ function PreviewPanel({
   return (
     <article
       className="site-preview"
-      id="campaign-panel-preview"
-      role="tabpanel"
-      aria-labelledby="campaign-tab-preview"
+      aria-label="Evidence-linked campaign preview"
       tabIndex={0}
       style={
         {
@@ -541,27 +622,320 @@ function CopyPanel({
   );
 }
 
+function WebsitePanel({
+  campaign,
+  assets,
+}: {
+  campaign: CampaignManifest;
+  assets: DogfoodAsset[];
+}) {
+  const microsite = selectDogfoodGalleryAssets(assets).microsite;
+  return (
+    <article
+      className="product-website-preview"
+      id="campaign-panel-website"
+      role="tabpanel"
+      aria-labelledby="campaign-tab-website"
+      tabIndex={0}
+      style={
+        {
+          "--campaign-accent": campaign.design.accent,
+          "--campaign-bg": campaign.design.background,
+          "--campaign-text": campaign.design.text,
+          "--campaign-radius": `${campaign.design.radius}px`,
+        } as CSSProperties
+      }
+    >
+      <header>
+        <div>
+          <span>{campaign.productBrief.productName}</span>
+          <h3>{campaign.productBrief.oneLiner}</h3>
+          <p>{campaign.productBrief.positioning}</p>
+        </div>
+        {microsite ? (
+          <a href={microsite.href} target="_blank" rel="noreferrer">
+            Open full website
+          </a>
+        ) : null}
+      </header>
+      <section>
+        <h4>{campaign.productBrief.problem}</h4>
+        <ul>
+          {campaign.productBrief.differentiators.map((differentiator) => (
+            <li key={differentiator}>{differentiator}</li>
+          ))}
+        </ul>
+      </section>
+      <div className="product-website-sections">
+        {campaign.sections.map((section, index) => (
+          <section key={section.id}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              {section.eyebrow ? <p>{section.eyebrow}</p> : null}
+              <h4>{section.heading}</h4>
+              <p>{section.body}</p>
+            </div>
+          </section>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function ImagesPanel({ campaign, assets }: { campaign: CampaignManifest; assets: DogfoodAsset[] }) {
+  const gallery = selectDogfoodGalleryAssets(assets);
+  const renderedImages = [
+    ...gallery.socialGraphics,
+    ...gallery.carousel,
+    ...gallery.productCaptures,
+  ];
+
+  return (
+    <div
+      className="deliver-panel images-panel"
+      id="campaign-panel-images"
+      role="tabpanel"
+      aria-labelledby="campaign-tab-images"
+      tabIndex={0}
+    >
+      <header className="deliver-panel-heading">
+        <div>
+          <span>Images</span>
+          <h3>One visual system, sized for every launch surface.</h3>
+        </div>
+        <p>
+          {renderedImages.length > 0
+            ? "Production images from the complete PitchFlow demo."
+            : "Creative previews only. Downloading the package runs the local image renderer."}
+        </p>
+      </header>
+      {renderedImages.length > 0 ? (
+        <div className="deliver-image-grid">
+          {renderedImages.map((asset) => (
+            <GalleryImage asset={asset} key={asset.href} />
+          ))}
+        </div>
+      ) : (
+        <div
+          className="manifest-image-grid"
+          style={
+            {
+              "--campaign-accent": campaign.design.accent,
+              "--campaign-bg": campaign.design.background,
+              "--campaign-text": campaign.design.text,
+            } as CSSProperties
+          }
+        >
+          {campaign.socialCards.map((card, index) => (
+            <article key={`${card.headline}-${index}`}>
+              <span>{["Open Graph", "X / LinkedIn", "Launch post"][index]}</span>
+              <h4>{card.headline}</h4>
+              <p>{campaign.productBrief.productName}</p>
+            </article>
+          ))}
+          {campaign.carousel.map((slide) => (
+            <article className="manifest-carousel-card" key={slide.index}>
+              <span>{slide.eyebrow}</span>
+              <h4>{slide.headline}</h4>
+              <p>{slide.body}</p>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function VideosPanel({ campaign, assets }: { campaign: CampaignManifest; assets: DogfoodAsset[] }) {
+  const gallery = selectDogfoodGalleryAssets(assets);
+  const videos = [gallery.landscapeVideo, gallery.portraitVideo].filter(
+    (asset): asset is DogfoodAsset => asset !== null,
+  );
+
+  return (
+    <div
+      className="deliver-panel videos-panel"
+      id="campaign-panel-videos"
+      role="tabpanel"
+      aria-labelledby="campaign-tab-videos"
+      tabIndex={0}
+    >
+      <header className="deliver-panel-heading">
+        <div>
+          <span>Videos</span>
+          <h3>Two launch-ready cuts from one campaign story.</h3>
+        </div>
+        <p>
+          {videos.length > 0
+            ? "Play the landscape and portrait masters from the PitchFlow demo."
+            : `Storyboard only · ${campaign.video.durationSeconds} seconds · ${campaign.video.fps} fps · final landscape and portrait videos render during export`}
+        </p>
+      </header>
+      {videos.length > 0 ? (
+        <div className="deliver-video-grid">
+          {videos.map((asset) => (
+            <figure key={asset.href}>
+              <video controls playsInline preload="metadata" aria-label={asset.label}>
+                <source src={asset.href} type={asset.mediaType} />
+                Your browser cannot play this campaign video.
+              </video>
+              <figcaption>{asset.label}</figcaption>
+            </figure>
+          ))}
+        </div>
+      ) : (
+        <ol className="video-scene-list">
+          {campaign.video.scenes.map((scene) => (
+            <li key={scene.index}>
+              <span>{String(scene.index).padStart(2, "0")}</span>
+              <div>
+                <h4>{scene.title}</h4>
+                <p>{scene.audienceCaption}</p>
+              </div>
+              <small>{scene.visual.replaceAll("_", " ")}</small>
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  );
+}
+
+function ExportPanel({
+  campaign,
+  assets,
+  exportReceipt,
+  exporting,
+  exportDisabled,
+  exportNote,
+  editable,
+  onCampaignChange,
+  onExport,
+}: {
+  campaign: CampaignManifest;
+  assets: DogfoodAsset[];
+  exportReceipt: ExportReceipt | null;
+  exporting: boolean;
+  exportDisabled: boolean;
+  exportNote: string | null;
+  editable: boolean;
+  onCampaignChange?: (campaign: CampaignManifest) => void;
+  onExport?: () => void;
+}) {
+  const archive = selectDogfoodGalleryAssets(assets).archive;
+
+  function changePendingClaim(claimId: string, text: string) {
+    if (!onCampaignChange || text.trim().length === 0) return;
+    onCampaignChange(editCampaignClaim(campaign, claimId, text));
+  }
+
+  return (
+    <div
+      className="deliver-panel export-panel"
+      id="campaign-panel-export"
+      role="tabpanel"
+      aria-labelledby="campaign-tab-export"
+      tabIndex={0}
+    >
+      <div className="export-copy">
+        <span>05 · Export</span>
+        <h3>Everything your launch needs, in one package.</h3>
+        <p>
+          Website, social images, carousel, two video masters, channel copy, and the campaign
+          manifest travel together.
+        </p>
+      </div>
+      {editable ? (
+        <section className="claim-review" aria-labelledby="claim-review-heading">
+          <div>
+            <span>Review before download</span>
+            <h4 id="claim-review-heading">Refine the claims that carry the campaign.</h4>
+            <p>
+              Every claim remains editable. Generated inferences also need your approval before
+              download.
+            </p>
+          </div>
+          <ul>
+            {campaign.claims.map((claim) => (
+              <li key={claim.id}>
+                <textarea
+                  aria-label={`Review claim: ${claim.text}`}
+                  rows={3}
+                  maxLength={240}
+                  value={claim.text}
+                  onChange={(event) => changePendingClaim(claim.id, event.target.value)}
+                />
+                <p>{claim.rationale}</p>
+                {claim.approvalRequired ? (
+                  <button
+                    type="button"
+                    onClick={() => onCampaignChange?.(approveCampaignClaim(campaign, claim.id))}
+                  >
+                    Approve this claim
+                  </button>
+                ) : (
+                  <span className="claim-ready">Ready · edit anytime</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+      <div className="export-action">
+        {archive ? (
+          <a className="product-download" href={archive.href} download>
+            Download complete launch package
+          </a>
+        ) : (
+          <button
+            className="product-download"
+            type="button"
+            onClick={onExport}
+            disabled={exportDisabled || exporting}
+          >
+            {exporting ? "Rendering complete launch package…" : "Download complete launch package"}
+          </button>
+        )}
+        {exportReceipt ? (
+          <p role="status">Downloaded {exportReceipt.filename}.</p>
+        ) : exportNote ? (
+          <p>{exportNote}</p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function CampaignCanvas({
   snapshot,
   campaign,
+  assets = [],
   stage,
   error,
   onDismissError,
   editable,
   onCampaignChange,
   exportReceipt,
+  exporting = false,
+  exportDisabled = true,
+  exportNote = null,
+  onExport,
 }: {
   snapshot: RepoSnapshot | null;
   campaign: CampaignManifest | null;
+  assets?: DogfoodAsset[];
   stage: Stage;
   error: string | null;
   onDismissError?: () => void;
   editable: boolean;
   onCampaignChange?: (campaign: CampaignManifest) => void;
   exportReceipt?: ExportReceipt | null;
+  exporting?: boolean;
+  exportDisabled?: boolean;
+  exportNote?: string | null;
+  onExport?: () => void;
 }) {
-  const [activePanel, setActivePanel] = useState<Panel>(snapshot ? "evidence" : "evidence");
-  const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
+  const [activePanel, setActivePanel] = useState<Panel>("website");
   const previousSnapshotId = useRef<string | null>(null);
   const previousCampaignId = useRef<string | null>(null);
   const previousExportSha = useRef<string | null>(null);
@@ -569,41 +943,23 @@ function CampaignCanvas({
   useEffect(() => {
     if (snapshot && snapshot.id !== previousSnapshotId.current) {
       previousSnapshotId.current = snapshot.id;
-      setSelectedEvidenceId(null);
-      setActivePanel("evidence");
+      setActivePanel("website");
     }
   }, [snapshot]);
 
   useEffect(() => {
     if (campaign && campaign.id !== previousCampaignId.current) {
       previousCampaignId.current = campaign.id;
-      setActivePanel("preview");
+      setActivePanel("website");
     }
   }, [campaign]);
 
   useEffect(() => {
     if (exportReceipt && exportReceipt.sha256 !== previousExportSha.current) {
       previousExportSha.current = exportReceipt.sha256;
-      setActivePanel("handoff");
+      setActivePanel("export");
     }
   }, [exportReceipt]);
-
-  function revealEvidence(id: string) {
-    setSelectedEvidenceId(id);
-    setActivePanel("evidence");
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        const target = document.getElementById(`evidence-${id}`);
-        target?.focus();
-        target?.scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "auto"
-            : "smooth",
-          block: "center",
-        });
-      });
-    });
-  }
 
   function changeCopy(field: CopyField, value: string) {
     if (!campaign || !onCampaignChange) return;
@@ -619,43 +975,6 @@ function CampaignCanvas({
     onCampaignChange({ ...campaign, copy: next });
   }
 
-  function changeClaim(claimId: string, text: string) {
-    if (!campaign || !onCampaignChange || text.trim().length === 0) return;
-    onCampaignChange({
-      ...campaign,
-      claims: campaign.claims.map((claim) =>
-        claim.id === claimId
-          ? {
-              ...claim,
-              text,
-              classification: "user_supplied",
-              confidence: 1,
-              approvalRequired: false,
-              rationale: "Edited by the local user after generation; verify before publishing.",
-            }
-          : claim,
-      ),
-    });
-  }
-
-  function approveClaim(claimId: string) {
-    if (!campaign || !onCampaignChange) return;
-    onCampaignChange({
-      ...campaign,
-      claims: campaign.claims.map((claim) =>
-        claim.id === claimId
-          ? {
-              ...claim,
-              classification: "user_supplied",
-              confidence: 1,
-              approvalRequired: false,
-              rationale: "Reviewed and approved by the local user after generation.",
-            }
-          : claim,
-      ),
-    });
-  }
-
   return (
     <section
       className="canvas"
@@ -663,12 +982,7 @@ function CampaignCanvas({
       aria-busy={stage === "analyzing" || stage === "generating"}
     >
       <div className="canvas-toolbar">
-        <Tabs
-          active={activePanel}
-          hasCampaign={Boolean(campaign)}
-          hasExport={Boolean(exportReceipt)}
-          onChange={setActivePanel}
-        />
+        <Tabs active={activePanel} hasCampaign={Boolean(campaign)} onChange={setActivePanel} />
         <span className="stage-label" data-stage={stage} aria-live="polite">
           {stageLabel(stage)}
         </span>
@@ -717,20 +1031,26 @@ function CampaignCanvas({
               : "Paste a canonical public GitHub URL to reveal the facts PitchFlow is allowed to use."}
           </p>
         </div>
-      ) : activePanel === "evidence" ? (
-        <EvidencePanel snapshot={snapshot} selectedEvidenceId={selectedEvidenceId} />
-      ) : campaign && activePanel === "preview" ? (
-        <PreviewPanel
-          campaign={campaign}
-          editable={editable}
-          onRevealEvidence={revealEvidence}
-          onClaimChange={changeClaim}
-          onApproveClaim={approveClaim}
-        />
+      ) : campaign && activePanel === "website" ? (
+        <WebsitePanel campaign={campaign} assets={assets} />
+      ) : campaign && activePanel === "images" ? (
+        <ImagesPanel campaign={campaign} assets={assets} />
+      ) : campaign && activePanel === "videos" ? (
+        <VideosPanel campaign={campaign} assets={assets} />
       ) : campaign && activePanel === "copy" ? (
         <CopyPanel campaign={campaign} editable={editable} onChange={changeCopy} />
-      ) : campaign && exportReceipt && activePanel === "handoff" ? (
-        <HandoffPanel receipt={exportReceipt} />
+      ) : campaign && activePanel === "export" ? (
+        <ExportPanel
+          campaign={campaign}
+          assets={assets}
+          exportReceipt={exportReceipt ?? null}
+          exporting={exporting}
+          exportDisabled={exportDisabled}
+          exportNote={exportNote}
+          editable={editable}
+          {...(onCampaignChange ? { onCampaignChange } : {})}
+          {...(onExport ? { onExport } : {})}
+        />
       ) : (
         <div className="empty-canvas compact" role="tabpanel">
           <p>Generate the campaign to unlock this view.</p>
@@ -1008,6 +1328,12 @@ function PublicViewer() {
     return () => controller.abort();
   }, []);
 
+  function revealEvidence(id: string) {
+    const target = document.getElementById(evidenceAnchorId(id));
+    target?.focus();
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
   return (
     <>
       <section className="safety-band" aria-labelledby="viewer-heading">
@@ -1054,14 +1380,15 @@ function PublicViewer() {
               View repository <span aria-hidden="true">↗</span>
             </a>
           </section>
+          <div className="public-canvas-wrap evidence-records-wrap">
+            <EvidencePanel snapshot={dogfood.snapshot} selectedEvidenceId={null} />
+          </div>
           <CampaignMediaGallery assets={dogfood.assets} />
           <div className="public-canvas-wrap">
-            <CampaignCanvas
-              snapshot={dogfood.snapshot}
+            <PreviewPanel
               campaign={dogfood.campaign}
-              stage="ready"
-              error={null}
               editable={false}
+              onRevealEvidence={revealEvidence}
             />
           </div>
           <AssetShelf assets={dogfood.assets} />
@@ -1262,12 +1589,343 @@ function CaptureAttachmentPanel({
   );
 }
 
-function LocalWorkspace() {
+function ProductUnderstanding({
+  snapshot,
+  campaign,
+}: {
+  snapshot: RepoSnapshot;
+  campaign: CampaignManifest | null;
+}) {
+  const languages = Object.entries(snapshot.languages)
+    .sort((left, right) => right[1] - left[1])
+    .slice(0, 3)
+    .map(([language]) => language);
+  const facts = snapshot.evidence
+    .map((item) => item.normalizedFact)
+    .filter((fact): fact is string => Boolean(fact))
+    .slice(0, 4);
+
+  return (
+    <section className="product-step analyze-step" id="analyze" aria-labelledby="analyze-heading">
+      <header className="step-heading">
+        <span>01 · Analyze</span>
+        <h2 id="analyze-heading">Here’s what PitchFlow understood.</h2>
+        <p>
+          {campaign?.productBrief.oneLiner ??
+            snapshot.repository.description ??
+            `${snapshot.repository.name} is ready for a clearer launch story.`}
+        </p>
+      </header>
+      <div className="understanding-grid">
+        <article>
+          <span>Product</span>
+          <strong>{campaign?.productBrief.productName ?? snapshot.repository.name}</strong>
+          <p>{snapshot.repository.description ?? "Public repository"}</p>
+        </article>
+        <article>
+          <span>Built with</span>
+          <strong>{languages.length > 0 ? languages.join(" · ") : "Repository source"}</strong>
+          <p>{snapshot.limits.discoveredFiles.toLocaleString()} files mapped</p>
+        </article>
+        <article>
+          <span>For</span>
+          <strong>
+            {campaign?.productBrief.audience.join(" · ") ?? "The audience you choose next"}
+          </strong>
+          <p>{snapshot.repository.licenseSpdx ?? "Repository license not declared"}</p>
+        </article>
+      </div>
+      {facts.length > 0 ? (
+        <ul className="plain-fact-list" aria-label="Repository facts">
+          {facts.map((fact) => (
+            <li key={fact}>{fact}</li>
+          ))}
+        </ul>
+      ) : null}
+    </section>
+  );
+}
+
+function DemoCaptureStrip({ assets }: { assets: DogfoodAsset[] }) {
+  const captures = selectDogfoodGalleryAssets(assets).productCaptures;
+  if (captures.length === 0) return null;
+  return (
+    <div className="demo-capture-strip" aria-label="Real product captures in the demo">
+      {captures.map((asset) => {
+        const dimensions = getDogfoodImageDimensions(asset);
+        return dimensions ? (
+          <img
+            key={asset.href}
+            src={asset.href}
+            alt={asset.label}
+            width={dimensions.width}
+            height={dimensions.height}
+            loading="lazy"
+          />
+        ) : null;
+      })}
+    </div>
+  );
+}
+
+function DirectionPanel({
+  preferences,
+  captures,
+  demoAssets,
+  publicViewer,
+  busy,
+  captureError,
+  onPreferencesChange,
+  onVisualDirectionChange,
+  onToggleChannel,
+  onFiles,
+  onMoveCapture,
+  onRemoveCapture,
+  onUpdateCapture,
+}: {
+  preferences: CampaignPreferences;
+  captures: CaptureDraft[];
+  demoAssets: DogfoodAsset[];
+  publicViewer: boolean;
+  busy: boolean;
+  captureError: string | null;
+  onPreferencesChange: (preferences: CampaignPreferences) => void;
+  onVisualDirectionChange: (value: string) => void;
+  onToggleChannel: (channel: CampaignPreferences["channels"][number]) => void;
+  onFiles: (files: File[]) => void;
+  onMoveCapture: (index: number, direction: -1 | 1) => void;
+  onRemoveCapture: (id: string) => void;
+  onUpdateCapture: (id: string, update: Partial<CaptureDraft>) => void;
+}) {
+  return (
+    <section className="product-step direct-step" id="direct" aria-labelledby="direct-heading">
+      <header className="step-heading">
+        <span>02 · Direct</span>
+        <h2 id="direct-heading">Set the launch direction.</h2>
+        <p>Choose who it is for, how it should land, and what the real product looks like.</p>
+      </header>
+      <div className="direction-workspace">
+        <div className="direction-fields">
+          <label htmlFor="audience">Primary audience</label>
+          <input
+            id="audience"
+            value={preferences.audience}
+            maxLength={240}
+            onChange={(event) =>
+              onPreferencesChange({ ...preferences, audience: event.target.value })
+            }
+            disabled={busy || publicViewer}
+          />
+          <label htmlFor="positioning">Positioning</label>
+          <textarea
+            id="positioning"
+            value={preferences.positioning}
+            maxLength={320}
+            rows={4}
+            onChange={(event) =>
+              onPreferencesChange({ ...preferences, positioning: event.target.value })
+            }
+            disabled={busy || publicViewer}
+          />
+          <div className="direction-pair">
+            <label>
+              Tone
+              <select
+                value={preferences.tone}
+                onChange={(event) =>
+                  onPreferencesChange({
+                    ...preferences,
+                    tone: event.target.value as CampaignPreferences["tone"],
+                  })
+                }
+                disabled={busy || publicViewer}
+              >
+                <option value="precise">Precise</option>
+                <option value="bold">Bold</option>
+                <option value="warm">Warm</option>
+                <option value="technical">Technical</option>
+                <option value="playful">Playful</option>
+              </select>
+            </label>
+            <label>
+              Visual direction
+              <input
+                value={preferences.visualDirection}
+                maxLength={140}
+                onChange={(event) => onVisualDirectionChange(event.target.value)}
+                disabled={busy || publicViewer}
+              />
+            </label>
+          </div>
+          <fieldset className="channel-fieldset" disabled={busy || publicViewer}>
+            <legend>Launch channels</legend>
+            <div>
+              {(Object.keys(channelLabels) as CampaignPreferences["channels"]).map((channel) => (
+                <label key={channel}>
+                  <input
+                    type="checkbox"
+                    checked={preferences.channels.includes(channel)}
+                    onChange={() => onToggleChannel(channel)}
+                  />
+                  <span>{channelLabels[channel]}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+        <div className="direction-captures">
+          {publicViewer ? (
+            <>
+              <div className="demo-capture-heading">
+                <span>Real product captures</span>
+                <p>The demo campaign uses creator-owned screens from PitchFlow itself.</p>
+              </div>
+              <DemoCaptureStrip assets={demoAssets} />
+            </>
+          ) : (
+            <CaptureAttachmentPanel
+              captures={captures}
+              disabled={busy}
+              error={captureError}
+              onFiles={onFiles}
+              onMove={onMoveCapture}
+              onRemove={onRemoveCapture}
+              onUpdate={onUpdateCapture}
+            />
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GenerateStep({
+  publicViewer,
+  publicRepoHandoff,
+  busy,
+  campaign,
+  canGenerate,
+  creditAcknowledged,
+  runtime,
+  runtimePending,
+  onCreditAcknowledgedChange,
+  onGenerate,
+}: {
+  publicViewer: boolean;
+  publicRepoHandoff: string | null;
+  busy: boolean;
+  campaign: CampaignManifest | null;
+  canGenerate: boolean;
+  creditAcknowledged: boolean;
+  runtime: RuntimeStatus | null;
+  runtimePending: boolean;
+  onCreditAcknowledgedChange: (checked: boolean) => void;
+  onGenerate: () => void;
+}) {
+  const [handoffCopied, setHandoffCopied] = useState(false);
+
+  async function copyHandoff() {
+    if (!publicRepoHandoff) return;
+    await navigator.clipboard.writeText(publicRepoHandoff);
+    setHandoffCopied(true);
+    window.setTimeout(() => setHandoffCopied(false), 1800);
+  }
+
+  return (
+    <section
+      className="product-step generate-step"
+      id="generate"
+      aria-labelledby="generate-heading"
+    >
+      <header className="step-heading">
+        <span>03 · Generate</span>
+        <h2 id="generate-heading">
+          {publicViewer
+            ? "Run the creative direction through your Codex sign-in."
+            : "Turn the brief into a launch campaign."}
+        </h2>
+        <p>
+          {publicViewer
+            ? "The public demo below was created through the same local workflow. Fresh generation stays on your machine."
+            : "GPT‑5.6 turns the repository facts, your direction, and real screens into one structured campaign."}
+        </p>
+      </header>
+      <div className="generate-handoff">
+        {publicViewer ? (
+          <div>
+            <strong>
+              {publicRepoHandoff
+                ? "Your repository is ready for the local workspace."
+                : "Open PitchFlow locally for a fresh repository."}
+            </strong>
+            <p>
+              Your authenticated Codex workflow performs the generation without a public AI backend.
+            </p>
+            {publicRepoHandoff ? (
+              <div className="handoff-steps">
+                <div>
+                  <span>1</span>
+                  <p>Start the loopback-only local workspace.</p>
+                  <code>pnpm pitchflow open</code>
+                </div>
+                <div>
+                  <span>2</span>
+                  <p>Open the preserved repository link after the launcher is ready.</p>
+                  <div className="handoff-deep-link">
+                    <a href={publicRepoHandoff}>{publicRepoHandoff}</a>
+                    <button type="button" onClick={() => void copyHandoff()}>
+                      {handoffCopied ? "Copied" : "Copy local link"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <code>pnpm pitchflow open</code>
+            )}
+          </div>
+        ) : (
+          <>
+            <div>
+              <label className="credit-check">
+                <input
+                  type="checkbox"
+                  checked={creditAcknowledged}
+                  onChange={(event) => onCreditAcknowledgedChange(event.target.checked)}
+                  disabled={busy}
+                />
+                <span>Use my local Codex sign-in for GPT‑5.6 creative direction.</span>
+              </label>
+              <p className="runtime-note" role="status">
+                {runtimePending
+                  ? "Checking local Codex sign-in…"
+                  : runtime?.generationEnabled
+                    ? "Codex is ready for local generation."
+                    : "Sign in to Codex locally, then reload to enable generation."}
+              </p>
+            </div>
+            <button type="button" onClick={onGenerate} disabled={!canGenerate}>
+              {busy
+                ? "Generating campaign…"
+                : campaign
+                  ? `Regenerate campaign · v${campaign.version + 1}`
+                  : "Generate campaign"}
+            </button>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
   const [repositoryUrl, setRepositoryUrl] = useState("");
   const [stage, setStage] = useState<Stage>("idle");
   const [snapshot, setSnapshot] = useState<RepoSnapshot | null>(null);
   const [campaign, setCampaign] = useState<CampaignManifest | null>(null);
   const [preferences, setPreferences] = useState(defaultPreferences);
+  const [demoAssets, setDemoAssets] = useState<DogfoodAsset[]>([]);
+  const [showcaseAssets, setShowcaseAssets] = useState<DogfoodAsset[]>([]);
+  const [publicRepoHandoff, setPublicRepoHandoff] = useState<string | null>(null);
   const [runtime, setRuntime] = useState<RuntimeStatus | null>(null);
   const [runtimePending, setRuntimePending] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -1279,6 +1937,10 @@ function LocalWorkspace() {
   const [exportReceipt, setExportReceipt] = useState<ExportReceipt | null>(null);
 
   useEffect(() => {
+    if (publicViewer) {
+      setRuntimePending(false);
+      return;
+    }
     const controller = new AbortController();
     void fetch("/api/status", { cache: "no-store", signal: controller.signal })
       .then((response) => parseApi<RuntimeStatus>(response))
@@ -1288,18 +1950,115 @@ function LocalWorkspace() {
       })
       .finally(() => setRuntimePending(false));
     return () => controller.abort();
-  }, []);
+  }, [publicViewer]);
 
-  const analyzedLabel = useMemo(() => {
-    if (!snapshot) return null;
-    return `${snapshot.repository.owner}/${snapshot.repository.name} @ ${snapshot.commitSha.slice(0, 7)}`;
-  }, [snapshot]);
+  useEffect(() => {
+    if (!publicViewer) return;
+    const controller = new AbortController();
+    setStage("analyzing");
+    void fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache", signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("The PitchFlow demo could not be loaded.");
+        return response.json() as Promise<unknown>;
+      })
+      .then(parseDogfoodPackage)
+      .then((demo) => {
+        setSnapshot(demo.snapshot);
+        setCampaign(demo.campaign);
+        setDemoAssets(demo.assets);
+        setShowcaseAssets(demo.assets);
+        setRepositoryUrl(demo.snapshot.repository.canonicalUrl);
+        setPreferences({
+          audience: demo.campaign.productBrief.audience.join(", "),
+          positioning: demo.campaign.productBrief.positioning,
+          visualDirection: `${demo.campaign.design.displayFont === "system-serif" ? "Editorial serif" : "Modern sans"}, ${demo.campaign.design.accent} accent, ${demo.campaign.design.radius}px corners`,
+          tone: demo.campaign.productBrief.tone,
+          channels: [...defaultPreferences.channels],
+        });
+        setStage("ready");
+      })
+      .catch((caught: unknown) => {
+        if (caught instanceof Error && caught.name === "AbortError") return;
+        setStage("idle");
+        setError(caught instanceof Error ? caught.message : "The PitchFlow demo could not load.");
+      });
+    return () => controller.abort();
+  }, [publicViewer]);
+
+  useEffect(() => {
+    if (publicViewer) return;
+    const requestedRepository = new URLSearchParams(window.location.search).get("repo");
+    if (requestedRepository) {
+      try {
+        setRepositoryUrl(canonicalGitHubRepositoryUrl(requestedRepository));
+      } catch {
+        setError("The repository in this local link is not a canonical public GitHub URL.");
+      }
+    }
+    const controller = new AbortController();
+    void fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache", signal: controller.signal })
+      .then(
+        async (response): Promise<unknown> =>
+          response.ok ? ((await response.json()) as unknown) : null,
+      )
+      .then((value: unknown) => {
+        if (value) setShowcaseAssets(parseDogfoodPackage(value).assets);
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [publicViewer]);
+
+  async function loadDemo() {
+    setError(null);
+    setPublicRepoHandoff(null);
+    setStage("analyzing");
+    try {
+      const response = await fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache" });
+      if (!response.ok) throw new Error("The PitchFlow demo could not be loaded.");
+      const demo = parseDogfoodPackage((await response.json()) as unknown);
+      setSnapshot(demo.snapshot);
+      setCampaign(demo.campaign);
+      setDemoAssets(demo.assets);
+      setShowcaseAssets(demo.assets);
+      setRepositoryUrl(demo.snapshot.repository.canonicalUrl);
+      setPreferences({
+        audience: demo.campaign.productBrief.audience.join(", "),
+        positioning: demo.campaign.productBrief.positioning,
+        visualDirection: `${demo.campaign.design.displayFont === "system-serif" ? "Editorial serif" : "Modern sans"}, ${demo.campaign.design.accent} accent, ${demo.campaign.design.radius}px corners`,
+        tone: demo.campaign.productBrief.tone,
+        channels: [...defaultPreferences.channels],
+      });
+      setStage("ready");
+      window.requestAnimationFrame(() =>
+        document.getElementById("analyze")?.scrollIntoView({ behavior: "smooth" }),
+      );
+    } catch (caught) {
+      setStage("idle");
+      setError(caught instanceof Error ? caught.message : "The PitchFlow demo could not load.");
+    }
+  }
 
   async function analyze(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    if (publicViewer) {
+      try {
+        const canonical = canonicalGitHubRepositoryUrl(repositoryUrl);
+        setRepositoryUrl(canonical);
+        setPublicRepoHandoff(buildLocalWorkspaceDeepLink(canonical));
+        window.requestAnimationFrame(() =>
+          document.getElementById("generate")?.scrollIntoView({ behavior: "smooth" }),
+        );
+      } catch (caught) {
+        setError(
+          caught instanceof Error ? caught.message : "Enter a public GitHub repository URL.",
+        );
+      }
+      return;
+    }
     setSnapshot(null);
     setCampaign(null);
+    setDemoAssets([]);
     setCreditAcknowledged(false);
     setCaptures([]);
     setCaptureError(null);
@@ -1339,6 +2098,7 @@ function LocalWorkspace() {
         }),
       );
       setCampaign(payload.manifest);
+      setDemoAssets([]);
       setStage("ready");
     } catch (caught) {
       setStage("review");
@@ -1353,12 +2113,6 @@ function LocalWorkspace() {
         ? current.channels.filter((value) => value !== channel)
         : [...current.channels, channel],
     }));
-  }
-
-  function updateDesign(key: keyof CampaignManifest["design"], value: string | number) {
-    if (!campaign) return;
-    setExportReceipt(null);
-    setCampaign({ ...campaign, design: { ...campaign.design, [key]: value } });
   }
 
   async function addCaptureFiles(files: File[]) {
@@ -1518,15 +2272,6 @@ function LocalWorkspace() {
     }
   }
 
-  const busy = stage === "analyzing" || stage === "generating" || exporting || processingCaptures;
-  const canGenerate =
-    Boolean(snapshot) &&
-    !busy &&
-    creditAcknowledged &&
-    Boolean(runtime?.generationEnabled) &&
-    preferences.channels.length > 0;
-  const pendingInferenceCount =
-    campaign?.claims.filter((claim) => claim.approvalRequired).length ?? 0;
   const capturesReady =
     captures.length >= MIN_CAPTURE_COUNT &&
     captures.length <= MAX_CAPTURE_COUNT &&
@@ -1536,249 +2281,170 @@ function LocalWorkspace() {
         capture.description.trim().length >= 12 &&
         capture.provenance !== "",
     );
+  const busy = stage === "analyzing" || stage === "generating" || exporting || processingCaptures;
+  const demoMode = publicViewer || demoAssets.length > 0;
+  const canGenerate =
+    Boolean(snapshot) &&
+    !busy &&
+    !demoMode &&
+    creditAcknowledged &&
+    capturesReady &&
+    preferences.visualDirection.trim().length >= 3 &&
+    Boolean(runtime?.generationEnabled) &&
+    preferences.channels.length > 0;
+  const pendingInferenceCount = pendingClaimCount(campaign);
+  const exportDisabled = busy || pendingInferenceCount > 0 || !capturesReady;
+  const exportNote = demoMode
+    ? null
+    : pendingInferenceCount > 0
+      ? `Review ${pendingInferenceCount} generated claim${pendingInferenceCount === 1 ? "" : "s"} before download.`
+      : !capturesReady
+        ? `Complete ${MIN_CAPTURE_COUNT}–${MAX_CAPTURE_COUNT} real product captures to download the package.`
+        : "Rendering the videos and ZIP can take a few minutes. Keep this tab open.";
+  const activeStep = exportReceipt
+    ? 5
+    : campaign
+      ? 4
+      : stage === "generating"
+        ? 3
+        : snapshot
+          ? 2
+          : 1;
 
   return (
-    <section className="workspace" aria-label="PitchFlow local generation workspace">
-      <aside className="control-rail" aria-labelledby="controls-heading">
-        <div className="rail-heading">
-          <p className="kicker">Campaign input</p>
-          <h2 id="controls-heading">Ground the story.</h2>
-          <p>
-            PitchFlow reads bounded public evidence. It never clones or executes submitted code.
-          </p>
-        </div>
-
-        <form onSubmit={(event) => void analyze(event)} className="repo-form">
-          <label htmlFor="repository-url">Canonical public GitHub URL</label>
-          <input
-            id="repository-url"
-            type="url"
-            value={repositoryUrl}
-            onChange={(event) => setRepositoryUrl(event.target.value)}
-            placeholder="https://github.com/owner/repository"
-            title="Enter a canonical URL such as https://github.com/owner/repository"
-            required
-            disabled={busy}
-            autoComplete="url"
-            aria-describedby="repository-hint"
-          />
-          <p className="field-hint" id="repository-hint">
-            Public repositories only. Branch links, pull requests, and arbitrary hosts are rejected.
-          </p>
-          <button className="primary-button" type="submit" disabled={busy || !repositoryUrl.trim()}>
-            {stage === "analyzing" ? (
-              <>
-                <span className="button-spinner" aria-hidden="true" /> Analyzing repository
-              </>
-            ) : (
-              "Analyze repository"
-            )}
-          </button>
-        </form>
-
-        {snapshot ? (
-          <div className="direction-form">
-            <div className="commit-chip">
-              <span>Analyzed</span>
-              <code>{analyzedLabel}</code>
-            </div>
-            <div className="direction-heading">
-              <p className="kicker">Creative direction</p>
-              <p>Adjust the brief before GPT‑5.6 builds the evidence-linked campaign.</p>
-            </div>
-            <label htmlFor="audience">Primary audience</label>
-            <input
-              id="audience"
-              value={preferences.audience}
-              onChange={(event) => setPreferences({ ...preferences, audience: event.target.value })}
-              disabled={stage === "generating"}
-            />
-            <label htmlFor="positioning">Positioning</label>
-            <textarea
-              id="positioning"
-              value={preferences.positioning}
-              onChange={(event) =>
-                setPreferences({ ...preferences, positioning: event.target.value })
-              }
-              rows={4}
-              disabled={stage === "generating"}
-            />
-            <label htmlFor="tone">Tone</label>
-            <select
-              id="tone"
-              value={preferences.tone}
-              onChange={(event) =>
-                setPreferences({
-                  ...preferences,
-                  tone: event.target.value as CampaignPreferences["tone"],
-                })
-              }
-              disabled={stage === "generating"}
-            >
-              <option value="precise">Precise</option>
-              <option value="bold">Bold</option>
-              <option value="warm">Warm</option>
-              <option value="technical">Technical</option>
-              <option value="playful">Playful</option>
-            </select>
-            <fieldset className="channel-fieldset" disabled={stage === "generating"}>
-              <legend>Launch channels</legend>
-              <div>
-                {(Object.keys(channelLabels) as CampaignPreferences["channels"]).map((channel) => (
-                  <label key={channel}>
-                    <input
-                      type="checkbox"
-                      checked={preferences.channels.includes(channel)}
-                      onChange={() => toggleChannel(channel)}
-                    />
-                    <span>{channelLabels[channel]}</span>
-                  </label>
-                ))}
-              </div>
-              {preferences.channels.length === 0 ? (
-                <p className="inline-warning">Choose at least one launch channel.</p>
-              ) : null}
-            </fieldset>
-            {campaign ? (
-              <fieldset className="design-fieldset" disabled={busy}>
-                <legend>Campaign design</legend>
-                <div className="design-controls">
-                  <label>
-                    Accent
-                    <input
-                      type="color"
-                      value={campaign.design.accent}
-                      onChange={(event) => updateDesign("accent", event.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Background
-                    <input
-                      type="color"
-                      value={campaign.design.background}
-                      onChange={(event) => updateDesign("background", event.target.value)}
-                    />
-                  </label>
-                </div>
-                <label htmlFor="campaign-radius">Corner radius · {campaign.design.radius}px</label>
-                <input
-                  id="campaign-radius"
-                  type="range"
-                  min="0"
-                  max="32"
-                  value={campaign.design.radius}
-                  onChange={(event) => updateDesign("radius", Number(event.target.value))}
-                />
-              </fieldset>
-            ) : null}
-            <label className="credit-check">
-              <input
-                type="checkbox"
-                checked={creditAcknowledged}
-                onChange={(event) => setCreditAcknowledged(event.target.checked)}
-                disabled={stage === "generating"}
-              />
-              <span>
-                Run GPT‑5.6 with my local Codex entitlement. No Platform API billing or credential
-                copying.
-              </span>
-            </label>
-            <button
-              type="button"
-              className="primary-button accent"
-              onClick={() => void generate()}
-              disabled={!canGenerate}
-            >
-              {stage === "generating" ? (
-                <>
-                  <span className="button-spinner dark" aria-hidden="true" /> Directing campaign
-                </>
-              ) : campaign ? (
-                `Regenerate as version ${campaign.version + 1}`
-              ) : (
-                "Generate launch system"
-              )}
-            </button>
-            {campaign ? (
-              <>
-                <CaptureAttachmentPanel
-                  captures={captures}
-                  disabled={stage === "generating" || exporting || processingCaptures}
-                  error={captureError}
-                  onFiles={(files) => void addCaptureFiles(files)}
-                  onMove={moveCapture}
-                  onRemove={removeCapture}
-                  onUpdate={updateCapture}
-                />
-                <button
-                  type="button"
-                  className="primary-button"
-                  onClick={() => void exportCampaign()}
-                  disabled={busy || pendingInferenceCount > 0 || !capturesReady}
-                >
-                  {exporting ? (
-                    <>
-                      <span className="button-spinner" aria-hidden="true" /> Rendering full package
-                    </>
-                  ) : (
-                    "Export captured launch package"
-                  )}
-                </button>
-                <p className="runtime-note">
-                  The local export renders your documented product UI into full-resolution 16:9 and
-                  9:16 Remotion videos before the ZIP downloads. Keep this tab open for a few
-                  minutes.
-                </p>
-                {pendingInferenceCount > 0 ? (
-                  <p className="inline-warning" role="alert">
-                    Review and approve {pendingInferenceCount} supported inference
-                    {pendingInferenceCount === 1 ? "" : "s"} before export.
-                  </p>
-                ) : null}
-              </>
-            ) : null}
-            {runtimePending ? (
-              <p className="runtime-note" role="status">
-                Checking local Codex authentication…
-              </p>
-            ) : null}
-            {!runtimePending && runtime && !runtime.generationEnabled ? (
-              <p className="inline-warning">
-                Sign in to Codex locally, then reload this workspace to enable generation.
-              </p>
-            ) : null}
-            {runtime?.codex?.authenticated ? (
-              <p className="runtime-note">Codex authenticated · credential values were not read</p>
-            ) : null}
-          </div>
-        ) : null}
-      </aside>
-
-      <CampaignCanvas
-        snapshot={snapshot}
-        campaign={campaign}
-        stage={stage}
+    <>
+      <ProductHero
+        repositoryUrl={repositoryUrl}
+        assets={showcaseAssets}
+        publicViewer={publicViewer}
+        busy={stage === "analyzing"}
         error={error}
-        onDismissError={() => setError(null)}
-        editable
-        onCampaignChange={(nextCampaign) => {
-          setExportReceipt(null);
-          setCampaign(nextCampaign);
+        onRepositoryUrlChange={(value) => {
+          setRepositoryUrl(value);
+          setPublicRepoHandoff(null);
         }}
-        exportReceipt={exportReceipt}
+        onAnalyze={(event) => void analyze(event)}
+        onTryDemo={() => void loadDemo()}
       />
-    </section>
+
+      {publicViewer && campaign ? (
+        <p className="demo-truthline">Interactive demo · generated from the PitchFlow repository</p>
+      ) : null}
+      <ProductStepper activeStep={activeStep} />
+      <ProductOutputs />
+
+      {stage === "analyzing" && !snapshot ? (
+        <section className="product-loading" role="status">
+          <span className="large-spinner" aria-hidden="true" />
+          <h2>{publicViewer ? "Opening the PitchFlow demo…" : "Understanding the repository…"}</h2>
+        </section>
+      ) : null}
+
+      {snapshot ? (
+        <div className="product-intake-workbench">
+          <ProductUnderstanding snapshot={snapshot} campaign={campaign} />
+          <DirectionPanel
+            preferences={preferences}
+            captures={captures}
+            demoAssets={demoAssets}
+            publicViewer={demoMode}
+            busy={busy}
+            captureError={captureError}
+            onPreferencesChange={setPreferences}
+            onVisualDirectionChange={(value) =>
+              setPreferences({ ...preferences, visualDirection: value })
+            }
+            onToggleChannel={toggleChannel}
+            onFiles={(files) => void addCaptureFiles(files)}
+            onMoveCapture={moveCapture}
+            onRemoveCapture={removeCapture}
+            onUpdateCapture={updateCapture}
+          />
+        </div>
+      ) : null}
+
+      {snapshot ? (
+        <GenerateStep
+          publicViewer={demoMode}
+          publicRepoHandoff={publicRepoHandoff}
+          busy={stage === "generating"}
+          campaign={campaign}
+          canGenerate={canGenerate}
+          creditAcknowledged={creditAcknowledged}
+          runtime={runtime}
+          runtimePending={runtimePending}
+          onCreditAcknowledgedChange={setCreditAcknowledged}
+          onGenerate={() => void generate()}
+        />
+      ) : null}
+
+      {campaign ? (
+        <section
+          className="product-step deliver-step"
+          id="deliver"
+          aria-labelledby="deliver-heading"
+        >
+          <header className="step-heading">
+            <span>04 · Deliver</span>
+            <h2 id="deliver-heading">
+              {demoMode
+                ? "Explore the finished PitchFlow demo."
+                : exportReceipt
+                  ? "Your launch package is ready."
+                  : "Review the campaign plan before rendering."}
+            </h2>
+            <p>
+              {demoMode
+                ? "Every image and video here is a real rendered output from the PitchFlow dogfood campaign."
+                : exportReceipt
+                  ? "The complete website, images, videos, copy, and manifest have been downloaded."
+                  : "Website and copy are editable now. Images are creative previews and videos are storyboards until export."}
+            </p>
+          </header>
+          <CampaignCanvas
+            snapshot={snapshot}
+            campaign={campaign}
+            assets={demoAssets}
+            stage={stage}
+            error={null}
+            editable={!demoMode}
+            onCampaignChange={(nextCampaign) => {
+              setExportReceipt(null);
+              setCampaign(nextCampaign);
+            }}
+            exportReceipt={exportReceipt}
+            exporting={exporting}
+            exportDisabled={exportDisabled}
+            exportNote={exportNote}
+            onExport={() => void exportCampaign()}
+          />
+        </section>
+      ) : null}
+    </>
   );
 }
 
 export function Workspace({ publicViewer }: { publicViewer: boolean }) {
   return (
     <main className="shell" id="main-content">
-      <AppHeader publicViewer={publicViewer} />
-      <Hero />
-      {publicViewer ? <PublicViewer /> : <LocalWorkspace />}
+      <AppHeader />
+      <LocalWorkspace publicViewer={publicViewer} />
+      <footer className="product-footer">
+        <span>PitchFlow</span>
+        <a href="/evidence">View product evidence</a>
+      </footer>
+    </main>
+  );
+}
+
+export function EvidenceWorkspace() {
+  return (
+    <main className="shell evidence-shell" id="main-content">
+      <AppHeader evidence />
+      <EvidenceHero />
+      <PublicViewer />
       <footer>
-        <span>PitchFlow · Built with Codex + GPT‑5.6</span>
+        <a href="/">Return to the PitchFlow workspace</a>
         <span>Claims stay attached to source.</span>
       </footer>
     </main>

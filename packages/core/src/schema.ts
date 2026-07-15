@@ -135,6 +135,7 @@ export type ProductBrief = z.infer<typeof ProductBriefSchema>;
 export const CampaignPreferencesSchema = z.object({
   audience: safeText(240),
   positioning: safeText(500),
+  visualDirection: safeText(500),
   tone: z.enum(["precise", "bold", "warm", "technical", "playful"]),
   channels: z
     .array(z.enum(["x", "linkedin", "product-hunt", "email"]))

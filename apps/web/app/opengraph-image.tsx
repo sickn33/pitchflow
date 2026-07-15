@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "PitchFlow — evidence in, launch system out";
+export const alt = "PitchFlow turns a repository into a complete launch campaign";
 export const size = { height: 630, width: 1200 };
 export const contentType = "image/png";
 
@@ -52,25 +52,27 @@ export default function OpenGraphImage() {
             lineHeight: 0.95,
           }}
         >
-          <span>Evidence in.</span>
-          <span style={{ color: "#9cffb8" }}>Launch system out.</span>
+          <span>Paste your repo.</span>
+          <span style={{ color: "#9cffb8" }}>Launch ready.</span>
         </div>
         <div style={{ color: "#b4b6bb", fontSize: 30 }}>
-          A repo-native AI launch studio · Built with Codex + GPT-5.6
+          Site, social kit, product video, and copy · Directed with GPT-5.6 in Codex
         </div>
       </div>
       <div
         style={{
-          color: "#ffb86b",
+          color: "#9cffb8",
           display: "flex",
           fontFamily: "monospace",
           fontSize: 18,
           gap: 42,
         }}
       >
-        <span>COMMIT PINNED</span>
-        <span>CLAIMS CITED</span>
-        <span>ASSETS REPRODUCIBLE</span>
+        <span>ANALYZE</span>
+        <span>DIRECT</span>
+        <span>GENERATE</span>
+        <span>DELIVER</span>
+        <span>EXPORT</span>
       </div>
     </div>,
     size,

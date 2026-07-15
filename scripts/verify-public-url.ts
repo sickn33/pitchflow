@@ -40,9 +40,35 @@ const rootResponse = await fetch(baseUrl, {
   redirect: "error",
   signal: AbortSignal.timeout(60_000),
 });
-const rootHtml = (await successfulBody(rootResponse, "Public viewer")).toString("utf8");
-if (!rootHtml.includes("PitchFlow") || !rootHtml.includes("Cached judge viewer")) {
-  throw new Error("Public root does not render the PitchFlow cached judge viewer.");
+const rootHtml = (await successfulBody(rootResponse, "Public product workspace")).toString("utf8");
+const productSignals = [
+  "PitchFlow",
+  "Paste your repo. Get a launch-ready site, social kit, and product video.",
+  "Analyze",
+  "Direct",
+  "Generate",
+  "Deliver",
+  "Export",
+];
+for (const signal of productSignals) {
+  if (!rootHtml.includes(signal)) {
+    throw new Error(`Public root is missing the product-first signal: ${signal}`);
+  }
+}
+if (rootHtml.includes("Cached judge viewer")) {
+  throw new Error("Public root regressed to the rejected audit-first viewer language.");
+}
+
+const evidenceResponse = await fetch(publicUrl("/evidence"), {
+  cache: "no-store",
+  redirect: "error",
+  signal: AbortSignal.timeout(60_000),
+});
+const evidenceHtml = (await successfulBody(evidenceResponse, "Secondary evidence route")).toString(
+  "utf8",
+);
+if (!evidenceHtml.includes("Evidence") || !evidenceHtml.includes("Repo-native launch studio")) {
+  throw new Error("The secondary evidence route does not expose PitchFlow proof material.");
 }
 
 const requiredSecurityHeaders = {
@@ -164,6 +190,8 @@ const report = {
     xFrameOptions: rootResponse.headers.get("x-frame-options"),
     permissionsPolicy: rootResponse.headers.get("permissions-policy"),
   },
+  productSignals,
+  evidenceRoute: "/evidence",
   credentialValuesPrinted: false,
 };
 

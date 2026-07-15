@@ -1,0 +1,104 @@
+{
+  "status": "ok",
+  "checkedAt": "2026-07-15T10:24:01.028Z",
+  "url": "http://127.0.0.1:3211",
+  "productHero": "Paste your repo. Get a launch-ready site, social kit, and product video.",
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "firstViewport": {
+      "heading": {
+        "top": 148.390625,
+        "bottom": 484.828125
+      },
+      "input": {
+        "top": 615.546875,
+        "bottom": 673.546875
+      },
+      "inputContract": {
+        "top": 747.546875,
+        "bottom": 764.34375
+      },
+      "outputs": {
+        "top": 945.53125,
+        "bottom": 997.90625
+      },
+      "stepper": {
+        "top": 875.53125,
+        "bottom": 945.53125
+      }
+    },
+    "overflow": {
+      "body": 0,
+      "document": 0,
+      "scrollX": 0
+    },
+    "accessibility": {
+      "blockingViolations": 0,
+      "totalViolations": 0
+    },
+    "screenshot": {
+      "path": "artifacts/verification/2026-07-15-pitchflow/product-reset/local-public-desktop-1440x1000-full.png",
+      "width": 1440,
+      "height": 3805,
+      "bytes": 543200,
+      "sha256": "305b343f9b20e84c3d2fac6262f70226dfac7e88a1b57daa725d1cadde22dfe0"
+    }
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "firstViewport": {
+      "heading": {
+        "top": 92,
+        "bottom": 255
+      },
+      "input": {
+        "top": 361.828125,
+        "bottom": 413.828125
+      },
+      "inputContract": {
+        "top": 550.21875,
+        "bottom": 583.8125
+      },
+      "outputs": {
+        "top": 728.609375,
+        "bottom": 791.78125
+      },
+      "stepper": {
+        "top": 668.609375,
+        "bottom": 728.609375
+      }
+    },
+    "overflow": {
+      "body": 0,
+      "document": 0,
+      "scrollX": 0
+    },
+    "accessibility": {
+      "blockingViolations": 0,
+      "totalViolations": 0
+    },
+    "screenshot": {
+      "path": "artifacts/verification/2026-07-15-pitchflow/product-reset/local-public-mobile-390x844-full.png",
+      "width": 390,
+      "height": 8182,
+      "bytes": 656920,
+      "sha256": "6a48e31c10d2835fbc5e75c9506a7c9e52c56a0226ce47264de2e4d681594759"
+    }
+  },
+  "deliveryTabs": [
+    "Website",
+    "Images",
+    "Videos",
+    "Copy",
+    "Export"
+  ],
+  "repositoryHandoff": "http://127.0.0.1:3210/?repo=https%3A%2F%2Fgithub.com%2Fopenai%2Fcodex",
+  "mutationRequests": [],
+  "consoleErrors": []
+}

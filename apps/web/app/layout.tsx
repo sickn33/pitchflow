@@ -13,26 +13,28 @@ export const metadata: Metadata = {
   keywords: ["Codex", "GPT-5.6", "developer tools", "launch campaign", "GitHub"],
   metadataBase,
   openGraph: {
-    description: "Evidence in. Launch system out. A repo-native AI launch studio for developers.",
+    description:
+      "Paste a public GitHub repository. Get a launch-ready site, social kit, product video, and channel copy directed with GPT-5.6 in Codex.",
     images: [
       {
-        alt: "PitchFlow — evidence in, launch system out",
+        alt: "PitchFlow turns a repository into a complete launch campaign",
         height: 630,
         url: "/opengraph-image",
         width: 1200,
       },
     ],
     siteName: "PitchFlow",
-    title: "PitchFlow · Repo-native AI launch studio",
+    title: "PitchFlow · Your repo, launch-ready",
     type: "website",
   },
   robots: { follow: true, index: true },
-  title: { default: "PitchFlow · Repo-native AI launch studio", template: "%s · PitchFlow" },
+  title: { default: "PitchFlow · Your repo, launch-ready", template: "%s · PitchFlow" },
   twitter: {
     card: "summary_large_image",
-    description: "Evidence in. Launch system out. Built with Codex + GPT-5.6.",
+    description:
+      "Turn a public GitHub repository into a launch-ready site, social kit, product video, and copy with GPT-5.6 in Codex.",
     images: ["/opengraph-image"],
-    title: "PitchFlow · Repo-native AI launch studio",
+    title: "PitchFlow · Your repo, launch-ready",
   },
 };
 

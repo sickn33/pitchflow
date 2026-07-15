@@ -8,18 +8,31 @@ Category: **Developer Tools**
 
 ## Active objective
 
-Complete and verify the PitchFlow OpenAI Build Week product defined in `/Users/nicco/Projects/Playground/pitchflow-build-week/GOAL.md`, including a working public judge path, evidence-grounded GPT-5.6 generation, exportable site/social/video/copy assets, clean-state tests, and the complete submission evidence packet.
+Complete and verify the PitchFlow OpenAI Build Week product defined in `/Users/nicco/Projects/Playground/pitchflow-build-week/GOAL.md`: a live product-first repo-to-launch workspace that passes the five-second desktop/390px comprehension gate, preserves the real local Codex + GPT-5.6 generation and export engine, keeps proof secondary under `/evidence`, passes all existing functional/security contracts, and receives Nicco's explicit approval before any YouTube or Devpost work resumes.
 
 ## Outcome
 
-PitchFlow is a repo-native AI launch studio. From a canonical public GitHub repository URL, it gathers a bounded, commit-pinned evidence set and uses GPT-5.6 through the user's authenticated local Codex workflow to produce an editable, evidence-grounded `CampaignManifest`. That manifest reproducibly drives a responsive microsite, social graphics, a five-slide carousel, channel copy, and 16:9 plus 9:16 Remotion videos.
+PitchFlow is a repo-to-launch studio for developers. A developer provides a canonical public GitHub repository, 2–4 real product captures, and creative direction. PitchFlow gathers a bounded, commit-pinned evidence set, understands the real product, and uses GPT-5.6 through the user's authenticated local Codex workflow to direct an editable, evidence-grounded launch campaign. One validated `CampaignManifest` reproducibly drives a responsive launch website, social graphics, a five-slide carousel, channel copy, and 16:9 plus 9:16 Remotion videos.
 
 The finished entry must include both:
 
 1. a one-command local workspace that performs real repository intake and Codex/GPT-5.6 generation without copying personal credentials; and
-2. a no-login public Vercel viewer containing an immutable, complete PitchFlow dogfood campaign for judges.
+2. the same product-first workspace on public Vercel, preloaded with an immutable, complete PitchFlow dogfood campaign that visitors can explore without login while fresh arbitrary-repository generation remains an honest local handoff.
 
 Tagline: **Ship the code. PitchFlow ships the story.**
+
+## Product-reset finish line
+
+Nicco rejected the earlier audit-first cached viewer as the wrong product surface. The active finish line is now a live first-time-user comprehension gate, not the mere existence of a judge package.
+
+At both 1440px desktop and a real 390px mobile viewport, the live homepage must make the following clear within five seconds and without documentation:
+
+1. **Input:** a public GitHub repository plus 2–4 real product captures and creative direction.
+2. **Transformation:** PitchFlow understands the repository from pinned evidence and uses GPT-5.6 through the developer's local Codex entitlement to direct a coherent launch system.
+3. **Outputs:** Website, Images, Videos, Copy, and Export, culminating in one complete downloadable launch package.
+4. **How to try it:** the public site provides a complete interactive PitchFlow dogfood demo; a fresh arbitrary repository transitions honestly into the local Codex workflow with the repository URL preserved in the onboarding handoff.
+
+The main route is the product workspace. Audit terminology, checksums, immutable-package details, security proofs, and Build Week material remain secondary under `/evidence` and may be linked quietly from the product UI. The public route must never simulate fresh generation, send mutation requests, expose personal Codex authority, or imply Platform API billing.
 
 ## Grounded baseline
 
@@ -91,7 +104,7 @@ Repository input is untrusted. Intake uses GitHub APIs or bounded raw fetches an
 - Record model, prompt version, schema version, generation time, source commit, errors, and repair attempts without secrets.
 - Include deterministic fixture mode for automated tests, plus a preserved real GPT-5.6 smoke proof.
 
-### Judge workspace and exports
+### Product workspace and exports
 
 - Let a user review evidence; edit audience, positioning, tone, channels, design tokens, and claims; generate; preview; regenerate; version; and export.
 - Produce a responsive accessible microsite with hero, problem, evidence-backed features, workflow, real product capture, CTA, and provenance.
@@ -104,18 +117,16 @@ Repository input is untrusted. Intake uses GitHub APIs or bounded raw fetches an
 
 ## Primary verifier
 
-From a clean checkout or equivalent isolated clean state:
+Against the exact deployed public SHA and without relying on README or spoken explanation, a first-time-user review at 1440px desktop and an actual 390px mobile viewport must answer correctly within five seconds:
 
-1. Install and launch PitchFlow using the single documented command.
-2. Confirm supported local Codex authentication without printing or copying credentials.
-3. Open the local workspace and submit a public GitHub repository distinct from the cached dogfood campaign.
-4. Confirm the pinned commit SHA and inspect at least three generated factual claims with working evidence links.
-5. Generate a schema-valid campaign through a real GPT-5.6 Codex run.
-6. Preview the responsive microsite and export the static site, image pack, five-slide carousel, both MP4s, copy pack, manifest, asset index, and ZIP.
-7. Independently validate schemas, dimensions, hashes, ZIP safety, MP4 codec/dimensions/duration/playability, browser console, accessibility, and responsive states.
-8. Open the public viewer unauthenticated, load the immutable PitchFlow dogfood example, and verify every cached export by URL and checksum.
+1. What do I provide? A GitHub repository plus real product captures and direction.
+2. What does PitchFlow do? Understands the product from repository evidence and directs a launch campaign with GPT-5.6 through local Codex.
+3. What do I receive? Website, Images, Videos, Copy, and one complete Export package.
+4. How do I try it? Explore the complete public dogfood demo immediately; use the repository-preserving local handoff for fresh arbitrary-repository generation.
 
-Preserve the acceptance evidence under `artifacts/verification/{timestamp}/`.
+The verifier must then interact with the same continuous Analyze → Direct → Generate → Deliver → Export journey, explore every real dogfood output, exercise the immutable download, test the arbitrary-repository local handoff, and confirm that `/evidence` is available but secondary. It must assert exact screenshot dimensions, zero root horizontal overflow, operable controls and delivery tabs, zero console errors, and no serious or critical accessibility violations. A blunt product review must explicitly fail the gate if the interface reads as an auditor dashboard, a disconnected landing page, or a decorative mock.
+
+Acceptance evidence belongs under `artifacts/verification/{timestamp}/product-reset/` and must include full-page desktop/mobile screenshots, interaction/readback results, the exact deployed SHA, and Nicco's explicit approval of the redesigned live experience.
 
 ## Supporting verifiers
 
@@ -140,6 +151,8 @@ Additional required commands:
 - production smoke against GitHub and Vercel;
 - Lighthouse or equivalent public-path evidence targeting accessibility >= 90;
 - final `pnpm check:all` twice consecutively with no source changes.
+
+The earlier functional, clean-state, media, schema, evidence, export, security, provenance, and immutable-package checks remain mandatory supporting gates. They may not replace or weaken the live comprehension gate.
 
 ## Iteration loop
 
@@ -209,6 +222,8 @@ Still requires Nicco's explicit confirmation:
 - use any uncertain third-party copyrighted or trademarked material;
 - delete or rewrite external repositories, deployments, or user data.
 
+YouTube publication and every Devpost edit/submission are frozen until the redesigned live product has passed the primary verifier and Nicco explicitly approves that exact live experience. Earlier broad publication approval was superseded by the product reset and does not authorize publication of the rejected surface.
+
 The gated YouTube URL and Devpost submission are mandatory for the actual competition entry. Until approved, completion proof must contain the finished local video and final Devpost copy/media inventory, and `RESULT.md` must identify publication/submission as the remaining explicit gate rather than claim the entry was submitted.
 
 ## Provenance policy
@@ -229,6 +244,9 @@ Before `update_goal(status="complete")`, `RESULT.md` must contain all of the fol
 
 - public demo URL and timestamped unauthenticated readback;
 - public repository URL and final commit SHA;
+- exact deployed product-reset SHA and full-page 1440px plus genuine 390px screenshots whose pixel dimensions were independently checked;
+- first-time-user comprehension evidence covering input, transformation, outputs, public demo, and repository-preserving local handoff;
+- Nicco's explicit approval of the redesigned live experience;
 - one-command install/launch path and clean-profile proof;
 - Codex SDK/local-auth proof without credential disclosure;
 - exact clean install/build/test commands and two consecutive full-pass logs;

@@ -30,6 +30,8 @@ const preferences: CampaignPreferences = {
   audience: "Indie developers, open-source maintainers, and developer-tool teams",
   positioning:
     "A precise launch narrative that makes the repository's proven value immediately understandable",
+  visualDirection:
+    "Use only truthful product captures in a precise, high-contrast developer-tool visual system",
   tone: "precise",
   channels: ["x", "linkedin", "product-hunt", "email"],
 };
