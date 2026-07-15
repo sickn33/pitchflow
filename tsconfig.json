@@ -35,7 +35,7 @@
     "packages/**/*.tsx",
     "scripts/**/*.ts",
     "tests/**/*.ts",
-    "playwright.config.ts",
+    "playwright*.config.ts",
     "vitest.config.ts",
     "eslint.config.js"
   ],

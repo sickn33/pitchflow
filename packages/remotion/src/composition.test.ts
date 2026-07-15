@@ -8,5 +8,7 @@ describe("audience-only composition copy", () => {
 
     expect(source).not.toContain("visualDirection");
     expect(source).toContain("scene.audienceCaption");
+    expect(source).not.toContain("{scene.visual.toUpperCase()}");
+    expect(source).toContain("manifest.productBrief.productName");
   });
 });

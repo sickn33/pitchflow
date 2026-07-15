@@ -8,6 +8,7 @@ import {
   PitchFlowError,
   RepoSnapshotSchema,
   auditManifestEvidence,
+  sha256,
 } from "@pitchflow/core";
 import { z } from "zod";
 
@@ -27,6 +28,10 @@ const ExportRequestSchema = z.object({
   snapshot: RepoSnapshotSchema,
   campaign: CampaignManifestSchema,
   captures: CaptureUploadListSchema,
+});
+
+const RenderedAssetIndexSchema = z.object({
+  assets: z.array(z.unknown()).min(1).max(1_000),
 });
 
 function repositoryRoot(): string {
@@ -143,7 +148,11 @@ export async function POST(request: Request) {
       stagedCaptures.manifestPath,
       request.signal,
     );
-    const archive = await readFile(join(outputDirectory, "pitchflow-campaign.zip"));
+    const [archive, assetIndexData] = await Promise.all([
+      readFile(join(outputDirectory, "pitchflow-campaign.zip")),
+      readFile(join(outputDirectory, "asset-index.json"), "utf8"),
+    ]);
+    const assetIndex = RenderedAssetIndexSchema.parse(JSON.parse(assetIndexData));
     return new Response(archive, {
       status: 200,
       headers: {
@@ -151,7 +160,9 @@ export async function POST(request: Request) {
         "content-disposition": `attachment; filename="pitchflow-${input.campaign.id}.zip"`,
         "content-length": String(archive.byteLength),
         "content-type": "application/zip",
+        "x-pitchflow-assets": String(assetIndex.assets.length),
         "x-pitchflow-campaign": input.campaign.id,
+        "x-pitchflow-sha256": sha256(archive),
       },
     });
   } catch (error) {

@@ -1,0 +1,1481 @@
+{
+  "format": "pitchflow-judge-package",
+  "version": 1,
+  "snapshot": {
+    "schemaVersion": "1.1.0",
+    "id": "snapshot_a927a47d704ed72b",
+    "repository": {
+      "owner": "sickn33",
+      "name": "pitchflow",
+      "canonicalUrl": "https://github.com/sickn33/pitchflow",
+      "description": "Evidence-grounded launch campaigns from a GitHub repository, directed by GPT-5.6 Sol through local Codex.",
+      "homepage": null,
+      "defaultBranch": "main",
+      "licenseSpdx": "MIT",
+      "isArchived": false,
+      "isFork": false
+    },
+    "requestedRef": null,
+    "resolvedRef": "main",
+    "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+    "capturedAt": "2026-07-15T05:36:04.553Z",
+    "languages": {
+      "TypeScript": 318527,
+      "CSS": 29706,
+      "JavaScript": 1151
+    },
+    "tree": [
+      {
+        "path": ".env.example",
+        "size": 404,
+        "kind": "file"
+      },
+      {
+        "path": ".github",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": ".github/workflows",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "size": 449,
+        "kind": "file"
+      },
+      {
+        "path": ".gitignore",
+        "size": 347,
+        "kind": "file"
+      },
+      {
+        "path": ".npmrc",
+        "size": 65,
+        "kind": "file"
+      },
+      {
+        "path": ".nvmrc",
+        "size": 3,
+        "kind": "file"
+      },
+      {
+        "path": ".prettierignore",
+        "size": 141,
+        "kind": "file"
+      },
+      {
+        "path": ".prettierrc.json",
+        "size": 107,
+        "kind": "file"
+      },
+      {
+        "path": "GOAL.md",
+        "size": 18694,
+        "kind": "file"
+      },
+      {
+        "path": "LICENSE",
+        "size": 1070,
+        "kind": "file"
+      },
+      {
+        "path": "README.md",
+        "size": 5849,
+        "kind": "file"
+      },
+      {
+        "path": "RESULT.md",
+        "size": 2883,
+        "kind": "file"
+      },
+      {
+        "path": "WORKLOG.md",
+        "size": 16593,
+        "kind": "file"
+      },
+      {
+        "path": "apps",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/README.md",
+        "size": 1816,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/app/api",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/app/api/analyze",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/app/api/analyze/route.ts",
+        "size": 827,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/api/export",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/app/api/export/route.test.ts",
+        "size": 1496,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/api/export/route.ts",
+        "size": 5202,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/api/generate",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/app/api/generate/route.ts",
+        "size": 1594,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/api/status",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/app/api/status/route.ts",
+        "size": 467,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/icon.svg",
+        "size": 406,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/layout.tsx",
+        "size": 1565,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/opengraph-image.tsx",
+        "size": 2083,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/page.tsx",
+        "size": 198,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/app/styles.css",
+        "size": 29706,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/components",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/components/workspace.tsx",
+        "size": 50689,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "apps/web/lib/capture-contract.ts",
+        "size": 2362,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/captures.test.ts",
+        "size": 5547,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/captures.ts",
+        "size": 8309,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/dogfood.test.ts",
+        "size": 576,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/dogfood.ts",
+        "size": 2728,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/http.test.ts",
+        "size": 1527,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/http.ts",
+        "size": 2699,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/runtime.test.ts",
+        "size": 1275,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/lib/runtime.ts",
+        "size": 484,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/next-env.d.ts",
+        "size": 251,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/next.config.ts",
+        "size": 535,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/package.json",
+        "size": 538,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/tsconfig.json",
+        "size": 261,
+        "kind": "file"
+      },
+      {
+        "path": "apps/web/vitest.config.ts",
+        "size": 66,
+        "kind": "file"
+      },
+      {
+        "path": "docs",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "docs/ARCHITECTURE.md",
+        "size": 5243,
+        "kind": "file"
+      },
+      {
+        "path": "docs/BUILD_WEEK_RULES.md",
+        "size": 1029,
+        "kind": "file"
+      },
+      {
+        "path": "docs/CODEX_COLLABORATION.md",
+        "size": 3256,
+        "kind": "file"
+      },
+      {
+        "path": "docs/JUDGING.md",
+        "size": 3118,
+        "kind": "file"
+      },
+      {
+        "path": "docs/MEDIA_BRIEF.md",
+        "size": 2087,
+        "kind": "file"
+      },
+      {
+        "path": "docs/PROVENANCE.md",
+        "size": 4460,
+        "kind": "file"
+      },
+      {
+        "path": "docs/TESTING.md",
+        "size": 2407,
+        "kind": "file"
+      },
+      {
+        "path": "eslint.config.js",
+        "size": 1151,
+        "kind": "file"
+      },
+      {
+        "path": "package.json",
+        "size": 2145,
+        "kind": "file"
+      },
+      {
+        "path": "packages",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/cli",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/cli/package.json",
+        "size": 188,
+        "kind": "file"
+      },
+      {
+        "path": "packages/cli/src",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/cli/src/index.ts",
+        "size": 2412,
+        "kind": "file"
+      },
+      {
+        "path": "packages/cli/src/launcher.test.ts",
+        "size": 2185,
+        "kind": "file"
+      },
+      {
+        "path": "packages/cli/src/launcher.ts",
+        "size": 3433,
+        "kind": "file"
+      },
+      {
+        "path": "packages/codex",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/codex/package.json",
+        "size": 275,
+        "kind": "file"
+      },
+      {
+        "path": "packages/codex/src",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/codex/src/auth.ts",
+        "size": 1860,
+        "kind": "file"
+      },
+      {
+        "path": "packages/codex/src/environment.ts",
+        "size": 841,
+        "kind": "file"
+      },
+      {
+        "path": "packages/codex/src/generate.test.ts",
+        "size": 6459,
+        "kind": "file"
+      },
+      {
+        "path": "packages/codex/src/generate.ts",
+        "size": 7618,
+        "kind": "file"
+      },
+      {
+        "path": "packages/codex/src/index.ts",
+        "size": 78,
+        "kind": "file"
+      },
+      {
+        "path": "packages/codex/src/prompt.ts",
+        "size": 3306,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/core/package.json",
+        "size": 168,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/core/src/errors.ts",
+        "size": 843,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/evidence.ts",
+        "size": 5137,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/github-url.test.ts",
+        "size": 1441,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/github-url.ts",
+        "size": 2639,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/github.test.ts",
+        "size": 4091,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/github.ts",
+        "size": 11656,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/index.ts",
+        "size": 192,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/manifest.test.ts",
+        "size": 5153,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/manifest.ts",
+        "size": 10261,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/schema.ts",
+        "size": 10173,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/security.test.ts",
+        "size": 1914,
+        "kind": "file"
+      },
+      {
+        "path": "packages/core/src/security.ts",
+        "size": 2045,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/export/package.json",
+        "size": 276,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/export/src/bundle.test.ts",
+        "size": 8793,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src/bundle.ts",
+        "size": 17594,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src/copy.ts",
+        "size": 820,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src/images.ts",
+        "size": 5449,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src/index.ts",
+        "size": 124,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src/site.ts",
+        "size": 8892,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src/text.test.ts",
+        "size": 636,
+        "kind": "file"
+      },
+      {
+        "path": "packages/export/src/text.ts",
+        "size": 1146,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/remotion/CAPTURES.md",
+        "size": 2574,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/package.json",
+        "size": 633,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "packages/remotion/src/PitchFlowComposition.tsx",
+        "size": 17130,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/Root.tsx",
+        "size": 1146,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/captures.test.ts",
+        "size": 3820,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/captures.ts",
+        "size": 9327,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/composition.test.ts",
+        "size": 438,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/contracts.ts",
+        "size": 2034,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/entry.tsx",
+        "size": 112,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/fixture.ts",
+        "size": 7375,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/index.ts",
+        "size": 880,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/render-error.ts",
+        "size": 440,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/render.test.ts",
+        "size": 1752,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/render.ts",
+        "size": 8769,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/smoke.ts",
+        "size": 908,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/timeline.test.ts",
+        "size": 2195,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/src/timeline.ts",
+        "size": 2234,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/tsconfig.json",
+        "size": 136,
+        "kind": "file"
+      },
+      {
+        "path": "packages/remotion/vitest.config.ts",
+        "size": 327,
+        "kind": "file"
+      },
+      {
+        "path": "playwright.config.ts",
+        "size": 1605,
+        "kind": "file"
+      },
+      {
+        "path": "pnpm-lock.yaml",
+        "size": 197997,
+        "kind": "file"
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "size": 288,
+        "kind": "file"
+      },
+      {
+        "path": "scripts",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "scripts/arguments.ts",
+        "size": 852,
+        "kind": "file"
+      },
+      {
+        "path": "scripts/codex-smoke.ts",
+        "size": 3156,
+        "kind": "file"
+      },
+      {
+        "path": "scripts/ingest-smoke.ts",
+        "size": 1276,
+        "kind": "file"
+      },
+      {
+        "path": "scripts/render-smoke.ts",
+        "size": 4063,
+        "kind": "file"
+      },
+      {
+        "path": "scripts/verify-bundle.ts",
+        "size": 9717,
+        "kind": "file"
+      },
+      {
+        "path": "scripts/verify-dependencies.ts",
+        "size": 4364,
+        "kind": "file"
+      },
+      {
+        "path": "scripts/verify-licenses.ts",
+        "size": 4336,
+        "kind": "file"
+      },
+      {
+        "path": "scripts/verify-secrets.ts",
+        "size": 2368,
+        "kind": "file"
+      },
+      {
+        "path": "tests",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "tests/e2e",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "tests/e2e/local-workspace.spec.ts",
+        "size": 7532,
+        "kind": "file"
+      },
+      {
+        "path": "tests/helpers",
+        "size": 0,
+        "kind": "directory"
+      },
+      {
+        "path": "tests/helpers/snapshot.ts",
+        "size": 2175,
+        "kind": "file"
+      },
+      {
+        "path": "tsconfig.json",
+        "size": 1241,
+        "kind": "file"
+      },
+      {
+        "path": "vitest.config.ts",
+        "size": 776,
+        "kind": "file"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "ev_e4de1a810bfa",
+        "kind": "repository_metadata",
+        "label": "GitHub repository metadata",
+        "path": null,
+        "excerpt": "Name: sickn33/pitchflow\nDescription: Evidence-grounded launch campaigns from a GitHub repository, directed by GPT-5.6 Sol through local Codex.\nDefault branch: main\nArchived: false\nFork: false",
+        "normalizedFact": "Evidence-grounded launch campaigns from a GitHub repository, directed by GPT-5.6 Sol through local Codex.",
+        "sourceUrl": "https://github.com/sickn33/pitchflow/tree/87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:e365c07b60aabce8e9bd58933ba2e9b9cf3a1c18b662a62d2b86d6ea33ebb617"
+      },
+      {
+        "id": "ev_7c7b3d790140",
+        "kind": "languages",
+        "label": "GitHub language analysis",
+        "path": null,
+        "excerpt": "TypeScript: 318527 bytes\nCSS: 29706 bytes\nJavaScript: 1151 bytes",
+        "normalizedFact": "TypeScript, CSS, JavaScript",
+        "sourceUrl": "https://github.com/sickn33/pitchflow/tree/87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:69e080d646edb84ef54273f7a0dfa7343acf850c00e564952264b4224789ec31"
+      },
+      {
+        "id": "ev_b0b859adb2b5",
+        "kind": "source_tree",
+        "label": "Bounded repository tree",
+        "path": null,
+        "excerpt": ".env.example (404 bytes)\n.github/workflows/ci.yml (449 bytes)\n.gitignore (347 bytes)\n.npmrc (65 bytes)\n.nvmrc (3 bytes)\n.prettierignore (141 bytes)\n.prettierrc.json (107 bytes)\nGOAL.md (18694 bytes)\nLICENSE (1070 bytes)\nREADME.md (5849 bytes)\nRESULT.md (2883 bytes)\nWORKLOG.md (16593 bytes)\napps/web/README.md (1816 bytes)\napps/web/app/api/analyze/route.ts (827 bytes)\napps/web/app/api/export/route.test.ts (1496 bytes)\napps/web/app/api/export/route.ts (5202 bytes)\napps/web/app/api/generate/route.ts (1594 bytes)\napps/web/app/api/status/route.ts (467 bytes)\napps/web/app/icon.svg (406 bytes)\napps/web/app/layout.tsx (1565 bytes)\napps/web/app/opengraph-image.tsx (2083 bytes)\napps/web/app/page.tsx (198 bytes)\napps/web/app/styles.css (29706 bytes)\napps/web/components/workspace.tsx (50689 bytes)\napps/web/lib/capture-contract.ts (2362 bytes)\napps/web/lib/captures.test.ts (5547 bytes)\napps/web/lib/captures.ts (8309 bytes)\napps/web/lib/dogfood.test.ts (576 bytes)\napps/web/lib/dogfood.ts (2728 bytes)\napps/web/lib/http.test.ts (1527 bytes)\napps/web/lib/http.ts (2699 bytes)\napps/web/lib/runtime.test.ts (1275 bytes)\napps/web/lib/runtime.ts (484 bytes)\napps/web/next-env.d.ts (251 bytes)\napps/web/next.config.ts (535 bytes)\napps/web/package.json (538 bytes)\napps/web/tsconfig.json (261 bytes)\napps/web/vitest.config.ts (66 bytes)\ndocs/ARCHITECTURE.md (5243 bytes)\ndocs/BUILD_WEEK_RULES.md (1029 bytes)\ndocs/CODEX_COLLABORATION.md (3256 bytes)\ndocs/JUDGING.md (3118 bytes)\ndocs/MEDIA_BRIEF.md (2087 bytes)\ndocs/PROVENANCE.md (4460 bytes)\ndocs/TESTING.md (2407 bytes)\neslint.config.js (1151 bytes)\npack…",
+        "normalizedFact": "114 files discovered; 142 bounded tree entries retained",
+        "sourceUrl": "https://github.com/sickn33/pitchflow/tree/87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:9d5bcd93ff038c970b6828fae86cdaf4770b3daa61573d596a9f46d54e0d3d53"
+      },
+      {
+        "id": "ev_bbbf6eefa042",
+        "kind": "readme",
+        "label": "README.md",
+        "path": "README.md",
+        "excerpt": "# PitchFlow\n\n> Ship the code. PitchFlow ships the story.\n\nPitchFlow is a local-first, repo-native AI launch studio built from scratch for OpenAI Build Week in the **Developer Tools** category. Give it a canonical public GitHub repository URL. It pins one commit, gathers bounded evidence without cloning or executing the project, and asks **GPT-5.6 Sol through your authenticated local Codex workflow** to direct an evidence-linked campaign.\n\nOne validated `CampaignManifest` then drives:\n\n- a responsive static microsite with real product UI captures;\n- Open Graph, X, LinkedIn, and Instagram graphics at exact dimensions;\n- a five-slide 1080x1350 carousel;\n- X, LinkedIn, Product Hunt, email, headline, and CTA copy;\n- reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and\n- a checksummed asset index plus traversal-safe ZIP.\n\nThe public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.\n\n## Judge path\n\nThe final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.\n\nFor the shortest local inspection:\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\n`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.\n\nThen:\n\n1. paste a canonical public URL such as `https://gi…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/README.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:7dcfb7e1862fdacc96072be403df8a60063ee562215b1278d44c333c0f15eb60"
+      },
+      {
+        "id": "ev_dcd403436ffa",
+        "kind": "manifest",
+        "label": "package.json",
+        "path": "package.json",
+        "excerpt": "{\n \"name\": \"pitchflow\",\n \"version\": \"0.1.0\",\n \"private\": true,\n \"description\": \"Repo-native AI launch studio built with Codex and GPT-5.6 for OpenAI Build Week.\",\n \"license\": \"MIT\",\n \"type\": \"module\",\n \"packageManager\": \"pnpm@10.32.1\",\n \"engines\": {\n \"node\": \">=20.9.0 <27\"\n },\n \"scripts\": {\n \"build\": \"pnpm --filter @pitchflow/web build\",\n \"check:all\": \"pnpm check:static && pnpm verify:secrets && pnpm verify:licenses && pnpm verify:dependencies && pnpm test:e2e\",\n \"check:static\": \"pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build\",\n \"dev\": \"pnpm --filter @pitchflow/web dev\",\n \"format\": \"prettier --write .\",\n \"format:check\": \"prettier --check .\",\n \"lint\": \"eslint . --max-warnings=0\",\n \"pitchflow\": \"node --disable-warning=DEP0205 --import tsx/esm packages/cli/src/index.ts\",\n \"smoke:codex\": \"node --disable-warning=DEP0205 --import tsx/esm scripts/codex-smoke.ts\",\n \"smoke:github\": \"node --disable-warning=DEP0205 --import tsx/esm scripts/ingest-smoke.ts\",\n \"smoke:render\": \"node --disable-warning=DEP0205 --import tsx/esm scripts/render-smoke.ts\",\n \"test\": \"vitest run --passWithNoTests\",\n \"test:e2e\": \"playwright test\",\n \"verify:bundle\": \"node --disable-warning=DEP0205 --import tsx/esm scripts/verify-bundle.ts\",\n \"verify:dependencies\": \"node --disable-warning=DEP0205 --import tsx/esm scripts/verify-dependencies.ts\",\n \"verify:licenses\": \"node --disable-warning=DEP0205 --import tsx/esm scripts/verify-licenses.ts\",\n \"verify:secrets\": \"node --disable-warning=DEP0205 --import tsx/esm scripts/verify-secrets.ts\",\n \"typecheck\": \"tsc --noEmit -p tsconfig.json\"\n },…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/package.json",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:a5cc68622700fede13f716b27338371967cf0372874341ead7289470032fae7f"
+      },
+      {
+        "id": "ev_b68750f8f8e7",
+        "kind": "license",
+        "label": "LICENSE",
+        "path": "LICENSE",
+        "excerpt": "MIT License\n\nCopyright (c) 2026 Nicco Lucioli\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/LICENSE",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:0fe660cf7ea3a42740516d3037ad9eaeae5009317dc1709a73e08a93a5d7e5ac"
+      },
+      {
+        "id": "ev_d5f3383efcb7",
+        "kind": "documentation",
+        "label": "docs/ARCHITECTURE.md",
+        "path": "docs/ARCHITECTURE.md",
+        "excerpt": "# Architecture\n\n## System boundary\n\nPitchFlow has two deliberately different runtime modes.\n\n### Local workspace\n\n`pnpm pitchflow` binds Next.js to loopback only. The developer submits a public GitHub URL, reviews a bounded evidence snapshot, and explicitly authorizes a GPT-5.6 Sol turn through the official local Codex SDK/CLI installation. Generation, product captures, and Remotion rendering remain on that machine.\n\n### Public viewer\n\nThe Vercel build sets `PITCHFLOW_PUBLIC_VIEWER=1`. It serves only a versioned immutable PitchFlow dogfood package committed under `apps/web/public/dogfood/pitchflow/`. The analyze, generate, and export routes return `403 PUBLIC_VIEWER_READ_ONLY` before parsing request bodies. The deployment has no Codex credential, Platform API key, or generation proxy.\n\n## Data flow\n\n1. `packages/core` strictly normalizes a GitHub URL and resolves a commit through fixed GitHub endpoints.\n2. Bounded intake reads metadata, languages, tree entries, README, license, selected manifests, and documentation. It does not clone or execute the target.\n3. Each normalized fact or excerpt becomes an `EvidenceItem` with commit, source URL, content hash, and deterministic ID. The full `RepoSnapshot` receives a deterministic integrity ID.\n4. `packages/codex` re-audits the snapshot, creates an isolated temporary working directory, passes an explicit environment allowlist, and requests JSON Schema output from exactly `gpt-5.6-sol` at high reasoning effort.\n5. A single structured-output repair is permitted for schema errors. Infrastructure failures, tool activity, wrong models…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/docs/ARCHITECTURE.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:80ebed2380f9c026eea4f905027f042c6a615d94cf689b3b28073a1f11d40133"
+      },
+      {
+        "id": "ev_22ca58ad6aa6",
+        "kind": "documentation",
+        "label": "docs/BUILD_WEEK_RULES.md",
+        "path": "docs/BUILD_WEEK_RULES.md",
+        "excerpt": "# OpenAI Build Week rules snapshot\n\nLast grounded: 2026-07-15 Europe/Rome. Re-read these primary pages immediately before submission:\n\n- Official rules: <https://openai.devpost.com/rules>\n- FAQ: <https://openai.devpost.com/details/faqs>\n- Resources: <https://openai.devpost.com/resources>\n- Updates: <https://openai.devpost.com/updates>\n\nPitchFlow's implementation and submission plan reflects the currently observed requirements:\n\n- material use of Codex and GPT-5.6;\n- one category, Developer Tools;\n- a working consistently runnable project and repository URL;\n- English public submission material;\n- developer-tool installation, supported-platform, and judge test instructions;\n- a public YouTube demonstration no longer than three minutes with audio;\n- the primary build task's `/feedback` Session ID;\n- transparent pre-existing/third-party material disclosure and rights; and\n- free judge access through the judging period.\n\nThis file is a dated implementation checklist, not a substitute for the governing official pages.",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/docs/BUILD_WEEK_RULES.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:736e9e0b3365984cafa4728d74df6ff6868fba041f623d430e9d8e4866042fa9"
+      },
+      {
+        "id": "ev_1cf6267e8c8a",
+        "kind": "documentation",
+        "label": "docs/CODEX_COLLABORATION.md",
+        "path": "docs/CODEX_COLLABORATION.md",
+        "excerpt": "# Codex collaboration and GPT-5.6 use\n\n## Material runtime role\n\nCodex is not a decorative chat button in PitchFlow. The local product uses the official TypeScript SDK and the user's existing authenticated Codex entitlement to run GPT-5.6 Sol as the campaign creative director.\n\nThe model receives only:\n\n- the integrity-checked, bounded `RepoSnapshot`;\n- the user's audience, positioning, tone, and channel choices;\n- the exact versioned campaign schema; and\n- explicit evidence, copy, safety, and public/internal-copy rules.\n\nIt must produce the product brief, evidence-backed claims, design tokens, microsite sections, social concepts, carousel narrative, channel copy, and motion scene plan together. This cross-channel synthesis is the core product value and is not replaced by templates in the real path.\n\n## Exact runner\n\n- Provider path: official `@openai/codex-sdk`\n- Required model identifier: `gpt-5.6-sol`\n- Reasoning effort: high\n- Authentication: supported local Codex/ChatGPT sign-in\n- Approval policy: never\n- Sandbox: read-only\n- Working directory: a fresh temporary empty directory\n- Environment: explicit non-secret allowlist needed for the local CLI/auth store\n- Structured output: Zod-derived JSON Schema\n- Schema repair: at most one additional turn\n- Tool activity: hard failure even if the final response otherwise validates\n- Fallback model: none\n\n`inspectCodexAuth()` executes only repository-pinned Codex CLI status/version commands and reports authentication method plus CLI version. It does not parse, copy, log, or return credential values.\n\n## Prompt-injection posture…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/docs/CODEX_COLLABORATION.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:5dd7d87c2e57665e280c20e5b6364d4927f9c61dfca7ee2d85c2dac1000f348b"
+      },
+      {
+        "id": "ev_0f27b3dcb678",
+        "kind": "documentation",
+        "label": "docs/JUDGING.md",
+        "path": "docs/JUDGING.md",
+        "excerpt": "# Judge guide\n\nPitchFlow targets **Developer Tools**. The public viewer is designed to be understandable without a live presentation; the local path proves fresh generation through the judge's own supported Codex authentication.\n\n## Five-minute public path\n\nThe production URL will be inserted here immediately after the pre-authorized Vercel deployment.\n\n1. Open the viewer without signing in.\n2. Confirm the subject is `sickn33/pitchflow` and note the pinned commit.\n3. Open **Evidence** and inspect at least three source records.\n4. Open **Preview**, inspect the real PitchFlow UI captures, and follow claim evidence links.\n5. Open **Copy** and compare the cross-channel launch voice.\n6. Download the static site, images, carousel, two MP4s, copy, manifest, asset index, and ZIP.\n7. Compare the displayed SHA-256 values with the downloaded bytes.\n8. Observe that public analyze/generate/export routes are read-only and that the page directs fresh generation to the local tool.\n\n## Fresh local path\n\n### Supported setup\n\n- macOS or Linux\n- Node.js `>=20.9 <27`\n- pnpm 10.32.1\n- Chrome, Edge, or Chromium\n- an authenticated Codex installation with access to GPT-5.6 Sol\n\n### Launch\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\nThe launcher prints and opens `http://127.0.0.1:3210` only after `/api/status` is healthy. It never binds to the LAN.\n\n### Test\n\n1. Submit a canonical public GitHub URL distinct from the cached PitchFlow campaign.\n2. Confirm the resolved 40-character commit SHA.\n3. Inspect the bounded evidence; submitted repository code is never cloned or executed.\n4. Ad…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/docs/JUDGING.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:c584be8b3e250de154a55d36cc1299469d0ec554ed7863ccf6972c2cbe51faf3"
+      },
+      {
+        "id": "ev_3a4e5181b3d0",
+        "kind": "documentation",
+        "label": "docs/MEDIA_BRIEF.md",
+        "path": "docs/MEDIA_BRIEF.md",
+        "excerpt": "# Motion and capture brief\n\n## Audience contract\n\nPitchFlow motion scenes have two separate fields:\n\n- `audienceCaption`: short, factual copy that may appear on screen;\n- `visualDirection`: internal creative guidance that is never rendered.\n\nThe composition source has a regression test proving it does not reference `visualDirection`. Storyboard verbs such as “open on,” “cut to,” “animate,” “reveal,” and “return to” belong only in internal direction and are forbidden as visible lower-third copy.\n\n## Real UI contract\n\nProduction render and export require 2–4 real local PNG/JPEG product captures. Each capture must include a truthful label, accessibility description, and creator-owned or authorized-use provenance. Remote URLs, HTML, SVG, generated fake interface art, and capture-free output are rejected.\n\nThe final immutable dogfood campaign uses newly captured PitchFlow UI. Earlier VibePalette captures are entrant-owned engineering evidence only and are not the public PitchFlow dogfood subject.\n\n## Motion goals\n\n- 25–40 seconds at 30 fps\n- immediate identity and motion inside the first two seconds\n- continuous purposeful motion without six-second static-card pacing\n- landscape layout built for 1920x1080\n- structurally distinct, social-native portrait layout built for 1080x1920\n- every visual behavior must substantiate the adjacent audience caption\n- closing must prominently show product name, canonical repository URL, and CTA\n- safe areas for platform overlays and caption readability\n\n## Encoding\n\n- H.264 High, yuv420p, BT.709\n- software encoding, x264 slow preset, concurrenc…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/docs/MEDIA_BRIEF.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:702f32a4e1954195a6dfebef0aba8768ff1bbe2db401687fc38499156c14c1e4"
+      },
+      {
+        "id": "ev_6048df300427",
+        "kind": "documentation",
+        "label": "docs/PROVENANCE.md",
+        "path": "docs/PROVENANCE.md",
+        "excerpt": "# Provenance\n\nLast updated: 2026-07-15\n\n## Original implementation\n\nAll PitchFlow application source, schemas, prompts, visual templates, documentation, and generated dogfood material in this repository are being created from scratch during the OpenAI Build Week submission period beginning 2026-07-13 09:00 PT.\n\nThe earlier `https://github.com/alemicali/cursor_meetup` repository is acknowledged as product-concept research only. It has multiple contributors and predates the event. No code, assets, prompts, or Git history from it have been copied, adapted, or imported into this repository.\n\n## Third-party software\n\nPitchFlow uses ordinary package-manager dependencies under their published open-source licenses. The lockfile and generated license inventory are the exact dependency record. Important direct dependencies initially include:\n\n- Next.js and React for the workspace/viewer;\n- Zod for runtime schemas;\n- the official OpenAI Codex TypeScript SDK for local authenticated orchestration;\n- Remotion for deterministic motion rendering;\n- Vitest, ESLint, Prettier, and TypeScript for verification and development.\n\nNo third-party application source is vendored.\n\n### Remotion license\n\nRemotion is required by the Build Week product specification and uses its published custom Remotion License rather than a standard OSI identifier. The [current official Remotion pricing/license page](https://www.remotion.dev/) states that individuals and teams of up to three may use it free, including commercially, without sign-up. PitchFlow is an individual entrant project within that free-license sc…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/docs/PROVENANCE.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:80d962d1d29e65617b74d916661d0c5a59fa0a39c2af597c65873cf2da7e7dbf"
+      },
+      {
+        "id": "ev_8c88a901da89",
+        "kind": "documentation",
+        "label": "docs/TESTING.md",
+        "path": "docs/TESTING.md",
+        "excerpt": "# Testing and acceptance\n\n## Aggregate gate\n\n```bash\npnpm check:all\n```\n\nThe release gate is intended to fail closed. A failed verifier starts a repair loop; required suites are not skipped or relabeled.\n\n## Core suites\n\n- strict GitHub URL/ref normalization and typed upstream failures;\n- byte/file/tree limits, binary exclusion, secret redaction, and no execution;\n- evidence/content/snapshot integrity tamper detection;\n- complete campaign evidence-link audit;\n- exact GPT-5.6 Sol model and schema repair policy;\n- isolated Codex environment and tool-activity rejection;\n- exact image dimensions, deterministic image hashes, HTML escaping, ZIP safety;\n- capture MIME/signature/dimension/count/order/provenance validation;\n- Remotion timeline, safe areas, audience/internal-copy separation, and deterministic smoke;\n- local/public route boundaries and request origin/content-type/body limits;\n- Playwright happy, failure, keyboard/mobile, console, and axe accessibility checks.\n\n## Real smoke commands\n\n```bash\npnpm smoke:github -- --repo https://github.com/owner/repository --output artifacts/verification/run/repo-snapshot.json\npnpm smoke:codex -- --snapshot artifacts/verification/run/repo-snapshot.json --output artifacts/verification/run/campaign-manifest.json\npnpm smoke:render -- --manifest artifacts/verification/run/campaign-manifest.json --snapshot artifacts/verification/run/repo-snapshot.json --output artifacts/exports/run --capture artifacts/verification/run/ui-1.png --capture artifacts/verification/run/ui-2.png\n```\n\nReal Codex smoke uses the current local authenticated entitlemen…",
+        "normalizedFact": null,
+        "sourceUrl": "https://github.com/sickn33/pitchflow/blob/87d70cc297dc4320ed0a3e6aa059739565d0de43/docs/TESTING.md",
+        "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+        "contentHash": "sha256:611c0cdae525f030f14736d86d2602347d648cf1b0a7325b375da635e2440266"
+      }
+    ],
+    "limits": {
+      "discoveredFiles": 114,
+      "includedFiles": 10,
+      "includedBytes": 30664,
+      "truncatedTree": false
+    }
+  },
+  "campaign": {
+    "schemaVersion": "1.1.0",
+    "id": "campaign_a6278deb1d98cf0c",
+    "version": 1,
+    "source": {
+      "snapshotId": "snapshot_a927a47d704ed72b",
+      "repositoryUrl": "https://github.com/sickn33/pitchflow",
+      "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43"
+    },
+    "generation": {
+      "provider": "codex-sdk",
+      "model": "gpt-5.6-sol",
+      "promptVersion": "creative-director-2026-07-15.2",
+      "generatedAt": "2026-07-15T05:37:24.492Z",
+      "threadId": "019f6446-a899-7ac0-9995-b6e936c03427",
+      "repairAttempts": 0,
+      "usage": {
+        "inputTokens": 28353,
+        "cachedInputTokens": 0,
+        "outputTokens": 3902,
+        "reasoningOutputTokens": 849
+      }
+    },
+    "productBrief": {
+      "productName": "PitchFlow",
+      "oneLiner": "Turn a pinned GitHub repository into one evidence-linked launch campaign.",
+      "problem": "Developers can finish the product while its launch story remains fragmented across copy, visuals, video, and export formats.",
+      "audience": [
+        "Indie developers",
+        "Open-source maintainers",
+        "Developer-tool teams"
+      ],
+      "positioning": "A local-first, repo-native launch studio that grounds a complete cross-channel campaign in bounded evidence from one pinned repository commit.",
+      "tone": "precise",
+      "differentiators": [
+        "Pins a specific commit and preserves evidence links throughout the campaign",
+        "Reads bounded repository evidence without cloning or executing the target project",
+        "Uses GPT-5.6 Sol through the developer's authenticated local Codex workflow",
+        "Drives microsite, graphics, carousel, copy, videos, and export metadata from one validated campaign manifest",
+        "Keeps fresh analysis and generation local while exposing a read-only public viewer"
+      ],
+      "evidenceIds": [
+        "ev_e4de1a810bfa",
+        "ev_bbbf6eefa042",
+        "ev_d5f3383efcb7",
+        "ev_1cf6267e8c8a",
+        "ev_0f27b3dcb678"
+      ]
+    },
+    "claims": [
+      {
+        "id": "claim_01",
+        "text": "PitchFlow is a local-first, repo-native AI launch studio.",
+        "classification": "fact",
+        "confidence": 0.99,
+        "evidenceIds": [
+          "ev_bbbf6eefa042"
+        ],
+        "evidencePath": "README.md",
+        "evidenceExcerpt": "# PitchFlow\n\n> Ship the code. PitchFlow ships the story.\n\nPitchFlow is a local-first, repo-native AI launch studio built from scratch for OpenAI Build Week in the **Developer Tools** category. Give it a canonical public GitHub repository URL. It pins one commit, gathers bounded evidence without cloning or executing the project, and asks **GPT-5.6 Sol through your authenticated local Codex workflow** to direct an evidence-linked campaign.\n\nOne validated `CampaignManifest` then drives:\n\n- a responsive static microsite with real product UI captures;\n- Open Graph, X, LinkedIn, and Instagram graphics at exact dimensions;\n- a five-slide 1080x1350 carousel;\n- X, LinkedIn, Product Hunt, email, headline, and CTA copy;\n- reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and\n- a checksummed asset index plus traversal-safe ZIP.\n\nThe public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.\n\n## Judge path\n\nThe final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.\n\nFor the shortest local inspection:\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\n`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.\n\nThen:\n\n1. paste a canonical public URL such as `https://gi…",
+        "approvalRequired": false,
+        "rationale": "The README describes the product in these terms directly."
+      },
+      {
+        "id": "claim_02",
+        "text": "PitchFlow resolves a canonical public GitHub repository URL to a pinned commit and gathers bounded evidence without cloning or executing the project.",
+        "classification": "fact",
+        "confidence": 0.99,
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_d5f3383efcb7"
+        ],
+        "evidencePath": "README.md",
+        "evidenceExcerpt": "# PitchFlow\n\n> Ship the code. PitchFlow ships the story.\n\nPitchFlow is a local-first, repo-native AI launch studio built from scratch for OpenAI Build Week in the **Developer Tools** category. Give it a canonical public GitHub repository URL. It pins one commit, gathers bounded evidence without cloning or executing the project, and asks **GPT-5.6 Sol through your authenticated local Codex workflow** to direct an evidence-linked campaign.\n\nOne validated `CampaignManifest` then drives:\n\n- a responsive static microsite with real product UI captures;\n- Open Graph, X, LinkedIn, and Instagram graphics at exact dimensions;\n- a five-slide 1080x1350 carousel;\n- X, LinkedIn, Product Hunt, email, headline, and CTA copy;\n- reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and\n- a checksummed asset index plus traversal-safe ZIP.\n\nThe public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.\n\n## Judge path\n\nThe final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.\n\nFor the shortest local inspection:\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\n`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.\n\nThen:\n\n1. paste a canonical public URL such as `https://gi…",
+        "approvalRequired": false,
+        "rationale": "The README and architecture documentation explicitly describe repository intake, commit resolution, bounded evidence, and the no-clone, no-execution boundary."
+      },
+      {
+        "id": "claim_03",
+        "text": "Campaign generation runs through GPT-5.6 Sol using the official Codex TypeScript SDK and the developer's supported local Codex authentication.",
+        "classification": "fact",
+        "confidence": 0.98,
+        "evidenceIds": [
+          "ev_1cf6267e8c8a",
+          "ev_d5f3383efcb7"
+        ],
+        "evidencePath": "docs/CODEX_COLLABORATION.md",
+        "evidenceExcerpt": "# Codex collaboration and GPT-5.6 use\n\n## Material runtime role\n\nCodex is not a decorative chat button in PitchFlow. The local product uses the official TypeScript SDK and the user's existing authenticated Codex entitlement to run GPT-5.6 Sol as the campaign creative director.\n\nThe model receives only:\n\n- the integrity-checked, bounded `RepoSnapshot`;\n- the user's audience, positioning, tone, and channel choices;\n- the exact versioned campaign schema; and\n- explicit evidence, copy, safety, and public/internal-copy rules.\n\nIt must produce the product brief, evidence-backed claims, design tokens, microsite sections, social concepts, carousel narrative, channel copy, and motion scene plan together. This cross-channel synthesis is the core product value and is not replaced by templates in the real path.\n\n## Exact runner\n\n- Provider path: official `@openai/codex-sdk`\n- Required model identifier: `gpt-5.6-sol`\n- Reasoning effort: high\n- Authentication: supported local Codex/ChatGPT sign-in\n- Approval policy: never\n- Sandbox: read-only\n- Working directory: a fresh temporary empty directory\n- Environment: explicit non-secret allowlist needed for the local CLI/auth store\n- Structured output: Zod-derived JSON Schema\n- Schema repair: at most one additional turn\n- Tool activity: hard failure even if the final response otherwise validates\n- Fallback model: none\n\n`inspectCodexAuth()` executes only repository-pinned Codex CLI status/version commands and reports authentication method plus CLI version. It does not parse, copy, log, or return credential values.\n\n## Prompt-injection posture…",
+        "approvalRequired": false,
+        "rationale": "The Codex collaboration and architecture documents specify the model, SDK path, and local authentication flow."
+      },
+      {
+        "id": "claim_04",
+        "text": "One validated CampaignManifest drives the microsite, social graphics, five-slide carousel, channel copy, two video formats, asset index, and ZIP export.",
+        "classification": "fact",
+        "confidence": 0.99,
+        "evidenceIds": [
+          "ev_bbbf6eefa042"
+        ],
+        "evidencePath": "README.md",
+        "evidenceExcerpt": "# PitchFlow\n\n> Ship the code. PitchFlow ships the story.\n\nPitchFlow is a local-first, repo-native AI launch studio built from scratch for OpenAI Build Week in the **Developer Tools** category. Give it a canonical public GitHub repository URL. It pins one commit, gathers bounded evidence without cloning or executing the project, and asks **GPT-5.6 Sol through your authenticated local Codex workflow** to direct an evidence-linked campaign.\n\nOne validated `CampaignManifest` then drives:\n\n- a responsive static microsite with real product UI captures;\n- Open Graph, X, LinkedIn, and Instagram graphics at exact dimensions;\n- a five-slide 1080x1350 carousel;\n- X, LinkedIn, Product Hunt, email, headline, and CTA copy;\n- reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and\n- a checksummed asset index plus traversal-safe ZIP.\n\nThe public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.\n\n## Judge path\n\nThe final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.\n\nFor the shortest local inspection:\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\n`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.\n\nThen:\n\n1. paste a canonical public URL such as `https://gi…",
+        "approvalRequired": false,
+        "rationale": "The README directly lists these outputs as products of one validated CampaignManifest."
+      },
+      {
+        "id": "claim_05",
+        "text": "PitchFlow creates product briefs, evidence-backed claims, design tokens, site sections, social concepts, carousel narrative, channel copy, and motion plans as one structured output.",
+        "classification": "fact",
+        "confidence": 0.98,
+        "evidenceIds": [
+          "ev_1cf6267e8c8a"
+        ],
+        "evidencePath": "docs/CODEX_COLLABORATION.md",
+        "evidenceExcerpt": "# Codex collaboration and GPT-5.6 use\n\n## Material runtime role\n\nCodex is not a decorative chat button in PitchFlow. The local product uses the official TypeScript SDK and the user's existing authenticated Codex entitlement to run GPT-5.6 Sol as the campaign creative director.\n\nThe model receives only:\n\n- the integrity-checked, bounded `RepoSnapshot`;\n- the user's audience, positioning, tone, and channel choices;\n- the exact versioned campaign schema; and\n- explicit evidence, copy, safety, and public/internal-copy rules.\n\nIt must produce the product brief, evidence-backed claims, design tokens, microsite sections, social concepts, carousel narrative, channel copy, and motion scene plan together. This cross-channel synthesis is the core product value and is not replaced by templates in the real path.\n\n## Exact runner\n\n- Provider path: official `@openai/codex-sdk`\n- Required model identifier: `gpt-5.6-sol`\n- Reasoning effort: high\n- Authentication: supported local Codex/ChatGPT sign-in\n- Approval policy: never\n- Sandbox: read-only\n- Working directory: a fresh temporary empty directory\n- Environment: explicit non-secret allowlist needed for the local CLI/auth store\n- Structured output: Zod-derived JSON Schema\n- Schema repair: at most one additional turn\n- Tool activity: hard failure even if the final response otherwise validates\n- Fallback model: none\n\n`inspectCodexAuth()` executes only repository-pinned Codex CLI status/version commands and reports authentication method plus CLI version. It does not parse, copy, log, or return credential values.\n\n## Prompt-injection posture…",
+        "approvalRequired": false,
+        "rationale": "The Codex collaboration document explicitly enumerates the structured campaign components."
+      },
+      {
+        "id": "claim_06",
+        "text": "Fresh analysis, generation, product capture, and video rendering remain on the developer's machine.",
+        "classification": "fact",
+        "confidence": 0.98,
+        "evidenceIds": [
+          "ev_d5f3383efcb7",
+          "ev_bbbf6eefa042"
+        ],
+        "evidencePath": "docs/ARCHITECTURE.md",
+        "evidenceExcerpt": "# Architecture\n\n## System boundary\n\nPitchFlow has two deliberately different runtime modes.\n\n### Local workspace\n\n`pnpm pitchflow` binds Next.js to loopback only. The developer submits a public GitHub URL, reviews a bounded evidence snapshot, and explicitly authorizes a GPT-5.6 Sol turn through the official local Codex SDK/CLI installation. Generation, product captures, and Remotion rendering remain on that machine.\n\n### Public viewer\n\nThe Vercel build sets `PITCHFLOW_PUBLIC_VIEWER=1`. It serves only a versioned immutable PitchFlow dogfood package committed under `apps/web/public/dogfood/pitchflow/`. The analyze, generate, and export routes return `403 PUBLIC_VIEWER_READ_ONLY` before parsing request bodies. The deployment has no Codex credential, Platform API key, or generation proxy.\n\n## Data flow\n\n1. `packages/core` strictly normalizes a GitHub URL and resolves a commit through fixed GitHub endpoints.\n2. Bounded intake reads metadata, languages, tree entries, README, license, selected manifests, and documentation. It does not clone or execute the target.\n3. Each normalized fact or excerpt becomes an `EvidenceItem` with commit, source URL, content hash, and deterministic ID. The full `RepoSnapshot` receives a deterministic integrity ID.\n4. `packages/codex` re-audits the snapshot, creates an isolated temporary working directory, passes an explicit environment allowlist, and requests JSON Schema output from exactly `gpt-5.6-sol` at high reasoning effort.\n5. A single structured-output repair is permitted for schema errors. Infrastructure failures, tool activity, wrong models…",
+        "approvalRequired": false,
+        "rationale": "The architecture and README explicitly define these operations as local."
+      },
+      {
+        "id": "claim_07",
+        "text": "The public viewer serves an immutable dogfood package and rejects analyze, generate, and export requests as read-only.",
+        "classification": "fact",
+        "confidence": 0.98,
+        "evidenceIds": [
+          "ev_d5f3383efcb7"
+        ],
+        "evidencePath": "docs/ARCHITECTURE.md",
+        "evidenceExcerpt": "# Architecture\n\n## System boundary\n\nPitchFlow has two deliberately different runtime modes.\n\n### Local workspace\n\n`pnpm pitchflow` binds Next.js to loopback only. The developer submits a public GitHub URL, reviews a bounded evidence snapshot, and explicitly authorizes a GPT-5.6 Sol turn through the official local Codex SDK/CLI installation. Generation, product captures, and Remotion rendering remain on that machine.\n\n### Public viewer\n\nThe Vercel build sets `PITCHFLOW_PUBLIC_VIEWER=1`. It serves only a versioned immutable PitchFlow dogfood package committed under `apps/web/public/dogfood/pitchflow/`. The analyze, generate, and export routes return `403 PUBLIC_VIEWER_READ_ONLY` before parsing request bodies. The deployment has no Codex credential, Platform API key, or generation proxy.\n\n## Data flow\n\n1. `packages/core` strictly normalizes a GitHub URL and resolves a commit through fixed GitHub endpoints.\n2. Bounded intake reads metadata, languages, tree entries, README, license, selected manifests, and documentation. It does not clone or execute the target.\n3. Each normalized fact or excerpt becomes an `EvidenceItem` with commit, source URL, content hash, and deterministic ID. The full `RepoSnapshot` receives a deterministic integrity ID.\n4. `packages/codex` re-audits the snapshot, creates an isolated temporary working directory, passes an explicit environment allowlist, and requests JSON Schema output from exactly `gpt-5.6-sol` at high reasoning effort.\n5. A single structured-output repair is permitted for schema errors. Infrastructure failures, tool activity, wrong models…",
+        "approvalRequired": false,
+        "rationale": "The architecture document describes the immutable viewer and its read-only route behavior."
+      },
+      {
+        "id": "claim_08",
+        "text": "Production render and export require two to four real local product captures with labels, accessibility descriptions, and authorized provenance.",
+        "classification": "fact",
+        "confidence": 0.98,
+        "evidenceIds": [
+          "ev_3a4e5181b3d0"
+        ],
+        "evidencePath": "docs/MEDIA_BRIEF.md",
+        "evidenceExcerpt": "# Motion and capture brief\n\n## Audience contract\n\nPitchFlow motion scenes have two separate fields:\n\n- `audienceCaption`: short, factual copy that may appear on screen;\n- `visualDirection`: internal creative guidance that is never rendered.\n\nThe composition source has a regression test proving it does not reference `visualDirection`. Storyboard verbs such as “open on,” “cut to,” “animate,” “reveal,” and “return to” belong only in internal direction and are forbidden as visible lower-third copy.\n\n## Real UI contract\n\nProduction render and export require 2–4 real local PNG/JPEG product captures. Each capture must include a truthful label, accessibility description, and creator-owned or authorized-use provenance. Remote URLs, HTML, SVG, generated fake interface art, and capture-free output are rejected.\n\nThe final immutable dogfood campaign uses newly captured PitchFlow UI. Earlier VibePalette captures are entrant-owned engineering evidence only and are not the public PitchFlow dogfood subject.\n\n## Motion goals\n\n- 25–40 seconds at 30 fps\n- immediate identity and motion inside the first two seconds\n- continuous purposeful motion without six-second static-card pacing\n- landscape layout built for 1920x1080\n- structurally distinct, social-native portrait layout built for 1080x1920\n- every visual behavior must substantiate the adjacent audience caption\n- closing must prominently show product name, canonical repository URL, and CTA\n- safe areas for platform overlays and caption readability\n\n## Encoding\n\n- H.264 High, yuv420p, BT.709\n- software encoding, x264 slow preset, concurrenc…",
+        "approvalRequired": false,
+        "rationale": "The media brief states these capture requirements directly."
+      }
+    ],
+    "design": {
+      "accent": "#5CE1E6",
+      "accentAlt": "#8B7CFF",
+      "background": "#07111F",
+      "surface": "#101D2E",
+      "text": "#F5F8FC",
+      "muted": "#9AABBE",
+      "radius": 14,
+      "displayFont": "system-sans"
+    },
+    "sections": [
+      {
+        "id": "hero",
+        "eyebrow": "Repository in. Launch system out.",
+        "heading": "Ship the code. PitchFlow ships the story.",
+        "body": "Give PitchFlow a canonical public GitHub repository. It pins one commit, gathers bounded evidence, and directs an evidence-linked campaign through GPT-5.6 Sol in your local Codex workflow.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_1cf6267e8c8a"
+        ]
+      },
+      {
+        "id": "repository",
+        "eyebrow": "A precise starting point",
+        "heading": "Ground the narrative in a pinned commit.",
+        "body": "PitchFlow normalizes the repository URL, resolves a commit, and collects selected metadata, documentation, manifests, and source records without cloning or executing the target project.",
+        "evidenceIds": [
+          "ev_d5f3383efcb7"
+        ]
+      },
+      {
+        "id": "evidence",
+        "eyebrow": "Traceable by design",
+        "heading": "Keep every product claim connected to its source.",
+        "body": "Repository excerpts become deterministic evidence records carrying their commit, source URL, content hash, and identifier. The resulting snapshot is checked for integrity before generation.",
+        "evidenceIds": [
+          "ev_d5f3383efcb7"
+        ]
+      },
+      {
+        "id": "campaign",
+        "eyebrow": "One creative system",
+        "heading": "Direct the entire campaign together.",
+        "body": "A structured model turn produces the brief, claims, design, site narrative, social concepts, carousel, channel copy, and motion plan as one evidence-aware campaign.",
+        "evidenceIds": [
+          "ev_1cf6267e8c8a"
+        ]
+      },
+      {
+        "id": "exports",
+        "eyebrow": "Built for handoff",
+        "heading": "Export the campaign, not a loose collection of drafts.",
+        "body": "One validated manifest drives a static microsite, exact-size social graphics, a five-slide carousel, channel copy, landscape and portrait videos, a checksummed asset index, and a traversal-safe ZIP.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042"
+        ]
+      },
+      {
+        "id": "local",
+        "eyebrow": "Local generation boundary",
+        "heading": "Keep fresh generation on the developer's machine.",
+        "body": "Repository analysis, Codex generation, product capture, and Remotion rendering stay local. The public viewer exposes only a versioned, immutable, read-only dogfood package.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_d5f3383efcb7"
+        ]
+      }
+    ],
+    "socialCards": [
+      {
+        "headline": "Ship the code. PitchFlow ships the story.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042"
+        ]
+      },
+      {
+        "headline": "One pinned repository. One evidence-linked campaign.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_d5f3383efcb7"
+        ]
+      },
+      {
+        "headline": "From source evidence to site, social, copy, and video.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_1cf6267e8c8a"
+        ]
+      }
+    ],
+    "carousel": [
+      {
+        "index": 1,
+        "eyebrow": "01 — The gap",
+        "headline": "The product is shipped. The launch story is still scattered.",
+        "body": "PitchFlow gives developer teams one structured place to shape the narrative and its campaign assets.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_1cf6267e8c8a"
+        ]
+      },
+      {
+        "index": 2,
+        "eyebrow": "02 — The source",
+        "headline": "Start with the repository, not a blank prompt.",
+        "body": "Submit a canonical public GitHub URL. PitchFlow resolves one commit and gathers a bounded evidence snapshot.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_d5f3383efcb7"
+        ]
+      },
+      {
+        "index": 3,
+        "eyebrow": "03 — The proof",
+        "headline": "Make the source trail part of the campaign.",
+        "body": "Evidence records retain their commit, source URL, content hash, and deterministic identifier for campaign-wide auditing.",
+        "evidenceIds": [
+          "ev_d5f3383efcb7"
+        ]
+      },
+      {
+        "index": 4,
+        "eyebrow": "04 — The direction",
+        "headline": "Create every launch surface as one narrative.",
+        "body": "GPT-5.6 Sol directs the brief, claims, design, microsite, social concepts, channel copy, carousel, and motion plan together.",
+        "evidenceIds": [
+          "ev_1cf6267e8c8a"
+        ]
+      },
+      {
+        "index": 5,
+        "eyebrow": "05 — The handoff",
+        "headline": "Export a complete, verifiable launch package.",
+        "body": "Generate the static site, graphics, carousel, copy, landscape and portrait videos, asset checksums, and safe ZIP from one manifest.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042"
+        ]
+      }
+    ],
+    "copy": {
+      "x": "Ship the code. PitchFlow ships the story.\n\nGive it a public GitHub repository. It pins one commit, gathers bounded evidence, and uses GPT-5.6 Sol through local Codex to direct the site, social assets, copy, carousel, and video.\n\nExplore the source: https://github.com/sickn33/pitchflow",
+      "linkedIn": "Launching PitchFlow: a local-first, repo-native AI launch studio for developers who want the campaign to be as rigorous as the code.\n\nPitchFlow starts from a canonical public GitHub repository, resolves a pinned commit, and gathers bounded evidence without cloning or executing the target project. GPT-5.6 Sol then works through the developer's authenticated local Codex workflow to direct one structured campaign.\n\nThat campaign can drive a static microsite, exact-size social graphics, a five-slide carousel, X and LinkedIn copy, Product Hunt copy, email, landscape and portrait videos, checksums, and a safe ZIP export.\n\nThe result is a launch narrative connected to repository evidence from intake through export.\n\nExplore the source repository: https://github.com/sickn33/pitchflow",
+      "productHunt": {
+        "name": "PitchFlow",
+        "tagline": "Evidence-grounded campaigns from your GitHub repository",
+        "description": "PitchFlow is a local-first, repo-native AI launch studio. Give it a canonical public GitHub repository URL and it resolves a pinned commit, gathers bounded evidence without cloning or executing the project, and uses GPT-5.6 Sol through your authenticated local Codex workflow to direct a complete campaign. One validated manifest drives a static microsite, social graphics, a five-slide carousel, channel copy, landscape and portrait videos, a checksummed asset index, and a traversal-safe ZIP.",
+        "firstComment": "Hi Product Hunt — PitchFlow began with a simple premise: a developer tool's launch story should be grounded in the product's actual repository. The local workflow pins a commit, lets you inspect bounded evidence, and then asks GPT-5.6 Sol through Codex to direct the campaign as one structured system. Fresh analysis and generation remain on your machine, while the public viewer is an immutable, read-only dogfood package. The project is MIT licensed, and the source is available at https://github.com/sickn33/pitchflow."
+      },
+      "email": {
+        "subject": "Meet PitchFlow: launch campaigns grounded in your repository",
+        "body": "You shipped the code. PitchFlow helps ship the story.\n\nStart with a canonical public GitHub repository. PitchFlow pins one commit, collects bounded evidence without cloning or executing the project, and uses GPT-5.6 Sol through your authenticated local Codex workflow to direct an evidence-linked campaign.\n\nOne validated manifest can drive the microsite, social graphics, five-slide carousel, channel copy, landscape and portrait videos, checksums, and ZIP export.\n\nExplore the source repository:\nhttps://github.com/sickn33/pitchflow"
+      },
+      "headlineVariants": [
+        "Turn repository evidence into a complete launch campaign.",
+        "One pinned commit. Every launch surface.",
+        "Your repository already contains the story.",
+        "Direct the launch from the source of truth.",
+        "From GitHub evidence to a unified campaign."
+      ],
+      "ctaVariants": [
+        "Explore the source repository",
+        "Inspect the evidence flow",
+        "Run PitchFlow locally",
+        "See the campaign system",
+        "Ship the story"
+      ],
+      "evidenceIds": [
+        "ev_e4de1a810bfa",
+        "ev_bbbf6eefa042",
+        "ev_b68750f8f8e7",
+        "ev_d5f3383efcb7",
+        "ev_1cf6267e8c8a"
+      ]
+    },
+    "video": {
+      "fps": 30,
+      "durationSeconds": 36,
+      "scenes": [
+        {
+          "index": 1,
+          "startFrame": 0,
+          "durationFrames": 180,
+          "title": "Identity",
+          "audienceCaption": "Ship the code. PitchFlow ships the story.",
+          "visualDirection": "Open on a restrained repository grid, then bring the PitchFlow wordmark into sharp focus with immediate, purposeful motion.",
+          "evidenceIds": [
+            "ev_bbbf6eefa042"
+          ],
+          "visual": "opening"
+        },
+        {
+          "index": 2,
+          "startFrame": 180,
+          "durationFrames": 180,
+          "title": "Pinned source",
+          "audienceCaption": "Begin with one public repository and one pinned commit.",
+          "visualDirection": "Move from the canonical GitHub URL into a commit card, using a precise lock-in transition to establish the source boundary.",
+          "evidenceIds": [
+            "ev_bbbf6eefa042",
+            "ev_d5f3383efcb7"
+          ],
+          "visual": "repository"
+        },
+        {
+          "index": 3,
+          "startFrame": 360,
+          "durationFrames": 180,
+          "title": "Evidence trail",
+          "audienceCaption": "Bounded evidence keeps the campaign tied to the source.",
+          "visualDirection": "Reveal compact evidence records with source URL, commit, and integrity markers; connect them to claims with clean tracing lines.",
+          "evidenceIds": [
+            "ev_d5f3383efcb7"
+          ],
+          "visual": "evidence"
+        },
+        {
+          "index": 4,
+          "startFrame": 540,
+          "durationFrames": 180,
+          "title": "Campaign direction",
+          "audienceCaption": "Brief, claims, design, copy, and motion—directed together.",
+          "visualDirection": "Cut to the workspace and sequence through the structured campaign panels while maintaining one continuous visual thread.",
+          "evidenceIds": [
+            "ev_1cf6267e8c8a"
+          ],
+          "visual": "workspace"
+        },
+        {
+          "index": 5,
+          "startFrame": 720,
+          "durationFrames": 180,
+          "title": "Complete handoff",
+          "audienceCaption": "Export the site, social assets, carousel, copy, and video.",
+          "visualDirection": "Fan out the generated surfaces from the manifest, ending on the asset index, checksums, and ZIP package.",
+          "evidenceIds": [
+            "ev_bbbf6eefa042"
+          ],
+          "visual": "exports"
+        },
+        {
+          "index": 6,
+          "startFrame": 900,
+          "durationFrames": 180,
+          "title": "Source CTA",
+          "audienceCaption": "Explore PitchFlow at github.com/sickn33/pitchflow.",
+          "visualDirection": "Return to the PitchFlow identity with the canonical repository URL prominent, readable, and held inside platform-safe areas.",
+          "evidenceIds": [
+            "ev_e4de1a810bfa",
+            "ev_3a4e5181b3d0"
+          ],
+          "visual": "closing"
+        }
+      ]
+    }
+  },
+  "assets": [
+    {
+      "label": "Campaign microsite",
+      "href": "/dogfood/pitchflow/v1/site/index.html",
+      "mediaType": "text/html",
+      "bytes": 11888,
+      "sha256": "5538b25e3120e93931582f432b809c9d66bafaca4de5d9b1a717d13e9e9fa62e"
+    },
+    {
+      "label": "Microsite stylesheet",
+      "href": "/dogfood/pitchflow/v1/site/styles.css",
+      "mediaType": "text/css",
+      "bytes": 4721,
+      "sha256": "867855ed9627577c2f48985863cef07f1fee154165cc4cc0fbb63b0eb3bedbdf"
+    },
+    {
+      "label": "Structured channel copy",
+      "href": "/dogfood/pitchflow/v1/copy/campaign.json",
+      "mediaType": "application/json",
+      "bytes": 3561,
+      "sha256": "6e83b661738704843e42e807b0740f42300c9d356c768336918aed6de7de1fa6"
+    },
+    {
+      "label": "Channel copy pack",
+      "href": "/dogfood/pitchflow/v1/copy/campaign.md",
+      "mediaType": "text/markdown",
+      "bytes": 3376,
+      "sha256": "e955ffada1c01bc07ddb60d62895e73a0491c0125b3a4d0ac5f3eb2ae17da64a"
+    },
+    {
+      "label": "Campaign manifest",
+      "href": "/dogfood/pitchflow/v1/campaign-manifest.json",
+      "mediaType": "application/json",
+      "bytes": 30711,
+      "sha256": "06a171624d4585032f3de27250a28135e1567ab71c29ac2b7327998cedee00ce"
+    },
+    {
+      "label": "Pinned repository evidence",
+      "href": "/dogfood/pitchflow/v1/repository-snapshot.json",
+      "mediaType": "application/json",
+      "bytes": 37946,
+      "sha256": "5a95b611e1e4a7f22b2dd66fd744b689d4ea36b49a4ddee358e7ae0f05994b0c"
+    },
+    {
+      "label": "Product capture provenance",
+      "href": "/dogfood/pitchflow/v1/capture-provenance.json",
+      "mediaType": "application/json",
+      "bytes": 2250,
+      "sha256": "87bf83d7438f3af47aeefde0c6e7fdcfea822099629f01374224585e85db6a2a"
+    },
+    {
+      "label": "Open Graph image",
+      "href": "/dogfood/pitchflow/v1/images/og-1200x630.png",
+      "mediaType": "image/png",
+      "bytes": 78232,
+      "sha256": "2675d8fe434a1308d170539f47b7193dc0063fbec41713171e5f43e019f349a8"
+    },
+    {
+      "label": "X launch image",
+      "href": "/dogfood/pitchflow/v1/images/x-1600x900.png",
+      "mediaType": "image/png",
+      "bytes": 109856,
+      "sha256": "fa415146bf78d06abbfb134a5c9a300ac285bc06573e4acf6cfcebe0aa13c4e6"
+    },
+    {
+      "label": "LinkedIn launch image",
+      "href": "/dogfood/pitchflow/v1/images/linkedin-1200x627.png",
+      "mediaType": "image/png",
+      "bytes": 79403,
+      "sha256": "96e443eef968c98e5fd1c042ce36ef3b8e59b51e463a6b9249dffd36c78802ce"
+    },
+    {
+      "label": "Instagram launch image",
+      "href": "/dogfood/pitchflow/v1/images/instagram-1080x1080.png",
+      "mediaType": "image/png",
+      "bytes": 103687,
+      "sha256": "554e85efd866792ac7788388e2c3fea155f5b915bde66a3b21ee0b07271f5a2b"
+    },
+    {
+      "label": "Carousel slide 1",
+      "href": "/dogfood/pitchflow/v1/carousel/slide-01-1080x1350.png",
+      "mediaType": "image/png",
+      "bytes": 123050,
+      "sha256": "6bc579d59679a0a9751fdfadaff478da2bb72a15f93d06d45bab8b56bc9d194a"
+    },
+    {
+      "label": "Carousel slide 2",
+      "href": "/dogfood/pitchflow/v1/carousel/slide-02-1080x1350.png",
+      "mediaType": "image/png",
+      "bytes": 120244,
+      "sha256": "3da8617b46f1780f68fdf02144136cdfb827851bddb6964065e2b38f6e2c0646"
+    },
+    {
+      "label": "Carousel slide 3",
+      "href": "/dogfood/pitchflow/v1/carousel/slide-03-1080x1350.png",
+      "mediaType": "image/png",
+      "bytes": 113985,
+      "sha256": "e240453212655168a0c8065ffce8d5ef847e777b38f43606ef699e32a5bc8966"
+    },
+    {
+      "label": "Carousel slide 4",
+      "href": "/dogfood/pitchflow/v1/carousel/slide-04-1080x1350.png",
+      "mediaType": "image/png",
+      "bytes": 117369,
+      "sha256": "dd47509bee3b6d8882aef1284fdca793027bf9be7e0b9e5362c057f361fa508c"
+    },
+    {
+      "label": "Carousel slide 5",
+      "href": "/dogfood/pitchflow/v1/carousel/slide-05-1080x1350.png",
+      "mediaType": "image/png",
+      "bytes": 117532,
+      "sha256": "3e1faa745cf649bfea0afc3666dcfdd75852e2847c17f74dd72621974d467098"
+    },
+    {
+      "label": "Real product UI capture 1",
+      "href": "/dogfood/pitchflow/v1/images/product-capture-01.png",
+      "mediaType": "image/png",
+      "bytes": 238771,
+      "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7"
+    },
+    {
+      "label": "Real product UI capture 2",
+      "href": "/dogfood/pitchflow/v1/images/product-capture-02.png",
+      "mediaType": "image/png",
+      "bytes": 359473,
+      "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2"
+    },
+    {
+      "label": "Real product UI capture 3",
+      "href": "/dogfood/pitchflow/v1/images/product-capture-03.png",
+      "mediaType": "image/png",
+      "bytes": 278991,
+      "sha256": "8933f20014ff072777d10eb57437d99638cf622a34a22ca370d75daec6f14e7e"
+    },
+    {
+      "label": "Real product UI capture 4",
+      "href": "/dogfood/pitchflow/v1/images/product-capture-04.png",
+      "mediaType": "image/png",
+      "bytes": 444156,
+      "sha256": "99560315c64fe328144d97d8623dae97ff7562e5a9cdfb3af6973882363d7ae7"
+    },
+    {
+      "label": "Landscape campaign master",
+      "href": "/dogfood/pitchflow/v1/videos/launch-landscape-1920x1080.mp4",
+      "mediaType": "video/mp4",
+      "bytes": 41078320,
+      "sha256": "32743c9f4f6dd87e0b51cae9776361bb84c9dd50999ae942270d01201ac9639e"
+    },
+    {
+      "label": "Portrait campaign master",
+      "href": "/dogfood/pitchflow/v1/videos/launch-portrait-1080x1920.mp4",
+      "mediaType": "video/mp4",
+      "bytes": 48468846,
+      "sha256": "2de969b9dad2dcb53cadc21313f6fc541de2557100e9f202d490083cf9efc094"
+    },
+    {
+      "label": "Video render receipt",
+      "href": "/dogfood/pitchflow/v1/video-render-metadata.json",
+      "mediaType": "application/json",
+      "bytes": 7707,
+      "sha256": "9b024aea1240d195b389052c6a6237a3134d92d6b6fe9ca3a91b4d98dadb66fb"
+    },
+    {
+      "label": "Checksummed asset index",
+      "href": "/dogfood/pitchflow/v1/asset-index.json",
+      "mediaType": "application/json",
+      "bytes": 9373,
+      "sha256": "df9730316f48acf3700327c1d6d10ba9122d19263312af7aec3d7911d530603f"
+    },
+    {
+      "label": "Complete campaign ZIP",
+      "href": "/dogfood/pitchflow/v1/pitchflow-campaign.zip",
+      "mediaType": "application/zip",
+      "bytes": 91837588,
+      "sha256": "fde4380e466b8697ddadc09de52cb799926651e497e8b7a727979701f472e2fd"
+    }
+  ]
+}

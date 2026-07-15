@@ -1,0 +1,413 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "campaign_a6278deb1d98cf0c",
+  "version": 1,
+  "source": {
+    "snapshotId": "snapshot_a927a47d704ed72b",
+    "repositoryUrl": "https://github.com/sickn33/pitchflow",
+    "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43"
+  },
+  "generation": {
+    "provider": "codex-sdk",
+    "model": "gpt-5.6-sol",
+    "promptVersion": "creative-director-2026-07-15.2",
+    "generatedAt": "2026-07-15T05:37:24.492Z",
+    "threadId": "019f6446-a899-7ac0-9995-b6e936c03427",
+    "repairAttempts": 0,
+    "usage": {
+      "inputTokens": 28353,
+      "cachedInputTokens": 0,
+      "outputTokens": 3902,
+      "reasoningOutputTokens": 849
+    }
+  },
+  "productBrief": {
+    "productName": "PitchFlow",
+    "oneLiner": "Turn a pinned GitHub repository into one evidence-linked launch campaign.",
+    "problem": "Developers can finish the product while its launch story remains fragmented across copy, visuals, video, and export formats.",
+    "audience": [
+      "Indie developers",
+      "Open-source maintainers",
+      "Developer-tool teams"
+    ],
+    "positioning": "A local-first, repo-native launch studio that grounds a complete cross-channel campaign in bounded evidence from one pinned repository commit.",
+    "tone": "precise",
+    "differentiators": [
+      "Pins a specific commit and preserves evidence links throughout the campaign",
+      "Reads bounded repository evidence without cloning or executing the target project",
+      "Uses GPT-5.6 Sol through the developer's authenticated local Codex workflow",
+      "Drives microsite, graphics, carousel, copy, videos, and export metadata from one validated campaign manifest",
+      "Keeps fresh analysis and generation local while exposing a read-only public viewer"
+    ],
+    "evidenceIds": [
+      "ev_e4de1a810bfa",
+      "ev_bbbf6eefa042",
+      "ev_d5f3383efcb7",
+      "ev_1cf6267e8c8a",
+      "ev_0f27b3dcb678"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim_01",
+      "text": "PitchFlow is a local-first, repo-native AI launch studio.",
+      "classification": "fact",
+      "confidence": 0.99,
+      "evidenceIds": [
+        "ev_bbbf6eefa042"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# PitchFlow\n\n> Ship the code. PitchFlow ships the story.\n\nPitchFlow is a local-first, repo-native AI launch studio built from scratch for OpenAI Build Week in the **Developer Tools** category. Give it a canonical public GitHub repository URL. It pins one commit, gathers bounded evidence without cloning or executing the project, and asks **GPT-5.6 Sol through your authenticated local Codex workflow** to direct an evidence-linked campaign.\n\nOne validated `CampaignManifest` then drives:\n\n- a responsive static microsite with real product UI captures;\n- Open Graph, X, LinkedIn, and Instagram graphics at exact dimensions;\n- a five-slide 1080x1350 carousel;\n- X, LinkedIn, Product Hunt, email, headline, and CTA copy;\n- reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and\n- a checksummed asset index plus traversal-safe ZIP.\n\nThe public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.\n\n## Judge path\n\nThe final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.\n\nFor the shortest local inspection:\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\n`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.\n\nThen:\n\n1. paste a canonical public URL such as `https://gi…",
+      "approvalRequired": false,
+      "rationale": "The README describes the product in these terms directly."
+    },
+    {
+      "id": "claim_02",
+      "text": "PitchFlow resolves a canonical public GitHub repository URL to a pinned commit and gathers bounded evidence without cloning or executing the project.",
+      "classification": "fact",
+      "confidence": 0.99,
+      "evidenceIds": [
+        "ev_bbbf6eefa042",
+        "ev_d5f3383efcb7"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# PitchFlow\n\n> Ship the code. PitchFlow ships the story.\n\nPitchFlow is a local-first, repo-native AI launch studio built from scratch for OpenAI Build Week in the **Developer Tools** category. Give it a canonical public GitHub repository URL. It pins one commit, gathers bounded evidence without cloning or executing the project, and asks **GPT-5.6 Sol through your authenticated local Codex workflow** to direct an evidence-linked campaign.\n\nOne validated `CampaignManifest` then drives:\n\n- a responsive static microsite with real product UI captures;\n- Open Graph, X, LinkedIn, and Instagram graphics at exact dimensions;\n- a five-slide 1080x1350 carousel;\n- X, LinkedIn, Product Hunt, email, headline, and CTA copy;\n- reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and\n- a checksummed asset index plus traversal-safe ZIP.\n\nThe public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.\n\n## Judge path\n\nThe final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.\n\nFor the shortest local inspection:\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\n`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.\n\nThen:\n\n1. paste a canonical public URL such as `https://gi…",
+      "approvalRequired": false,
+      "rationale": "The README and architecture documentation explicitly describe repository intake, commit resolution, bounded evidence, and the no-clone, no-execution boundary."
+    },
+    {
+      "id": "claim_03",
+      "text": "Campaign generation runs through GPT-5.6 Sol using the official Codex TypeScript SDK and the developer's supported local Codex authentication.",
+      "classification": "fact",
+      "confidence": 0.98,
+      "evidenceIds": [
+        "ev_1cf6267e8c8a",
+        "ev_d5f3383efcb7"
+      ],
+      "evidencePath": "docs/CODEX_COLLABORATION.md",
+      "evidenceExcerpt": "# Codex collaboration and GPT-5.6 use\n\n## Material runtime role\n\nCodex is not a decorative chat button in PitchFlow. The local product uses the official TypeScript SDK and the user's existing authenticated Codex entitlement to run GPT-5.6 Sol as the campaign creative director.\n\nThe model receives only:\n\n- the integrity-checked, bounded `RepoSnapshot`;\n- the user's audience, positioning, tone, and channel choices;\n- the exact versioned campaign schema; and\n- explicit evidence, copy, safety, and public/internal-copy rules.\n\nIt must produce the product brief, evidence-backed claims, design tokens, microsite sections, social concepts, carousel narrative, channel copy, and motion scene plan together. This cross-channel synthesis is the core product value and is not replaced by templates in the real path.\n\n## Exact runner\n\n- Provider path: official `@openai/codex-sdk`\n- Required model identifier: `gpt-5.6-sol`\n- Reasoning effort: high\n- Authentication: supported local Codex/ChatGPT sign-in\n- Approval policy: never\n- Sandbox: read-only\n- Working directory: a fresh temporary empty directory\n- Environment: explicit non-secret allowlist needed for the local CLI/auth store\n- Structured output: Zod-derived JSON Schema\n- Schema repair: at most one additional turn\n- Tool activity: hard failure even if the final response otherwise validates\n- Fallback model: none\n\n`inspectCodexAuth()` executes only repository-pinned Codex CLI status/version commands and reports authentication method plus CLI version. It does not parse, copy, log, or return credential values.\n\n## Prompt-injection posture…",
+      "approvalRequired": false,
+      "rationale": "The Codex collaboration and architecture documents specify the model, SDK path, and local authentication flow."
+    },
+    {
+      "id": "claim_04",
+      "text": "One validated CampaignManifest drives the microsite, social graphics, five-slide carousel, channel copy, two video formats, asset index, and ZIP export.",
+      "classification": "fact",
+      "confidence": 0.99,
+      "evidenceIds": [
+        "ev_bbbf6eefa042"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# PitchFlow\n\n> Ship the code. PitchFlow ships the story.\n\nPitchFlow is a local-first, repo-native AI launch studio built from scratch for OpenAI Build Week in the **Developer Tools** category. Give it a canonical public GitHub repository URL. It pins one commit, gathers bounded evidence without cloning or executing the project, and asks **GPT-5.6 Sol through your authenticated local Codex workflow** to direct an evidence-linked campaign.\n\nOne validated `CampaignManifest` then drives:\n\n- a responsive static microsite with real product UI captures;\n- Open Graph, X, LinkedIn, and Instagram graphics at exact dimensions;\n- a five-slide 1080x1350 carousel;\n- X, LinkedIn, Product Hunt, email, headline, and CTA copy;\n- reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and\n- a checksummed asset index plus traversal-safe ZIP.\n\nThe public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.\n\n## Judge path\n\nThe final public viewer URL will be added after the pre-authorized production deployment. Until then, local source verification is the authoritative path.\n\nFor the shortest local inspection:\n\n```bash\npnpm install --frozen-lockfile\npnpm pitchflow\n```\n\n`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.\n\nThen:\n\n1. paste a canonical public URL such as `https://gi…",
+      "approvalRequired": false,
+      "rationale": "The README directly lists these outputs as products of one validated CampaignManifest."
+    },
+    {
+      "id": "claim_05",
+      "text": "PitchFlow creates product briefs, evidence-backed claims, design tokens, site sections, social concepts, carousel narrative, channel copy, and motion plans as one structured output.",
+      "classification": "fact",
+      "confidence": 0.98,
+      "evidenceIds": [
+        "ev_1cf6267e8c8a"
+      ],
+      "evidencePath": "docs/CODEX_COLLABORATION.md",
+      "evidenceExcerpt": "# Codex collaboration and GPT-5.6 use\n\n## Material runtime role\n\nCodex is not a decorative chat button in PitchFlow. The local product uses the official TypeScript SDK and the user's existing authenticated Codex entitlement to run GPT-5.6 Sol as the campaign creative director.\n\nThe model receives only:\n\n- the integrity-checked, bounded `RepoSnapshot`;\n- the user's audience, positioning, tone, and channel choices;\n- the exact versioned campaign schema; and\n- explicit evidence, copy, safety, and public/internal-copy rules.\n\nIt must produce the product brief, evidence-backed claims, design tokens, microsite sections, social concepts, carousel narrative, channel copy, and motion scene plan together. This cross-channel synthesis is the core product value and is not replaced by templates in the real path.\n\n## Exact runner\n\n- Provider path: official `@openai/codex-sdk`\n- Required model identifier: `gpt-5.6-sol`\n- Reasoning effort: high\n- Authentication: supported local Codex/ChatGPT sign-in\n- Approval policy: never\n- Sandbox: read-only\n- Working directory: a fresh temporary empty directory\n- Environment: explicit non-secret allowlist needed for the local CLI/auth store\n- Structured output: Zod-derived JSON Schema\n- Schema repair: at most one additional turn\n- Tool activity: hard failure even if the final response otherwise validates\n- Fallback model: none\n\n`inspectCodexAuth()` executes only repository-pinned Codex CLI status/version commands and reports authentication method plus CLI version. It does not parse, copy, log, or return credential values.\n\n## Prompt-injection posture…",
+      "approvalRequired": false,
+      "rationale": "The Codex collaboration document explicitly enumerates the structured campaign components."
+    },
+    {
+      "id": "claim_06",
+      "text": "Fresh analysis, generation, product capture, and video rendering remain on the developer's machine.",
+      "classification": "fact",
+      "confidence": 0.98,
+      "evidenceIds": [
+        "ev_d5f3383efcb7",
+        "ev_bbbf6eefa042"
+      ],
+      "evidencePath": "docs/ARCHITECTURE.md",
+      "evidenceExcerpt": "# Architecture\n\n## System boundary\n\nPitchFlow has two deliberately different runtime modes.\n\n### Local workspace\n\n`pnpm pitchflow` binds Next.js to loopback only. The developer submits a public GitHub URL, reviews a bounded evidence snapshot, and explicitly authorizes a GPT-5.6 Sol turn through the official local Codex SDK/CLI installation. Generation, product captures, and Remotion rendering remain on that machine.\n\n### Public viewer\n\nThe Vercel build sets `PITCHFLOW_PUBLIC_VIEWER=1`. It serves only a versioned immutable PitchFlow dogfood package committed under `apps/web/public/dogfood/pitchflow/`. The analyze, generate, and export routes return `403 PUBLIC_VIEWER_READ_ONLY` before parsing request bodies. The deployment has no Codex credential, Platform API key, or generation proxy.\n\n## Data flow\n\n1. `packages/core` strictly normalizes a GitHub URL and resolves a commit through fixed GitHub endpoints.\n2. Bounded intake reads metadata, languages, tree entries, README, license, selected manifests, and documentation. It does not clone or execute the target.\n3. Each normalized fact or excerpt becomes an `EvidenceItem` with commit, source URL, content hash, and deterministic ID. The full `RepoSnapshot` receives a deterministic integrity ID.\n4. `packages/codex` re-audits the snapshot, creates an isolated temporary working directory, passes an explicit environment allowlist, and requests JSON Schema output from exactly `gpt-5.6-sol` at high reasoning effort.\n5. A single structured-output repair is permitted for schema errors. Infrastructure failures, tool activity, wrong models…",
+      "approvalRequired": false,
+      "rationale": "The architecture and README explicitly define these operations as local."
+    },
+    {
+      "id": "claim_07",
+      "text": "The public viewer serves an immutable dogfood package and rejects analyze, generate, and export requests as read-only.",
+      "classification": "fact",
+      "confidence": 0.98,
+      "evidenceIds": [
+        "ev_d5f3383efcb7"
+      ],
+      "evidencePath": "docs/ARCHITECTURE.md",
+      "evidenceExcerpt": "# Architecture\n\n## System boundary\n\nPitchFlow has two deliberately different runtime modes.\n\n### Local workspace\n\n`pnpm pitchflow` binds Next.js to loopback only. The developer submits a public GitHub URL, reviews a bounded evidence snapshot, and explicitly authorizes a GPT-5.6 Sol turn through the official local Codex SDK/CLI installation. Generation, product captures, and Remotion rendering remain on that machine.\n\n### Public viewer\n\nThe Vercel build sets `PITCHFLOW_PUBLIC_VIEWER=1`. It serves only a versioned immutable PitchFlow dogfood package committed under `apps/web/public/dogfood/pitchflow/`. The analyze, generate, and export routes return `403 PUBLIC_VIEWER_READ_ONLY` before parsing request bodies. The deployment has no Codex credential, Platform API key, or generation proxy.\n\n## Data flow\n\n1. `packages/core` strictly normalizes a GitHub URL and resolves a commit through fixed GitHub endpoints.\n2. Bounded intake reads metadata, languages, tree entries, README, license, selected manifests, and documentation. It does not clone or execute the target.\n3. Each normalized fact or excerpt becomes an `EvidenceItem` with commit, source URL, content hash, and deterministic ID. The full `RepoSnapshot` receives a deterministic integrity ID.\n4. `packages/codex` re-audits the snapshot, creates an isolated temporary working directory, passes an explicit environment allowlist, and requests JSON Schema output from exactly `gpt-5.6-sol` at high reasoning effort.\n5. A single structured-output repair is permitted for schema errors. Infrastructure failures, tool activity, wrong models…",
+      "approvalRequired": false,
+      "rationale": "The architecture document describes the immutable viewer and its read-only route behavior."
+    },
+    {
+      "id": "claim_08",
+      "text": "Production render and export require two to four real local product captures with labels, accessibility descriptions, and authorized provenance.",
+      "classification": "fact",
+      "confidence": 0.98,
+      "evidenceIds": [
+        "ev_3a4e5181b3d0"
+      ],
+      "evidencePath": "docs/MEDIA_BRIEF.md",
+      "evidenceExcerpt": "# Motion and capture brief\n\n## Audience contract\n\nPitchFlow motion scenes have two separate fields:\n\n- `audienceCaption`: short, factual copy that may appear on screen;\n- `visualDirection`: internal creative guidance that is never rendered.\n\nThe composition source has a regression test proving it does not reference `visualDirection`. Storyboard verbs such as “open on,” “cut to,” “animate,” “reveal,” and “return to” belong only in internal direction and are forbidden as visible lower-third copy.\n\n## Real UI contract\n\nProduction render and export require 2–4 real local PNG/JPEG product captures. Each capture must include a truthful label, accessibility description, and creator-owned or authorized-use provenance. Remote URLs, HTML, SVG, generated fake interface art, and capture-free output are rejected.\n\nThe final immutable dogfood campaign uses newly captured PitchFlow UI. Earlier VibePalette captures are entrant-owned engineering evidence only and are not the public PitchFlow dogfood subject.\n\n## Motion goals\n\n- 25–40 seconds at 30 fps\n- immediate identity and motion inside the first two seconds\n- continuous purposeful motion without six-second static-card pacing\n- landscape layout built for 1920x1080\n- structurally distinct, social-native portrait layout built for 1080x1920\n- every visual behavior must substantiate the adjacent audience caption\n- closing must prominently show product name, canonical repository URL, and CTA\n- safe areas for platform overlays and caption readability\n\n## Encoding\n\n- H.264 High, yuv420p, BT.709\n- software encoding, x264 slow preset, concurrenc…",
+      "approvalRequired": false,
+      "rationale": "The media brief states these capture requirements directly."
+    }
+  ],
+  "design": {
+    "accent": "#5CE1E6",
+    "accentAlt": "#8B7CFF",
+    "background": "#07111F",
+    "surface": "#101D2E",
+    "text": "#F5F8FC",
+    "muted": "#9AABBE",
+    "radius": 14,
+    "displayFont": "system-sans"
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "eyebrow": "Repository in. Launch system out.",
+      "heading": "Ship the code. PitchFlow ships the story.",
+      "body": "Give PitchFlow a canonical public GitHub repository. It pins one commit, gathers bounded evidence, and directs an evidence-linked campaign through GPT-5.6 Sol in your local Codex workflow.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042",
+        "ev_1cf6267e8c8a"
+      ]
+    },
+    {
+      "id": "repository",
+      "eyebrow": "A precise starting point",
+      "heading": "Ground the narrative in a pinned commit.",
+      "body": "PitchFlow normalizes the repository URL, resolves a commit, and collects selected metadata, documentation, manifests, and source records without cloning or executing the target project.",
+      "evidenceIds": [
+        "ev_d5f3383efcb7"
+      ]
+    },
+    {
+      "id": "evidence",
+      "eyebrow": "Traceable by design",
+      "heading": "Keep every product claim connected to its source.",
+      "body": "Repository excerpts become deterministic evidence records carrying their commit, source URL, content hash, and identifier. The resulting snapshot is checked for integrity before generation.",
+      "evidenceIds": [
+        "ev_d5f3383efcb7"
+      ]
+    },
+    {
+      "id": "campaign",
+      "eyebrow": "One creative system",
+      "heading": "Direct the entire campaign together.",
+      "body": "A structured model turn produces the brief, claims, design, site narrative, social concepts, carousel, channel copy, and motion plan as one evidence-aware campaign.",
+      "evidenceIds": [
+        "ev_1cf6267e8c8a"
+      ]
+    },
+    {
+      "id": "exports",
+      "eyebrow": "Built for handoff",
+      "heading": "Export the campaign, not a loose collection of drafts.",
+      "body": "One validated manifest drives a static microsite, exact-size social graphics, a five-slide carousel, channel copy, landscape and portrait videos, a checksummed asset index, and a traversal-safe ZIP.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042"
+      ]
+    },
+    {
+      "id": "local",
+      "eyebrow": "Local generation boundary",
+      "heading": "Keep fresh generation on the developer's machine.",
+      "body": "Repository analysis, Codex generation, product capture, and Remotion rendering stay local. The public viewer exposes only a versioned, immutable, read-only dogfood package.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042",
+        "ev_d5f3383efcb7"
+      ]
+    }
+  ],
+  "socialCards": [
+    {
+      "headline": "Ship the code. PitchFlow ships the story.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042"
+      ]
+    },
+    {
+      "headline": "One pinned repository. One evidence-linked campaign.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042",
+        "ev_d5f3383efcb7"
+      ]
+    },
+    {
+      "headline": "From source evidence to site, social, copy, and video.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042",
+        "ev_1cf6267e8c8a"
+      ]
+    }
+  ],
+  "carousel": [
+    {
+      "index": 1,
+      "eyebrow": "01 — The gap",
+      "headline": "The product is shipped. The launch story is still scattered.",
+      "body": "PitchFlow gives developer teams one structured place to shape the narrative and its campaign assets.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042",
+        "ev_1cf6267e8c8a"
+      ]
+    },
+    {
+      "index": 2,
+      "eyebrow": "02 — The source",
+      "headline": "Start with the repository, not a blank prompt.",
+      "body": "Submit a canonical public GitHub URL. PitchFlow resolves one commit and gathers a bounded evidence snapshot.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042",
+        "ev_d5f3383efcb7"
+      ]
+    },
+    {
+      "index": 3,
+      "eyebrow": "03 — The proof",
+      "headline": "Make the source trail part of the campaign.",
+      "body": "Evidence records retain their commit, source URL, content hash, and deterministic identifier for campaign-wide auditing.",
+      "evidenceIds": [
+        "ev_d5f3383efcb7"
+      ]
+    },
+    {
+      "index": 4,
+      "eyebrow": "04 — The direction",
+      "headline": "Create every launch surface as one narrative.",
+      "body": "GPT-5.6 Sol directs the brief, claims, design, microsite, social concepts, channel copy, carousel, and motion plan together.",
+      "evidenceIds": [
+        "ev_1cf6267e8c8a"
+      ]
+    },
+    {
+      "index": 5,
+      "eyebrow": "05 — The handoff",
+      "headline": "Export a complete, verifiable launch package.",
+      "body": "Generate the static site, graphics, carousel, copy, landscape and portrait videos, asset checksums, and safe ZIP from one manifest.",
+      "evidenceIds": [
+        "ev_bbbf6eefa042"
+      ]
+    }
+  ],
+  "copy": {
+    "x": "Ship the code. PitchFlow ships the story.\n\nGive it a public GitHub repository. It pins one commit, gathers bounded evidence, and uses GPT-5.6 Sol through local Codex to direct the site, social assets, copy, carousel, and video.\n\nExplore the source: https://github.com/sickn33/pitchflow",
+    "linkedIn": "Launching PitchFlow: a local-first, repo-native AI launch studio for developers who want the campaign to be as rigorous as the code.\n\nPitchFlow starts from a canonical public GitHub repository, resolves a pinned commit, and gathers bounded evidence without cloning or executing the target project. GPT-5.6 Sol then works through the developer's authenticated local Codex workflow to direct one structured campaign.\n\nThat campaign can drive a static microsite, exact-size social graphics, a five-slide carousel, X and LinkedIn copy, Product Hunt copy, email, landscape and portrait videos, checksums, and a safe ZIP export.\n\nThe result is a launch narrative connected to repository evidence from intake through export.\n\nExplore the source repository: https://github.com/sickn33/pitchflow",
+    "productHunt": {
+      "name": "PitchFlow",
+      "tagline": "Evidence-grounded campaigns from your GitHub repository",
+      "description": "PitchFlow is a local-first, repo-native AI launch studio. Give it a canonical public GitHub repository URL and it resolves a pinned commit, gathers bounded evidence without cloning or executing the project, and uses GPT-5.6 Sol through your authenticated local Codex workflow to direct a complete campaign. One validated manifest drives a static microsite, social graphics, a five-slide carousel, channel copy, landscape and portrait videos, a checksummed asset index, and a traversal-safe ZIP.",
+      "firstComment": "Hi Product Hunt — PitchFlow began with a simple premise: a developer tool's launch story should be grounded in the product's actual repository. The local workflow pins a commit, lets you inspect bounded evidence, and then asks GPT-5.6 Sol through Codex to direct the campaign as one structured system. Fresh analysis and generation remain on your machine, while the public viewer is an immutable, read-only dogfood package. The project is MIT licensed, and the source is available at https://github.com/sickn33/pitchflow."
+    },
+    "email": {
+      "subject": "Meet PitchFlow: launch campaigns grounded in your repository",
+      "body": "You shipped the code. PitchFlow helps ship the story.\n\nStart with a canonical public GitHub repository. PitchFlow pins one commit, collects bounded evidence without cloning or executing the project, and uses GPT-5.6 Sol through your authenticated local Codex workflow to direct an evidence-linked campaign.\n\nOne validated manifest can drive the microsite, social graphics, five-slide carousel, channel copy, landscape and portrait videos, checksums, and ZIP export.\n\nExplore the source repository:\nhttps://github.com/sickn33/pitchflow"
+    },
+    "headlineVariants": [
+      "Turn repository evidence into a complete launch campaign.",
+      "One pinned commit. Every launch surface.",
+      "Your repository already contains the story.",
+      "Direct the launch from the source of truth.",
+      "From GitHub evidence to a unified campaign."
+    ],
+    "ctaVariants": [
+      "Explore the source repository",
+      "Inspect the evidence flow",
+      "Run PitchFlow locally",
+      "See the campaign system",
+      "Ship the story"
+    ],
+    "evidenceIds": [
+      "ev_e4de1a810bfa",
+      "ev_bbbf6eefa042",
+      "ev_b68750f8f8e7",
+      "ev_d5f3383efcb7",
+      "ev_1cf6267e8c8a"
+    ]
+  },
+  "video": {
+    "fps": 30,
+    "durationSeconds": 36,
+    "scenes": [
+      {
+        "index": 1,
+        "startFrame": 0,
+        "durationFrames": 180,
+        "title": "Identity",
+        "audienceCaption": "Ship the code. PitchFlow ships the story.",
+        "visualDirection": "Open on a restrained repository grid, then bring the PitchFlow wordmark into sharp focus with immediate, purposeful motion.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042"
+        ],
+        "visual": "opening"
+      },
+      {
+        "index": 2,
+        "startFrame": 180,
+        "durationFrames": 180,
+        "title": "Pinned source",
+        "audienceCaption": "Begin with one public repository and one pinned commit.",
+        "visualDirection": "Move from the canonical GitHub URL into a commit card, using a precise lock-in transition to establish the source boundary.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042",
+          "ev_d5f3383efcb7"
+        ],
+        "visual": "repository"
+      },
+      {
+        "index": 3,
+        "startFrame": 360,
+        "durationFrames": 180,
+        "title": "Evidence trail",
+        "audienceCaption": "Bounded evidence keeps the campaign tied to the source.",
+        "visualDirection": "Reveal compact evidence records with source URL, commit, and integrity markers; connect them to claims with clean tracing lines.",
+        "evidenceIds": [
+          "ev_d5f3383efcb7"
+        ],
+        "visual": "evidence"
+      },
+      {
+        "index": 4,
+        "startFrame": 540,
+        "durationFrames": 180,
+        "title": "Campaign direction",
+        "audienceCaption": "Brief, claims, design, copy, and motion—directed together.",
+        "visualDirection": "Cut to the workspace and sequence through the structured campaign panels while maintaining one continuous visual thread.",
+        "evidenceIds": [
+          "ev_1cf6267e8c8a"
+        ],
+        "visual": "workspace"
+      },
+      {
+        "index": 5,
+        "startFrame": 720,
+        "durationFrames": 180,
+        "title": "Complete handoff",
+        "audienceCaption": "Export the site, social assets, carousel, copy, and video.",
+        "visualDirection": "Fan out the generated surfaces from the manifest, ending on the asset index, checksums, and ZIP package.",
+        "evidenceIds": [
+          "ev_bbbf6eefa042"
+        ],
+        "visual": "exports"
+      },
+      {
+        "index": 6,
+        "startFrame": 900,
+        "durationFrames": 180,
+        "title": "Source CTA",
+        "audienceCaption": "Explore PitchFlow at github.com/sickn33/pitchflow.",
+        "visualDirection": "Return to the PitchFlow identity with the canonical repository URL prominent, readable, and held inside platform-safe areas.",
+        "evidenceIds": [
+          "ev_e4de1a810bfa",
+          "ev_3a4e5181b3d0"
+        ],
+        "visual": "closing"
+      }
+    ]
+  }
+}

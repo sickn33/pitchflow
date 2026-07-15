@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "captures": [
+    {
+      "filename": "images/product-capture-01.png",
+      "label": "Pinned repository evidence",
+      "description": "PitchFlow evidence workspace showing the public repository, pinned commit, and bounded source records.",
+      "declaration": "creator-owned",
+      "provenance": "user-supplied",
+      "sceneIndexes": [
+        1,
+        2,
+        3
+      ],
+      "mediaType": "image/png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 238771,
+      "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7"
+    },
+    {
+      "filename": "images/product-capture-02.png",
+      "label": "Evidence-linked campaign preview",
+      "description": "PitchFlow campaign preview showing the GPT-5.6 Sol narrative and editable evidence-linked product claims.",
+      "declaration": "creator-owned",
+      "provenance": "user-supplied",
+      "sceneIndexes": [
+        1,
+        4
+      ],
+      "mediaType": "image/png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 359473,
+      "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2"
+    },
+    {
+      "filename": "images/product-capture-03.png",
+      "label": "Cross-channel launch copy",
+      "description": "PitchFlow copy workspace showing campaign language generated from the same commit-pinned manifest.",
+      "declaration": "creator-owned",
+      "provenance": "user-supplied",
+      "sceneIndexes": [
+        4
+      ],
+      "mediaType": "image/png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 278991,
+      "sha256": "8933f20014ff072777d10eb57437d99638cf622a34a22ca370d75daec6f14e7e"
+    },
+    {
+      "filename": "images/product-capture-04.png",
+      "label": "Verified campaign export handoff",
+      "description": "PitchFlow export receipt showing the microsite, social images, carousel, copy, both video masters, checksums, and ZIP.",
+      "declaration": "creator-owned",
+      "provenance": "user-supplied",
+      "sceneIndexes": [
+        5
+      ],
+      "mediaType": "image/png",
+      "width": 1600,
+      "height": 1000,
+      "bytes": 444156,
+      "sha256": "99560315c64fe328144d97d8623dae97ff7562e5a9cdfb3af6973882363d7ae7"
+    }
+  ]
+}

@@ -3,7 +3,9 @@ node_modules/
 dist/
 coverage/
 playwright-report/
+playwright-report-public/
 test-results/
+test-results-public/
 .vercel/
 .DS_Store
 *.log
@@ -14,7 +16,9 @@ test-results/
 artifacts/work/
 artifacts/exports/
 artifacts/dogfood/vibepalette-campaign/
+artifacts/dogfood/pitchflow-campaign/
 artifacts/verification/2026-07-15-vibepalette/
+artifacts/verification/*/rejected/
 artifacts/verification/*/trace/
 packages/remotion/.remotion/
 packages/remotion/artifacts/

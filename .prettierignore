@@ -3,7 +3,9 @@ node_modules
 dist
 coverage
 playwright-report
+playwright-report-public
 test-results
+test-results-public
 artifacts
 apps/web/public/dogfood
 packages/remotion/artifacts

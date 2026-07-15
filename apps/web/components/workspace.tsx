@@ -15,6 +15,7 @@ import type { CampaignManifest, CampaignPreferences, RepoSnapshot } from "@pitch
 import {
   DOGFOOD_PACKAGE_URL,
   parseDogfoodPackage,
+  selectDogfoodGalleryAssets,
   type DogfoodAsset,
   type DogfoodPackage,
 } from "../lib/dogfood";
@@ -44,7 +45,12 @@ type RuntimeStatus = {
 
 type ApiFailure = { error?: { code?: string; message?: string } };
 type Stage = "idle" | "analyzing" | "review" | "generating" | "ready";
-type Panel = "evidence" | "preview" | "copy";
+type Panel = "evidence" | "preview" | "copy" | "handoff";
+type ExportReceipt = {
+  filename: string;
+  assetCount: number;
+  sha256: string;
+};
 type CaptureDraft = Omit<CaptureUpload, "provenance"> & {
   provenance: CaptureProvenance | "";
   width: number;
@@ -169,16 +175,22 @@ function ErrorBanner({ message, onDismiss }: { message: string; onDismiss?: () =
 function Tabs({
   active,
   hasCampaign,
+  hasExport,
   onChange,
 }: {
   active: Panel;
   hasCampaign: boolean;
+  hasExport: boolean;
   onChange: (panel: Panel) => void;
 }) {
+  const enabled = hasCampaign
+    ? hasExport
+      ? [...panels, "handoff" as const]
+      : panels
+    : (["evidence"] as Panel[]);
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
     event.preventDefault();
-    const enabled = hasCampaign ? panels : (["evidence"] as Panel[]);
     const current = enabled.indexOf(active);
     const next =
       event.key === "Home"
@@ -193,7 +205,7 @@ function Tabs({
 
   return (
     <div className="tabs" role="tablist" aria-label="Campaign views" onKeyDown={onKeyDown}>
-      {panels.map((panel) => (
+      {enabled.map((panel) => (
         <button
           id={`campaign-tab-${panel}`}
           key={panel}
@@ -203,11 +215,69 @@ function Tabs({
           aria-selected={active === panel}
           tabIndex={active === panel ? 0 : -1}
           onClick={() => onChange(panel)}
-          disabled={panel !== "evidence" && !hasCampaign}
         >
           {panel}
         </button>
       ))}
+    </div>
+  );
+}
+
+function HandoffPanel({ receipt }: { receipt: ExportReceipt }) {
+  const outputs = [
+    ["Microsite", "Responsive static site"],
+    ["Social system", "OG, X, LinkedIn, Instagram"],
+    ["Carousel", "Five 1080×1350 slides"],
+    ["Channel copy", "X, LinkedIn, Product Hunt, email"],
+    ["Landscape master", "1920×1080 H.264"],
+    ["Portrait master", "1080×1920 H.264"],
+    ["Integrity", "Asset index + SHA-256"],
+    ["Archive", "Traversal-safe ZIP"],
+  ] as const;
+  return (
+    <div
+      className="handoff-view"
+      id="campaign-panel-handoff"
+      role="tabpanel"
+      aria-labelledby="campaign-tab-handoff"
+      data-receipt-sha256={receipt.sha256}
+    >
+      <header className="handoff-hero">
+        <div>
+          <p className="kicker">Verified export receipt</p>
+          <h3>Your launch package is ready.</h3>
+          <p>
+            One evidence-linked manifest produced the complete handoff. The download remains local
+            until you choose where to publish it.
+          </p>
+        </div>
+        <div className="handoff-stat" aria-label={`${receipt.assetCount} indexed assets`}>
+          <strong>{receipt.assetCount}</strong>
+          <span>indexed assets</span>
+        </div>
+      </header>
+      <ul className="handoff-grid" aria-label="Rendered package contents">
+        {outputs.map(([label, detail], index) => (
+          <li key={label}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              <strong>{label}</strong>
+              <small>{detail}</small>
+            </div>
+            <span aria-hidden="true">✓</span>
+          </li>
+        ))}
+      </ul>
+      <footer className="handoff-footer">
+        <div>
+          <span>Downloaded package</span>
+          <code>{receipt.filename}</code>
+        </div>
+        <div>
+          <span>Integrity</span>
+          <strong>SHA-256 recorded in asset-index.json</strong>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -478,6 +548,7 @@ function CampaignCanvas({
   onDismissError,
   editable,
   onCampaignChange,
+  exportReceipt,
 }: {
   snapshot: RepoSnapshot | null;
   campaign: CampaignManifest | null;
@@ -486,11 +557,13 @@ function CampaignCanvas({
   onDismissError?: () => void;
   editable: boolean;
   onCampaignChange?: (campaign: CampaignManifest) => void;
+  exportReceipt?: ExportReceipt | null;
 }) {
   const [activePanel, setActivePanel] = useState<Panel>(snapshot ? "evidence" : "evidence");
   const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
   const previousSnapshotId = useRef<string | null>(null);
   const previousCampaignId = useRef<string | null>(null);
+  const previousExportSha = useRef<string | null>(null);
 
   useEffect(() => {
     if (snapshot && snapshot.id !== previousSnapshotId.current) {
@@ -506,6 +579,13 @@ function CampaignCanvas({
       setActivePanel("preview");
     }
   }, [campaign]);
+
+  useEffect(() => {
+    if (exportReceipt && exportReceipt.sha256 !== previousExportSha.current) {
+      previousExportSha.current = exportReceipt.sha256;
+      setActivePanel("handoff");
+    }
+  }, [exportReceipt]);
 
   function revealEvidence(id: string) {
     setSelectedEvidenceId(id);
@@ -582,7 +662,12 @@ function CampaignCanvas({
       aria-busy={stage === "analyzing" || stage === "generating"}
     >
       <div className="canvas-toolbar">
-        <Tabs active={activePanel} hasCampaign={Boolean(campaign)} onChange={setActivePanel} />
+        <Tabs
+          active={activePanel}
+          hasCampaign={Boolean(campaign)}
+          hasExport={Boolean(exportReceipt)}
+          onChange={setActivePanel}
+        />
         <span className="stage-label" data-stage={stage} aria-live="polite">
           {stageLabel(stage)}
         </span>
@@ -643,6 +728,8 @@ function CampaignCanvas({
         />
       ) : campaign && activePanel === "copy" ? (
         <CopyPanel campaign={campaign} editable={editable} onChange={changeCopy} />
+      ) : campaign && exportReceipt && activePanel === "handoff" ? (
+        <HandoffPanel receipt={exportReceipt} />
       ) : (
         <div className="empty-canvas compact" role="tabpanel">
           <p>Generate the campaign to unlock this view.</p>
@@ -680,6 +767,196 @@ function AssetShelf({ assets }: { assets: DogfoodAsset[] }) {
           </li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+function AssetFingerprint({ asset }: { asset: DogfoodAsset }) {
+  return (
+    <span className="asset-fingerprint" title={`SHA-256 ${asset.sha256}`}>
+      <span aria-hidden="true">SHA-256 {asset.sha256.slice(0, 12)}…</span>
+      <span className="sr-only">SHA-256 {asset.sha256}</span>
+    </span>
+  );
+}
+
+function GalleryImage({ asset }: { asset: DogfoodAsset }) {
+  return (
+    <figure className="gallery-image-card">
+      {/* This is a same-origin, immutable dogfood asset rather than reconstructed product UI. */}
+      <img src={asset.href} alt={asset.label} loading="lazy" decoding="async" />
+      <figcaption>
+        <strong>{asset.label}</strong>
+        <span>
+          {asset.mediaType} · {formatBytes(asset.bytes)}
+        </span>
+        <AssetFingerprint asset={asset} />
+      </figcaption>
+    </figure>
+  );
+}
+
+function CampaignMediaGallery({ assets }: { assets: DogfoodAsset[] }) {
+  const gallery = useMemo(() => selectDogfoodGalleryAssets(assets), [assets]);
+  const videos = [
+    gallery.landscapeVideo
+      ? { asset: gallery.landscapeVideo, orientation: "Landscape", className: "landscape" }
+      : null,
+    gallery.portraitVideo
+      ? { asset: gallery.portraitVideo, orientation: "Portrait", className: "portrait" }
+      : null,
+  ].filter((item): item is NonNullable<typeof item> => item !== null);
+  const hasPreview =
+    videos.length > 0 ||
+    gallery.socialGraphics.length > 0 ||
+    gallery.carousel.length > 0 ||
+    gallery.productCaptures.length > 0;
+
+  return (
+    <section className="judge-gallery" aria-labelledby="judge-gallery-heading">
+      <div className="judge-gallery-heading">
+        <div>
+          <p className="kicker">Cached campaign gallery</p>
+          <h2 id="judge-gallery-heading">Watch the launch. Inspect the package.</h2>
+        </div>
+        <p>
+          Every preview below is loaded directly from the immutable dogfood export. Each asset hash
+          stays visible alongside the work.
+        </p>
+      </div>
+
+      {(gallery.microsite || gallery.archive) && (
+        <div className="gallery-actions" aria-label="Complete campaign handoff">
+          {gallery.microsite && (
+            <a href={gallery.microsite.href} target="_blank" rel="noreferrer">
+              <span>
+                <small>Interactive deliverable</small>
+                <strong>Open the static microsite</strong>
+              </span>
+              <AssetFingerprint asset={gallery.microsite} />
+              <span className="gallery-action-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          )}
+          {gallery.archive && (
+            <a href={gallery.archive.href} download>
+              <span>
+                <small>Complete immutable handoff</small>
+                <strong>Download the campaign ZIP</strong>
+              </span>
+              <AssetFingerprint asset={gallery.archive} />
+              <span className="gallery-action-arrow" aria-hidden="true">
+                ↓
+              </span>
+            </a>
+          )}
+        </div>
+      )}
+
+      {videos.length > 0 && (
+        <section className="gallery-section" aria-labelledby="launch-films-heading">
+          <div className="gallery-section-heading">
+            <div>
+              <span>01</span>
+              <h3 id="launch-films-heading">Caption-complete launch films</h3>
+            </div>
+            <p>Silent masters: the full narrative is rendered on screen and requires no audio.</p>
+          </div>
+          <div className="video-gallery">
+            {videos.map(({ asset, orientation, className }) => {
+              const descriptionId = `silent-master-${className}`;
+              return (
+                <figure className={`video-card ${className}`} key={asset.href}>
+                  <div className="video-frame">
+                    <video
+                      controls
+                      playsInline
+                      preload="metadata"
+                      aria-label={`${asset.label}, ${orientation.toLowerCase()} silent master`}
+                      aria-describedby={descriptionId}
+                    >
+                      <source src={asset.href} type={asset.mediaType} />
+                      Your browser cannot play this campaign video. Open the MP4 instead.
+                    </video>
+                  </div>
+                  <figcaption>
+                    <div>
+                      <span>{orientation} master</span>
+                      <strong>{asset.label}</strong>
+                    </div>
+                    <p id={descriptionId}>Caption-complete · silent · {formatBytes(asset.bytes)}</p>
+                    <div className="video-card-footer">
+                      <AssetFingerprint asset={asset} />
+                      <a href={asset.href} target="_blank" rel="noreferrer">
+                        Open MP4 <span className="sr-only">{asset.label}</span>
+                      </a>
+                    </div>
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {gallery.socialGraphics.length > 0 && (
+        <section className="gallery-section" aria-labelledby="social-graphics-heading">
+          <div className="gallery-section-heading">
+            <div>
+              <span>02</span>
+              <h3 id="social-graphics-heading">Channel-ready social graphics</h3>
+            </div>
+            <p>Production PNGs, rendered at their exported aspect ratios.</p>
+          </div>
+          <div className="gallery-image-grid social-grid">
+            {gallery.socialGraphics.map((asset) => (
+              <GalleryImage asset={asset} key={asset.href} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {gallery.carousel.length > 0 && (
+        <section className="gallery-section" aria-labelledby="carousel-heading">
+          <div className="gallery-section-heading">
+            <div>
+              <span>03</span>
+              <h3 id="carousel-heading">Campaign carousel</h3>
+            </div>
+            <p>Read the complete sequence in its intended order.</p>
+          </div>
+          <div className="gallery-image-grid carousel-grid">
+            {gallery.carousel.map((asset) => (
+              <GalleryImage asset={asset} key={asset.href} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {gallery.productCaptures.length > 0 && (
+        <section className="gallery-section" aria-labelledby="product-captures-heading">
+          <div className="gallery-section-heading">
+            <div>
+              <span>04</span>
+              <h3 id="product-captures-heading">Product UI evidence</h3>
+            </div>
+            <p>Original supplied captures only; PitchFlow does not synthesize product screens.</p>
+          </div>
+          <div className="gallery-image-grid capture-grid">
+            {gallery.productCaptures.map((asset) => (
+              <GalleryImage asset={asset} key={asset.href} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {!hasPreview && (
+        <p className="gallery-empty" role="status">
+          This verified package does not index browser-previewable media. Use the complete asset
+          shelf below to inspect its exports.
+        </p>
+      )}
     </section>
   );
 }
@@ -758,6 +1035,7 @@ function PublicViewer() {
               View repository <span aria-hidden="true">↗</span>
             </a>
           </section>
+          <CampaignMediaGallery assets={dogfood.assets} />
           <div className="public-canvas-wrap">
             <CampaignCanvas
               snapshot={dogfood.snapshot}
@@ -979,6 +1257,7 @@ function LocalWorkspace() {
   const [processingCaptures, setProcessingCaptures] = useState(false);
   const [captureError, setCaptureError] = useState<string | null>(null);
   const [captures, setCaptures] = useState<CaptureDraft[]>([]);
+  const [exportReceipt, setExportReceipt] = useState<ExportReceipt | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -1005,6 +1284,7 @@ function LocalWorkspace() {
     setCreditAcknowledged(false);
     setCaptures([]);
     setCaptureError(null);
+    setExportReceipt(null);
     setStage("analyzing");
     try {
       const payload = await parseApi<{ snapshot: RepoSnapshot }>(
@@ -1025,6 +1305,7 @@ function LocalWorkspace() {
   async function generate() {
     if (!snapshot) return;
     setError(null);
+    setExportReceipt(null);
     setStage("generating");
     try {
       const payload = await parseApi<{ manifest: CampaignManifest }>(
@@ -1057,6 +1338,7 @@ function LocalWorkspace() {
 
   function updateDesign(key: keyof CampaignManifest["design"], value: string | number) {
     if (!campaign) return;
+    setExportReceipt(null);
     setCampaign({ ...campaign, design: { ...campaign.design, [key]: value } });
   }
 
@@ -1113,6 +1395,7 @@ function LocalWorkspace() {
       setCaptures((current) =>
         [...current, ...additions].map((capture, index) => ({ ...capture, order: index })),
       );
+      setExportReceipt(null);
     } catch (caught) {
       setCaptureError(caught instanceof Error ? caught.message : "A product capture was rejected.");
     } finally {
@@ -1121,6 +1404,7 @@ function LocalWorkspace() {
   }
 
   function moveCapture(index: number, direction: -1 | 1) {
+    setExportReceipt(null);
     setCaptures((current) => {
       const target = index + direction;
       if (target < 0 || target >= current.length) return current;
@@ -1131,6 +1415,7 @@ function LocalWorkspace() {
   }
 
   function removeCapture(id: string) {
+    setExportReceipt(null);
     setCaptures((current) =>
       current
         .filter((capture) => capture.id !== id)
@@ -1140,6 +1425,7 @@ function LocalWorkspace() {
   }
 
   function updateCapture(id: string, update: Partial<CaptureDraft>) {
+    setExportReceipt(null);
     setCaptures((current) =>
       current.map((capture) => (capture.id === id ? { ...capture, ...update } : capture)),
     );
@@ -1183,15 +1469,29 @@ function LocalWorkspace() {
           payload.error?.message ?? `PitchFlow export failed with HTTP ${response.status}.`,
         );
       }
+      const assetCount = Number(response.headers.get("x-pitchflow-assets"));
+      const receiptSha256 = response.headers.get("x-pitchflow-sha256") ?? "";
+      const disposition = response.headers.get("content-disposition") ?? "";
+      const filenameMatch = /filename="([a-z0-9_.-]+)"/i.exec(disposition);
+      if (
+        !Number.isSafeInteger(assetCount) ||
+        assetCount < 1 ||
+        !/^[a-f0-9]{64}$/.test(receiptSha256) ||
+        !filenameMatch
+      ) {
+        throw new Error("PitchFlow export completed without a valid integrity receipt.");
+      }
+      const filename = filenameMatch[1]!;
       const archive = await response.blob();
       const objectUrl = URL.createObjectURL(archive);
       const anchor = document.createElement("a");
       anchor.href = objectUrl;
-      anchor.download = `pitchflow-${campaign.id}.zip`;
+      anchor.download = filename;
       document.body.append(anchor);
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(objectUrl);
+      setExportReceipt({ filename, assetCount, sha256: receiptSha256 });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Campaign export failed.");
     } finally {
@@ -1442,7 +1742,11 @@ function LocalWorkspace() {
         error={error}
         onDismissError={() => setError(null)}
         editable
-        onCampaignChange={setCampaign}
+        onCampaignChange={(nextCampaign) => {
+          setExportReceipt(null);
+          setCampaign(nextCampaign);
+        }}
+        exportReceipt={exportReceipt}
       />
     </section>
   );

@@ -306,6 +306,7 @@ function LandscapeScene({
   const frame = useCurrentFrame();
   const safe = getSafeZone("landscape");
   const wipe = interpolate(frame, [0, 24, 58], [100, 42, 0], clamp);
+  const publicTitle = scene.visual === "opening" ? manifest.productBrief.productName : scene.title;
   return (
     <AbsoluteFill>
       <div
@@ -331,10 +332,11 @@ function LandscapeScene({
               marginBottom: 30,
             }}
           >
-            {String(scene.index).padStart(2, "0")} / {scene.visual.toUpperCase()}
+            {manifest.productBrief.productName.toUpperCase()} /{" "}
+            {String(scene.index).padStart(2, "0")}
           </div>
           <KineticTitle
-            title={scene.title}
+            title={publicTitle}
             manifest={manifest}
             layout="landscape"
             opening={scene.visual === "opening"}
@@ -380,6 +382,7 @@ function PortraitScene({
   const frame = useCurrentFrame();
   const safe = getSafeZone("portrait");
   const pulse = interpolate(frame % 30, [0, 15, 29], [0.45, 1, 0.45], clamp);
+  const publicTitle = scene.visual === "opening" ? manifest.productBrief.productName : scene.title;
   return (
     <AbsoluteFill>
       <div
@@ -412,11 +415,11 @@ function PortraitScene({
               boxShadow: `0 0 22px ${manifest.design.accentAlt}`,
             }}
           />
-          SCENE {String(scene.index).padStart(2, "0")} · {scene.visual.toUpperCase()}
+          {manifest.productBrief.productName.toUpperCase()} · {String(scene.index).padStart(2, "0")}
         </div>
         <div style={{ marginTop: 24 }}>
           <KineticTitle
-            title={scene.title}
+            title={publicTitle}
             manifest={manifest}
             layout="portrait"
             opening={scene.visual === "opening"}

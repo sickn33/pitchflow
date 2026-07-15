@@ -117,7 +117,12 @@ describe("renderCampaignBundle", () => {
     ).toBe(true);
     const provenance = JSON.parse(
       await readFile(join(output, "capture-provenance.json"), "utf8"),
-    ) as { captures: Array<{ declaration: string; sha256: string }> };
+    ) as {
+      captures: Array<{ declaration: string; sceneIndexes: number[]; sha256: string }>;
+    };
+    const renderableSceneIndexes = manifest.video.scenes
+      .filter((scene) => scene.visual !== "closing")
+      .map((scene) => scene.index);
     expect(provenance.captures).toHaveLength(2);
     expect(provenance.captures.every((capture) => capture.declaration === "test-fixture")).toBe(
       true,
@@ -125,6 +130,12 @@ describe("renderCampaignBundle", () => {
     expect(provenance.captures.every((capture) => /^[a-f0-9]{64}$/.test(capture.sha256))).toBe(
       true,
     );
+    expect(
+      provenance.captures.every(
+        (capture) =>
+          JSON.stringify(capture.sceneIndexes) === JSON.stringify(renderableSceneIndexes),
+      ),
+    ).toBe(true);
   });
 
   it("escapes untrusted manifest text in the static microsite", async () => {
@@ -218,5 +229,44 @@ describe("renderCampaignBundle", () => {
         productCaptures: captures,
       }),
     ).rejects.toThrow(/only explicit test fixtures/i);
+  });
+
+  it("records explicit scene-specific capture coverage for the video renderer", async () => {
+    const { snapshot, manifest } = createManifest();
+    const sceneIndexes = manifest.video.scenes
+      .filter((scene) => scene.visual !== "closing")
+      .map((scene) => scene.index);
+    const captures = await fixtureCaptures("scene-coverage");
+    const splitAt = Math.ceil(sceneIndexes.length / 2);
+    captures[0] = { ...captures[0]!, sceneIndexes: sceneIndexes.slice(0, splitAt) };
+    captures[1] = { ...captures[1]!, sceneIndexes: sceneIndexes.slice(splitAt) };
+    const output = outputDirectory("scene-coverage-output");
+
+    await renderCampaignBundle(manifest, snapshot, output, { productCaptures: captures });
+
+    const provenance = JSON.parse(
+      await readFile(join(output, "capture-provenance.json"), "utf8"),
+    ) as { captures: Array<{ sceneIndexes: number[] }> };
+    expect(provenance.captures.map((capture) => capture.sceneIndexes)).toEqual([
+      sceneIndexes.slice(0, splitAt),
+      sceneIndexes.slice(splitAt),
+    ]);
+  });
+
+  it("rejects scene-specific captures that leave a production scene without real UI", async () => {
+    const { snapshot, manifest } = createManifest();
+    const firstSceneIndex = manifest.video.scenes.find(
+      (scene) => scene.visual !== "closing",
+    )!.index;
+    const captures = (await fixtureCaptures("missing-scene-coverage")).map((capture) => ({
+      ...capture,
+      sceneIndexes: [firstSceneIndex],
+    }));
+
+    await expect(
+      renderCampaignBundle(manifest, snapshot, outputDirectory("missing-scene-coverage-output"), {
+        productCaptures: captures,
+      }),
+    ).rejects.toThrow(/scene .* has no documented real product capture/i);
   });
 });

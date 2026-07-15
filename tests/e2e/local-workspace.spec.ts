@@ -78,7 +78,11 @@ test("completes the local evidence, generation, capture, and export journey", as
     exportRequests.push(route.request().postDataJSON() as Record<string, unknown>);
     await route.fulfill({
       contentType: "application/zip",
-      headers: { "content-disposition": 'attachment; filename="pitchflow-e2e.zip"' },
+      headers: {
+        "content-disposition": 'attachment; filename="pitchflow-e2e.zip"',
+        "x-pitchflow-assets": "23",
+        "x-pitchflow-sha256": "a".repeat(64),
+      },
       body: Buffer.from("PK\u0005\u0006".padEnd(22, "\u0000"), "binary"),
     });
   });
@@ -130,10 +134,13 @@ test("completes the local evidence, generation, capture, and export journey", as
   const downloadPromise = page.waitForEvent("download");
   await exportButton.click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toMatch(/^pitchflow-campaign_/);
+  expect(download.suggestedFilename()).toBe("pitchflow-e2e.zip");
   expect(exportRequests).toHaveLength(1);
   expect((exportRequests[0]?.captures as unknown[]).length).toBe(2);
   expect(JSON.stringify(exportRequests[0])).not.toContain("/Users/");
+  await expect(page.getByRole("tab", { name: "handoff" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("heading", { name: "Your launch package is ready." })).toBeVisible();
+  await expect(page.getByText("23", { exact: true })).toBeVisible();
 
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])

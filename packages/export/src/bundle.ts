@@ -47,6 +47,7 @@ export type ProductCapture = {
   caption: string;
   provenance: Extract<CreativeAsset["provenance"], "pitchflow-generated" | "user-supplied">;
   declaration: "creator-owned" | "authorized-use" | "test-fixture";
+  sceneIndexes?: number[];
 };
 
 export type RenderBundleOptions = {
@@ -60,12 +61,13 @@ export type RenderBundleOptions = {
   };
 };
 
-type StagedProductCapture = Omit<ProductCapture, "sourcePath"> & {
+type StagedProductCapture = Omit<ProductCapture, "sourcePath" | "sceneIndexes"> & {
   filename: string;
   data: Buffer;
   mediaType: "image/png" | "image/jpeg";
   width: number;
   height: number;
+  sceneIndexes: number[];
 };
 
 const MAX_CAPTURE_BYTES = 12 * 1024 * 1024;
@@ -89,12 +91,17 @@ function assertCaptureText(value: string, label: string, maximum: number): void 
 
 async function validateProductCaptures(
   captures: ProductCapture[],
+  manifest: CampaignManifest,
 ): Promise<StagedProductCapture[]> {
   if (captures.length < 2 || captures.length > 4) {
     throw new Error("Campaign export requires 2–4 real product UI captures.");
   }
 
-  return Promise.all(
+  const renderableSceneIndexes = manifest.video.scenes
+    .filter((scene) => scene.visual !== "closing")
+    .map((scene) => scene.index);
+  const renderableSceneSet = new Set(renderableSceneIndexes);
+  const validated = await Promise.all(
     captures.map(async (capture, index) => {
       assertCaptureText(capture.alt, `Capture ${index + 1} alt text`, 180);
       assertCaptureText(capture.caption, `Capture ${index + 1} caption`, 100);
@@ -104,6 +111,20 @@ async function validateProductCaptures(
       ) {
         throw new Error(
           "Only explicit test fixtures may use pitchflow-generated product-capture provenance.",
+        );
+      }
+      const sceneIndexes = capture.sceneIndexes
+        ? [...new Set(capture.sceneIndexes)].sort((left, right) => left - right)
+        : [...renderableSceneIndexes];
+      if (
+        sceneIndexes.length === 0 ||
+        sceneIndexes.length !== (capture.sceneIndexes?.length ?? renderableSceneIndexes.length) ||
+        sceneIndexes.some(
+          (sceneIndex) => !Number.isInteger(sceneIndex) || !renderableSceneSet.has(sceneIndex),
+        )
+      ) {
+        throw new Error(
+          `Product capture ${index + 1} must target unique non-closing scene indexes from this manifest.`,
         );
       }
       const sourcePath = resolve(capture.sourcePath);
@@ -133,14 +154,21 @@ async function validateProductCaptures(
         caption: capture.caption,
         provenance: capture.provenance,
         declaration: capture.declaration,
+        sceneIndexes,
         filename: `images/product-capture-${String(index + 1).padStart(2, "0")}.${extension}`,
         data,
-        mediaType: metadata.format === "png" ? "image/png" : "image/jpeg",
+        mediaType: metadata.format === "png" ? ("image/png" as const) : ("image/jpeg" as const),
         width: metadata.width,
         height: metadata.height,
       };
     }),
   );
+  for (const sceneIndex of renderableSceneIndexes) {
+    if (!validated.some((capture) => capture.sceneIndexes.includes(sceneIndex))) {
+      throw new Error(`Production scene ${sceneIndex} has no documented real product capture.`);
+    }
+  }
+  return validated;
 }
 
 export type RenderedBundle = {
@@ -254,7 +282,7 @@ export async function renderCampaignBundle(
   if (!evidenceAudit.valid) {
     throw new Error(`Manifest evidence audit failed: ${evidenceAudit.errors[0]}`);
   }
-  const productCaptures = await validateProductCaptures(options.productCaptures);
+  const productCaptures = await validateProductCaptures(options.productCaptures, manifest);
   const outputDirectory = ensureOutputBoundary(outputDirectoryInput);
   await assertFreshDirectory(outputDirectory);
   await Promise.all(
@@ -300,6 +328,7 @@ export async function renderCampaignBundle(
             description: capture.alt,
             declaration: capture.declaration,
             provenance: capture.provenance,
+            sceneIndexes: capture.sceneIndexes,
             mediaType: capture.mediaType,
             width: capture.width,
             height: capture.height,
@@ -349,16 +378,18 @@ export async function renderCampaignBundle(
       const captureInputs: CaptureInput[] = manifest.video.scenes
         .filter((scene) => scene.visual !== "closing")
         .flatMap((scene) =>
-          productCaptures.map((capture, order) => ({
-            id: `product_capture_${String(order + 1).padStart(2, "0")}_scene_${String(scene.index).padStart(2, "0")}`,
-            sceneIndex: scene.index,
-            order,
-            alt: capture.alt,
-            source: {
-              kind: "file" as const,
-              path: join(outputDirectory, capture.filename),
-            },
-          })),
+          productCaptures
+            .filter((capture) => capture.sceneIndexes.includes(scene.index))
+            .map((capture, order) => ({
+              id: `product_capture_${String(order + 1).padStart(2, "0")}_scene_${String(scene.index).padStart(2, "0")}`,
+              sceneIndex: scene.index,
+              order,
+              alt: capture.alt,
+              source: {
+                kind: "file" as const,
+                path: join(outputDirectory, capture.filename),
+              },
+            })),
         );
       const metadata = await renderCampaignVideo({
         manifest,

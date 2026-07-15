@@ -25,6 +25,7 @@ type CaptureDeclaration = {
   label: string;
   description: string;
   provenance: "creator-owned" | "authorized-use";
+  sceneIndexes?: number[];
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -49,6 +50,7 @@ async function readCaptureDeclarations(): Promise<CaptureDeclaration[] | null> {
     const label = isRecord(entry) ? entry.label : null;
     const description = isRecord(entry) ? entry.description : null;
     const provenance = isRecord(entry) ? entry.provenance : null;
+    const sceneIndexes = isRecord(entry) ? entry.sceneIndexes : null;
     if (
       typeof path !== "string" ||
       resolve(path) !== capturePaths[index] ||
@@ -58,7 +60,11 @@ async function readCaptureDeclarations(): Promise<CaptureDeclaration[] | null> {
       typeof description !== "string" ||
       description.trim().length < 12 ||
       description.trim().length > 180 ||
-      (provenance !== "creator-owned" && provenance !== "authorized-use")
+      (provenance !== "creator-owned" && provenance !== "authorized-use") ||
+      (sceneIndexes !== null &&
+        (!Array.isArray(sceneIndexes) ||
+          sceneIndexes.length === 0 ||
+          sceneIndexes.some((sceneIndex) => !Number.isInteger(sceneIndex))))
     ) {
       throw new Error(`Capture provenance record ${index + 1} is invalid or out of order.`);
     }
@@ -67,6 +73,7 @@ async function readCaptureDeclarations(): Promise<CaptureDeclaration[] | null> {
       label: label.trim(),
       description: description.trim(),
       provenance,
+      ...(sceneIndexes === null ? {} : { sceneIndexes: sceneIndexes as number[] }),
     };
   });
 }
@@ -83,6 +90,7 @@ const bundle = await renderCampaignBundle(manifest, snapshot, outputDirectory, {
       caption: declaration?.label ?? `Product workflow · view ${index + 1}`,
       provenance: "user-supplied" as const,
       declaration: declaration?.provenance ?? "creator-owned",
+      ...(declaration?.sceneIndexes ? { sceneIndexes: declaration.sceneIndexes } : {}),
     };
   }),
   renderVideos: {},

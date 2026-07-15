@@ -24,6 +24,75 @@ export type DogfoodPackage = {
   assets: DogfoodAsset[];
 };
 
+export type DogfoodGalleryAssets = {
+  landscapeVideo: DogfoodAsset | null;
+  portraitVideo: DogfoodAsset | null;
+  socialGraphics: DogfoodAsset[];
+  carousel: DogfoodAsset[];
+  productCaptures: DogfoodAsset[];
+  microsite: DogfoodAsset | null;
+  archive: DogfoodAsset | null;
+};
+
+const naturalPathOrder = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
+
+function assetSearchText(asset: DogfoodAsset): string {
+  return `${asset.href} ${asset.label}`.toLowerCase();
+}
+
+function firstMatching(
+  assets: DogfoodAsset[],
+  predicate: (asset: DogfoodAsset) => boolean,
+): DogfoodAsset | null {
+  return assets.find(predicate) ?? null;
+}
+
+/**
+ * Maps the immutable package index into the media groups shown in the public viewer.
+ * The viewer never invents preview content: every returned item is an original asset.
+ */
+export function selectDogfoodGalleryAssets(assets: DogfoodAsset[]): DogfoodGalleryAssets {
+  const ordered = [...assets].sort((left, right) =>
+    naturalPathOrder.compare(left.href, right.href),
+  );
+  const videos = ordered.filter((asset) => asset.mediaType.startsWith("video/"));
+  const images = ordered.filter((asset) => asset.mediaType.startsWith("image/"));
+  const isCarousel = (asset: DogfoodAsset) => /(?:^|\/)carousel\//.test(asset.href.toLowerCase());
+  const isCapture = (asset: DogfoodAsset) =>
+    /(?:^|\/)(?:captures?|product-ui|screenshots?)\//.test(asset.href.toLowerCase()) ||
+    /\b(?:capture|product ui|screenshot)\b/.test(asset.label.toLowerCase());
+
+  return {
+    landscapeVideo: firstMatching(videos, (asset) =>
+      /\b(?:landscape|horizontal|16x9|1920x1080)\b/.test(assetSearchText(asset)),
+    ),
+    portraitVideo: firstMatching(videos, (asset) =>
+      /\b(?:portrait|vertical|9x16|1080x1920)\b/.test(assetSearchText(asset)),
+    ),
+    socialGraphics: images.filter((asset) => !isCarousel(asset) && !isCapture(asset)),
+    carousel: images.filter(isCarousel),
+    productCaptures: images.filter(isCapture),
+    microsite:
+      firstMatching(
+        ordered,
+        (asset) =>
+          asset.mediaType === "text/html" &&
+          /(?:^|\/)site\/index\.html(?:$|[?#])/.test(asset.href.toLowerCase()),
+      ) ??
+      firstMatching(
+        ordered,
+        (asset) =>
+          asset.mediaType === "text/html" &&
+          /\b(?:microsite|launch site)\b/.test(asset.label.toLowerCase()),
+      ),
+    archive: firstMatching(
+      ordered,
+      (asset) =>
+        asset.mediaType === "application/zip" || /\.zip(?:$|[?#])/.test(asset.href.toLowerCase()),
+    ),
+  };
+}
+
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -38,8 +107,10 @@ function parseAssets(value: unknown): DogfoodAsset[] {
     const { label, href, mediaType, bytes, sha256 } = asset;
     if (
       typeof label !== "string" ||
+      label.trim().length === 0 ||
       typeof href !== "string" ||
       typeof mediaType !== "string" ||
+      mediaType.trim().length === 0 ||
       typeof bytes !== "number" ||
       !Number.isSafeInteger(bytes) ||
       bytes < 0 ||

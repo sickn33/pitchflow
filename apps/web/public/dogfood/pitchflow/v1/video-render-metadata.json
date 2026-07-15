@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "1.0.0",
+  "renders": [
+    {
+      "compositionId": "PitchFlow",
+      "manifestId": "campaign_a6278deb1d98cf0c",
+      "outputPath": "videos/launch-landscape-1920x1080.mp4",
+      "codec": "h264",
+      "mediaType": "video/mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "durationInFrames": 1080,
+      "durationSeconds": 36,
+      "bytes": 41078320,
+      "sha256": "32743c9f4f6dd87e0b51cae9776361bb84c9dd50999ae942270d01201ac9639e",
+      "videoBitrate": "10M",
+      "captures": [
+        {
+          "id": "product_capture_01_scene_01",
+          "sceneIndex": 1,
+          "order": 0,
+          "alt": "PitchFlow evidence workspace showing the public repository, pinned commit, and bounded source records.",
+          "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+          "bytes": 238771,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_02_scene_01",
+          "sceneIndex": 1,
+          "order": 1,
+          "alt": "PitchFlow campaign preview showing the GPT-5.6 Sol narrative and editable evidence-linked product claims.",
+          "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2",
+          "bytes": 359473,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_02",
+          "sceneIndex": 2,
+          "order": 0,
+          "alt": "PitchFlow evidence workspace showing the public repository, pinned commit, and bounded source records.",
+          "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+          "bytes": 238771,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_03",
+          "sceneIndex": 3,
+          "order": 0,
+          "alt": "PitchFlow evidence workspace showing the public repository, pinned commit, and bounded source records.",
+          "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+          "bytes": 238771,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_04",
+          "sceneIndex": 4,
+          "order": 0,
+          "alt": "PitchFlow campaign preview showing the GPT-5.6 Sol narrative and editable evidence-linked product claims.",
+          "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2",
+          "bytes": 359473,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_02_scene_04",
+          "sceneIndex": 4,
+          "order": 1,
+          "alt": "PitchFlow copy workspace showing campaign language generated from the same commit-pinned manifest.",
+          "sha256": "8933f20014ff072777d10eb57437d99638cf622a34a22ca370d75daec6f14e7e",
+          "bytes": 278991,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_05",
+          "sceneIndex": 5,
+          "order": 0,
+          "alt": "PitchFlow export receipt showing the microsite, social images, carousel, copy, both video masters, checksums, and ZIP.",
+          "sha256": "99560315c64fe328144d97d8623dae97ff7562e5a9cdfb3af6973882363d7ae7",
+          "bytes": 444156,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        }
+      ]
+    },
+    {
+      "compositionId": "PitchFlow",
+      "manifestId": "campaign_a6278deb1d98cf0c",
+      "outputPath": "videos/launch-portrait-1080x1920.mp4",
+      "codec": "h264",
+      "mediaType": "video/mp4",
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "durationInFrames": 1080,
+      "durationSeconds": 36,
+      "bytes": 48468846,
+      "sha256": "2de969b9dad2dcb53cadc21313f6fc541de2557100e9f202d490083cf9efc094",
+      "videoBitrate": "12M",
+      "captures": [
+        {
+          "id": "product_capture_01_scene_01",
+          "sceneIndex": 1,
+          "order": 0,
+          "alt": "PitchFlow evidence workspace showing the public repository, pinned commit, and bounded source records.",
+          "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+          "bytes": 238771,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_02_scene_01",
+          "sceneIndex": 1,
+          "order": 1,
+          "alt": "PitchFlow campaign preview showing the GPT-5.6 Sol narrative and editable evidence-linked product claims.",
+          "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2",
+          "bytes": 359473,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_02",
+          "sceneIndex": 2,
+          "order": 0,
+          "alt": "PitchFlow evidence workspace showing the public repository, pinned commit, and bounded source records.",
+          "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+          "bytes": 238771,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_03",
+          "sceneIndex": 3,
+          "order": 0,
+          "alt": "PitchFlow evidence workspace showing the public repository, pinned commit, and bounded source records.",
+          "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+          "bytes": 238771,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_04",
+          "sceneIndex": 4,
+          "order": 0,
+          "alt": "PitchFlow campaign preview showing the GPT-5.6 Sol narrative and editable evidence-linked product claims.",
+          "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2",
+          "bytes": 359473,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_02_scene_04",
+          "sceneIndex": 4,
+          "order": 1,
+          "alt": "PitchFlow copy workspace showing campaign language generated from the same commit-pinned manifest.",
+          "sha256": "8933f20014ff072777d10eb57437d99638cf622a34a22ca370d75daec6f14e7e",
+          "bytes": 278991,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        },
+        {
+          "id": "product_capture_01_scene_05",
+          "sceneIndex": 5,
+          "order": 0,
+          "alt": "PitchFlow export receipt showing the microsite, social images, carousel, copy, both video masters, checksums, and ZIP.",
+          "sha256": "99560315c64fe328144d97d8623dae97ff7562e5a9cdfb3af6973882363d7ae7",
+          "bytes": 444156,
+          "mediaType": "image/png",
+          "width": 1600,
+          "height": 1000,
+          "sourceKind": "file"
+        }
+      ]
+    }
+  ]
+}
