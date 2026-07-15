@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { resolveMetadataBase } from "../lib/site-url";
 import "./styles.css";
 
-const metadataBase = new URL(
-  process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "http://localhost:3210"),
-);
+const metadataBase = resolveMetadataBase();
 
 export const metadata: Metadata = {
   applicationName: "PitchFlow",

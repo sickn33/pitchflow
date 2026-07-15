@@ -1,0 +1,9 @@
+{
+  "format": "pitchflow-osv-audit",
+  "version": 1,
+  "generatedAt": "2026-07-15T07:38:51.475Z",
+  "endpoint": "https://api.osv.dev/v1/querybatch",
+  "productionPackages": 287,
+  "findings": [],
+  "status": "ok"
+}
