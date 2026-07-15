@@ -1,0 +1,13 @@
+{
+  "name": "@pitchflow/export",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@pitchflow/core": "workspace:*",
+    "@pitchflow/remotion": "workspace:*",
+    "jszip": "3.10.1",
+    "sharp": "0.34.5"
+  }
+}

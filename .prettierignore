@@ -4,5 +4,7 @@ dist
 coverage
 playwright-report
 test-results
-artifacts/dogfood/exports
+artifacts
+apps/web/public/dogfood
+packages/remotion/artifacts
 pnpm-lock.yaml

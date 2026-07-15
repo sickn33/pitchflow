@@ -7,9 +7,14 @@ test-results/
 .vercel/
 .DS_Store
 *.log
+*.tsbuildinfo
 .env
 .env.*
 !.env.example
 artifacts/work/
+artifacts/exports/
+artifacts/dogfood/vibepalette-campaign/
+artifacts/verification/2026-07-15-vibepalette/
 artifacts/verification/*/trace/
 packages/remotion/.remotion/
+packages/remotion/artifacts/

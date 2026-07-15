@@ -36,4 +36,10 @@ export default tseslint.config(
     languageOptions: { globals: globals.node },
     extends: [tseslint.configs.disableTypeChecked],
   },
+  {
+    files: ["**/*.test.ts", "tests/**/*.ts"],
+    rules: {
+      "@typescript-eslint/require-await": "off",
+    },
+  },
 );

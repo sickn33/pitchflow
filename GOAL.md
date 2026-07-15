@@ -181,6 +181,18 @@ For each slice:
 
 ## Approval gates and authority
 
+### Bounded delegation authorization
+
+Nicco explicitly authorized bounded subagents on 2026-07-15 after activation. This authorization does not relax the finish line, provenance, security, approval, or anti-cheating rules.
+
+- Use at most three concurrent child agents so the parent retains one execution slot.
+- Each child receives a concrete objective, explicit non-overlapping file ownership, non-goals, verifier, stop condition, and evidence-return requirement.
+- Children must preserve concurrent edits, may not rewrite shared history, and must adapt to other work in the repository.
+- Preferred independent lanes are `apps/web` product/accessibility, `packages/remotion` media rendering, and read-only or test-only independent verification.
+- The parent retains `packages/core`, `packages/codex`, repository integration, durable goal files, Git/GitHub/Vercel operations, primary GPT-5.6 proof, public actions, final synthesis, final clean-state verification, `/feedback` provenance, and `update_goal` completion unless it assigns a narrower non-overlapping subset.
+- Children may not create goals or further agents, enable Platform API spend, access credentials, publish or deploy, touch Devpost or YouTube, inspect/copy the old implementation, weaken tests, or mark the goal complete.
+- The parent must integrate each result and rerun the strongest relevant verifier before accepting it.
+
 Already authorized:
 
 - create and push public `sickn33/pitchflow`;

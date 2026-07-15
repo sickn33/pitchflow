@@ -19,6 +19,7 @@
     "paths": {
       "@pitchflow/core": ["packages/core/src/index.ts"],
       "@pitchflow/codex": ["packages/codex/src/index.ts"],
+      "@pitchflow/export": ["packages/export/src/index.ts"],
       "@pitchflow/remotion": ["packages/remotion/src/index.ts"]
     },
     "resolveJsonModule": true,
@@ -34,6 +35,7 @@
     "packages/**/*.tsx",
     "scripts/**/*.ts",
     "tests/**/*.ts",
+    "playwright.config.ts",
     "vitest.config.ts",
     "eslint.config.js"
   ],

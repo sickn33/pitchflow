@@ -4,6 +4,14 @@ import { resolve } from "node:path";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  outputFileTracingExcludes: {
+    "/api/export": [
+      "../../artifacts/**",
+      "../../packages/export/**",
+      "../../packages/remotion/**",
+      "../../scripts/**",
+    ],
+  },
   turbopack: {
     root: resolve(import.meta.dirname, "../.."),
   },

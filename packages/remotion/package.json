@@ -4,6 +4,12 @@
   "private": true,
   "type": "module",
   "exports": "./src/index.ts",
+  "scripts": {
+    "smoke": "node --disable-warning=DEP0205 --import tsx/esm src/smoke.ts",
+    "smoke:portrait": "node --disable-warning=DEP0205 --import tsx/esm src/smoke.ts portrait",
+    "test": "vitest run --config vitest.config.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
   "dependencies": {
     "@pitchflow/core": "workspace:*",
     "@remotion/bundler": "4.0.489",
