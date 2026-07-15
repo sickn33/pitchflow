@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { POST } from "./route";
+import { POST, maxDuration } from "./route";
 
 const originalViewer = process.env.PITCHFLOW_PUBLIC_VIEWER;
 const originalVercel = process.env.VERCEL;
@@ -21,6 +21,10 @@ function request(origin: string): Request {
 }
 
 describe("capture export route boundary", () => {
+  it("stays within Vercel's Hobby serverless duration ceiling", () => {
+    expect(maxDuration).toBeLessThanOrEqual(300);
+  });
+
   it("rejects public-viewer export before reading or staging attachments", async () => {
     process.env.PITCHFLOW_PUBLIC_VIEWER = "1";
     const response = await POST(request("http://127.0.0.1:3210"));

@@ -22,7 +22,7 @@ import {
 } from "../../../lib/captures";
 
 export const runtime = "nodejs";
-export const maxDuration = 600;
+export const maxDuration = 300;
 
 const ExportRequestSchema = z.object({
   snapshot: RepoSnapshotSchema,
