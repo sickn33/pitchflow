@@ -2,9 +2,9 @@
   "format": "pitchflow-clean-clone-verification",
   "version": 1,
   "status": "ok",
-  "verifiedAt": "2026-07-15T08:20:52.905Z",
+  "verifiedAt": "2026-07-15T08:27:45.624Z",
   "repository": "https://github.com/sickn33/pitchflow",
-  "commitSha": "3f78a97dfd77d80854d3b390ea201c875ecff566",
+  "commitSha": "d32e1c603b8e1411b2b00e5e36f0e9b54bcdf540",
   "clone": {
     "shallow": true,
     "partialCloneFilter": "blob:none",
@@ -12,23 +12,23 @@
   },
   "commands": [
     {
-      "command": "git clone --depth 1 --filter=blob:none --branch main https://github.com/sickn33/pitchflow.git /var/folders/1j/_3_4w7ls2jq5p0bhrk57_9lm0000gn/T/pitchflow-clean-clone-YUrAsx/repo",
-      "durationMs": 60069,
+      "command": "git clone --depth 1 --filter=blob:none --branch main https://github.com/sickn33/pitchflow.git /var/folders/1j/_3_4w7ls2jq5p0bhrk57_9lm0000gn/T/pitchflow-clean-clone-L3muBa/repo",
+      "durationMs": 81647,
       "exitCode": 0
     },
     {
       "command": "pnpm install --frozen-lockfile",
-      "durationMs": 4060,
+      "durationMs": 3925,
       "exitCode": 0
     },
     {
       "command": "pnpm check:static",
-      "durationMs": 27985,
+      "durationMs": 29258,
       "exitCode": 0
     },
     {
       "command": "pnpm verify:secrets",
-      "durationMs": 929,
+      "durationMs": 983,
       "exitCode": 0
     },
     {
@@ -38,11 +38,11 @@
     },
     {
       "command": "pnpm --filter @pitchflow/codex exec codex --version",
-      "durationMs": 3962,
+      "durationMs": 3970,
       "exitCode": 0
     },
     {
-      "command": "pnpm pitchflow --no-open --port 50901",
+      "command": "pnpm pitchflow --no-open --port 51044",
       "durationMs": 0,
       "exitCode": 0
     }
@@ -58,7 +58,7 @@
     "codexCliVersion": "codex-cli 0.144.4"
   },
   "launcher": {
-    "command": "pnpm pitchflow --no-open --port 50901",
+    "command": "pnpm pitchflow --no-open --port 51044",
     "pageStatus": 200,
     "mode": "local",
     "generationEnabledWithoutAuth": false,

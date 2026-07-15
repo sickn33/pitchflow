@@ -182,6 +182,7 @@ The finish line was tested against static-demo substitution, decorative evidence
 - Root cause: Next.js 16 rewrites its generated `apps/web/next-env.d.ts` import between `.next/types/routes.d.ts` during production builds and `.next/dev/types/routes.d.ts` when the local launcher starts. This is generated framework state, not product source. A cache-free typecheck, lint, and all 74 tests pass before the file exists.
 - Repair: stop tracking and narrowly ignore only `apps/web/next-env.d.ts`. The clean-clone assertion remains strict for every tracked or untracked non-ignored path; no verifier exception was added.
 - The repaired public run against `3f78a97dfd77d80854d3b390ea201c875ecff566` passed. It cloned `main` from GitHub, installed with the frozen lockfile, passed formatting/lint/typecheck/74 tests/production build, secret and submission-ready scans, resolved Codex CLI `0.144.4`, launched on loopback in an empty `HOME`/`CODEX_HOME`, reported generation disabled and no authentication, read or printed no credential values, and left the clone clean before deletion. Evidence: `artifacts/verification/2026-07-15-pitchflow/clean-clone-verification.json`.
+- The exact public implementation/evidence commit `d32e1c603b8e1411b2b00e5e36f0e9b54bcdf540` then passed the same clean-clone verifier, including the expanded 36-file submission-ready contract, at `2026-07-15T08:27:45.624Z`. This supersedes the earlier successful `3f78a97` report.
 
 ## 2026-07-15 — durable audit and submission contract expansion
 
