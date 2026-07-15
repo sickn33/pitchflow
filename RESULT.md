@@ -1,28 +1,30 @@
 # PitchFlow Result
 
-Status: **ACTIVE — CONNECTED-ENGINE CANDIDATE PASSED; LIVE APPROVAL GATE REMAINS**
+Status: **ACTIVE — LIVE CONNECTED-ENGINE PRODUCT VERIFIED; NICCO APPROVAL GATE REMAINS**
 Started: 2026-07-15  
 Last evidence update: 2026-07-15  
 Category: Developer Tools  
 Public language: English
 
-This is the durable evidence index for the active goal. The product-first workspace, secure user-owned companion, real Codex/GPT-5.6 path, fresh VibePalette package, capture-led creative system, immutable demo, and submission media are real and verified. Completion remains forbidden until the repaired source is deployed and read back, the real HTTPS-to-loopback browser behavior passes on desktop and 390px, and Nicco explicitly approves that live experience. YouTube and Devpost remain frozen after that approval gate.
+This is the durable evidence index for the active goal. The product-first workspace, secure user-owned companion, real Codex/GPT-5.6 path, fresh VibePalette package, capture-led creative system, immutable demo, and submission media are real and verified. The repaired source is deployed and read back, and the real Microsoft Edge HTTPS-to-loopback policy path passes through the explicit local fallback with repository, direction, and captures preserved. Completion remains forbidden until Nicco explicitly approves this exact live experience. YouTube and Devpost remain frozen after that approval gate.
 
 ## Public surfaces
 
 - Public repository: <https://github.com/sickn33/pitchflow>
-- Stable implementation/evidence commit: `d32e1c603b8e1411b2b00e5e36f0e9b54bcdf540`
+- Connected-engine implementation commit: `52cd9c32553ab754121d946a73bd4bec56922048`
 - Public viewer: <https://pitchflow-ten.vercel.app>
-- Vercel deployment: `dpl_AMyxxKDQmoHjod85fGk683mALVXy`; deployed source `c75994d934743d64547f1fa7ac78664622204559`
-- Unauthenticated readback: `2026-07-15T07:55:47.542Z`; all 25 files and 183,781,036 bytes matched the immutable package, and all three mutation routes returned `403 PUBLIC_VIEWER_READ_ONLY`.
-- Live browser replay: `2026-07-15T10:03:50+02:00`; desktop and mobile had zero root overflow and zero console warnings/errors. Open Graph and Twitter metadata used the canonical HTTPS production origin.
+- Vercel deployment: `dpl_FWyDFED7v5FZ171XH6YRvgifYtkM`; state `READY`; production URL `https://pitchflow-6dih1b3ab-sickn33s-projects.vercel.app`; aliased to the public viewer.
+- Unauthenticated readback: `2026-07-15T13:10:33.104Z`; all 25 files and 183,781,036 bytes matched the immutable package, and all three public mutation routes returned `403 PUBLIC_VIEWER_READ_ONLY`.
+- Live browser replay: `2026-07-15T13:10:59.703Z`; desktop 1440×1000 and mobile 390×844 had zero root overflow, zero console errors, zero serious/critical axe violations, and all Website/Images/Videos/Copy/Export tabs worked.
+- Real Edge policy replay: `2026-07-15T13:12:17.534Z`; Edge `150.0.4078.65` reported Local Network Access permission `prompt`, blocked the direct HTTPS-to-loopback request, and passed the explicit user-initiated local fallback with the VibePalette repository and two creator-owned captures preserved. Credential transfer: false.
 - Public YouTube demo: **frozen** — no upload or publication until Nicco approves the connected-engine live experience.
 - Devpost entry: **frozen** — no field edits or submission until Nicco approves the connected-engine live experience.
 
 Public readback evidence:
 
-- `artifacts/verification/2026-07-15-pitchflow/public-url-verification.json`
-- `artifacts/verification/2026-07-15-pitchflow/live-browser-verification.json`
+- `artifacts/verification/2026-07-15-connected-engine/live/public-url.json`
+- `artifacts/verification/2026-07-15-connected-engine/live/connected-engine-live-browser-qa.json`
+- `artifacts/verification/2026-07-15-connected-engine/live/edge-connected-browser-qa.json`
 - `artifacts/verification/2026-07-15-pitchflow/lighthouse/summary.json`
 
 ## One-command local path
@@ -111,24 +113,25 @@ The delivery retains an audio stream, uses no music or third-party footage, full
 
 ## Verification evidence
 
-| Gate                         | Result                                                                                       | Evidence                                                                                                                                     |
-| ---------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Clean public checkout        | Pass at exact `d32e1c6...`; frozen install, build, 74 tests, safe launcher, clean tree       | `artifacts/verification/2026-07-15-pitchflow/clean-clone-verification.json`                                                                  |
-| Unit/integration             | 13 files, 74 tests passed                                                                    | Clean-clone report and final local check output                                                                                              |
-| Local Playwright             | Passed evidence/generation/capture/export, failure, mobile, keyboard, console, and axe paths | `playwright-report/index.html`; traces are retained only on failure, and no test failed                                                      |
-| Public Playwright            | Passed complete package/download/read-only/responsive paths                                  | `playwright-report-public/index.html`; traces are retained only on failure, and no test failed                                               |
-| Live responsive browser      | Pass; 1440×1000 and 390×844, zero root overflow and console errors                           | `artifacts/verification/2026-07-15-pitchflow/live-browser-verification.json` and `responsive/` screenshots                                   |
-| Lighthouse                   | Mobile 93/100/100/100; desktop 95/100/100/100; CLS 0 for both                                | `artifacts/verification/2026-07-15-pitchflow/lighthouse/summary.json` plus hashed HTML/JSON reports                                          |
-| Social media FFprobe/decode  | Pass for both ratios                                                                         | `artifacts/verification/2026-07-15-pitchflow/bundle-verification.json`                                                                       |
-| Narrated demo probe/decode   | Pass for video and audio                                                                     | `submission/demo/pitchflow-build-week-demo-report.json` and parent inspection directory                                                      |
-| Secret audit                 | Pass; zero findings; no credential values printed                                            | `artifacts/verification/2026-07-15-pitchflow/secret-audit.json`                                                                              |
-| Dependency audit             | Pass; 287 production packages, zero OSV findings                                             | `artifacts/verification/2026-07-15-pitchflow/dependency-audit.json`                                                                          |
-| License audit                | Pass; 480 packages, zero missing/disallowed findings                                         | `artifacts/verification/2026-07-15-pitchflow/license-audit.json`                                                                             |
-| Provenance audit             | Pass; creator-owned captures rehashed, real UI enforced, media ledger complete               | `docs/PROVENANCE.md`, `capture-provenance.json`, `submission/media/manifest.json`, and bundle verification                                   |
-| Public Vercel readback       | Pass; all 25 assets rehashed, immutable caching, local generation unavailable                | `artifacts/verification/2026-07-15-pitchflow/public-url-verification.json`                                                                   |
-| Submission readiness         | Gated; 36 files checked, zero errors, exactly two explicit approval gates                    | `pnpm verify:submission -- --allow-gates`                                                                                                    |
-| Final `pnpm check:all` run 1 | **Not run yet by design**                                                                    | Must run after all three gates close; preserve as `artifacts/verification/2026-07-15-pitchflow/final-runs/check-all-1.log`                   |
-| Final `pnpm check:all` run 2 | **Not run yet by design**                                                                    | Must run immediately after run 1 with unchanged source; preserve as `artifacts/verification/2026-07-15-pitchflow/final-runs/check-all-2.log` |
+| Gate                         | Result                                                                                        | Evidence                                                                                                                                     |
+| ---------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Clean public checkout        | Pass at exact `d32e1c6...`; frozen install, build, 74 tests, safe launcher, clean tree        | `artifacts/verification/2026-07-15-pitchflow/clean-clone-verification.json`                                                                  |
+| Unit/integration             | 13 files, 74 tests passed                                                                     | Clean-clone report and final local check output                                                                                              |
+| Local Playwright             | Passed evidence/generation/capture/export, failure, mobile, keyboard, console, and axe paths  | `playwright-report/index.html`; traces are retained only on failure, and no test failed                                                      |
+| Public Playwright            | Passed complete package/download/read-only/responsive paths                                   | `playwright-report-public/index.html`; traces are retained only on failure, and no test failed                                               |
+| Live responsive browser      | Pass in Edge; 1440×1000 and 390×844, zero overflow, console errors, or blocking axe findings  | `artifacts/verification/2026-07-15-connected-engine/live/connected-engine-live-browser-qa.json` and both full-page screenshots               |
+| HTTPS-to-loopback policy     | Pass; Edge LNA prompt blocked direct fetch, explicit local fallback preserved repo + captures | `artifacts/verification/2026-07-15-connected-engine/live/edge-connected-browser-qa.json` and `edge-policy-fallback-full.png`                 |
+| Lighthouse                   | Mobile 93/100/100/100; desktop 95/100/100/100; CLS 0 for both                                 | `artifacts/verification/2026-07-15-pitchflow/lighthouse/summary.json` plus hashed HTML/JSON reports                                          |
+| Social media FFprobe/decode  | Pass for both ratios                                                                          | `artifacts/verification/2026-07-15-pitchflow/bundle-verification.json`                                                                       |
+| Narrated demo probe/decode   | Pass for video and audio                                                                      | `submission/demo/pitchflow-build-week-demo-report.json` and parent inspection directory                                                      |
+| Secret audit                 | Pass; zero findings; no credential values printed                                             | `artifacts/verification/2026-07-15-pitchflow/secret-audit.json`                                                                              |
+| Dependency audit             | Pass; 287 production packages, zero OSV findings                                              | `artifacts/verification/2026-07-15-pitchflow/dependency-audit.json`                                                                          |
+| License audit                | Pass; 480 packages, zero missing/disallowed findings                                          | `artifacts/verification/2026-07-15-pitchflow/license-audit.json`                                                                             |
+| Provenance audit             | Pass; creator-owned captures rehashed, real UI enforced, media ledger complete                | `docs/PROVENANCE.md`, `capture-provenance.json`, `submission/media/manifest.json`, and bundle verification                                   |
+| Public Vercel readback       | Pass on deployment `dpl_FWyDF...`; 25 assets rehashed and public mutations fail closed        | `artifacts/verification/2026-07-15-connected-engine/live/public-url.json`                                                                    |
+| Submission readiness         | Gated; 36 files checked, zero errors, exactly two explicit approval gates                     | `pnpm verify:submission -- --allow-gates`                                                                                                    |
+| Final `pnpm check:all` run 1 | **Not run yet by design**                                                                     | Must run after all three gates close; preserve as `artifacts/verification/2026-07-15-pitchflow/final-runs/check-all-1.log`                   |
+| Final `pnpm check:all` run 2 | **Not run yet by design**                                                                     | Must run immediately after run 1 with unchanged source; preserve as `artifacts/verification/2026-07-15-pitchflow/final-runs/check-all-2.log` |
 
 The README and five-minute public judge path were replayed against the deployed viewer. The source package, viewer package, and claim evidence agree on campaign ID `campaign_a6278deb1d98cf0c`, source commit `87d70cc297dc4320ed0a3e6aa059739565d0de43`, model `gpt-5.6-sol`, 8 claims, and 49 evidence links.
 
@@ -159,11 +162,8 @@ The README and five-minute public judge path were replayed against the deployed 
 
 ## Completion decision
 
-**NOT COMPLETE.** Candidate 2 clears the connected-engine functional, security, provenance, creative, media, and package gates. The remaining mandatory conditions are:
+**NOT COMPLETE.** Candidate 2 and the live connected-engine product clear the functional, security, provenance, creative, media, package, deployment, immutable readback, desktop, mobile, disconnected, and real Edge browser-policy gates. Edge's actual HTTPS-to-loopback behavior requires the honest user-initiated local fallback; that fallback is verified through local repository analysis with both captures preserved and no credential transfer.
 
-1. commit and push the repaired source/evidence, deploy the exact implementation to the existing Vercel alias, and verify unauthenticated readback;
-2. verify the real normal-browser HTTPS-to-loopback behavior (including disconnected/permission behavior, explicit local approval, progress, fresh result, and ZIP) plus live desktop and 390px product gates;
-3. obtain Nicco's explicit approval of that exact live experience; and
-4. only after that gate, keep YouTube/Devpost actions separately approved and run the final unchanged clean-state suite twice when every publication/submission item is real.
+The current mandatory gate is Nicco's explicit approval of the exact live experience at `https://pitchflow-ten.vercel.app`. YouTube and Devpost remain frozen. Only after that approval and any separately authorized publication actions may the final unchanged clean-state suite run twice and the active goal be considered for completion.
 
 The goal must remain active until those conditions are real and verified.

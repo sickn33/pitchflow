@@ -1,0 +1,20 @@
+{
+  "status": "policy-blocked-fallback-pass",
+  "checkedAt": "2026-07-15T13:12:17.534Z",
+  "browser": {
+    "name": "Microsoft Edge",
+    "version": "150.0.4078.65",
+    "headless": true
+  },
+  "url": "https://pitchflow-ten.vercel.app",
+  "permissionState": "prompt",
+  "engineText": "Local engine not connected",
+  "connectionError": "The hosted page could not reach loopback.Browser HTTPS, mixed-content, or private-network policy may block the direct connection. Open the same PitchFlow workspace locally and transfer only this non-secret project brief after your click.Open local workspace with this project",
+  "projectTransfer": {
+    "repositoryUrl": "https://github.com/sickn33/VibePalette",
+    "captures": 2,
+    "credentialsTransferred": false
+  },
+  "screenshot": "artifacts/verification/2026-07-15-connected-engine/live/edge-policy-fallback-full.png",
+  "consoleErrors": []
+}
