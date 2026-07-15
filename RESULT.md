@@ -1,12 +1,12 @@
 # PitchFlow Result
 
-Status: **SUBMISSION-READY LOCALLY — TWO EXTERNAL APPROVAL GATES REMAIN**  
+Status: **ACTIVE — CONNECTED-ENGINE CANDIDATE PASSED; LIVE APPROVAL GATE REMAINS**
 Started: 2026-07-15  
 Last evidence update: 2026-07-15  
 Category: Developer Tools  
 Public language: English
 
-This is the final evidence index. The implementation, immutable judge path, real Codex/GPT-5.6 path, generated package, social masters, narrated demo, and submission media are real and verified. The required `/feedback` Session ID is recorded. Completion remains forbidden until the explicit YouTube and Devpost approval gates are closed and the unchanged final state passes `pnpm check:all` twice consecutively.
+This is the durable evidence index for the active goal. The product-first workspace, secure user-owned companion, real Codex/GPT-5.6 path, fresh VibePalette package, capture-led creative system, immutable demo, and submission media are real and verified. Completion remains forbidden until the repaired source is deployed and read back, the real HTTPS-to-loopback browser behavior passes on desktop and 390px, and Nicco explicitly approves that live experience. YouTube and Devpost remain frozen after that approval gate.
 
 ## Public surfaces
 
@@ -16,8 +16,8 @@ This is the final evidence index. The implementation, immutable judge path, real
 - Vercel deployment: `dpl_AMyxxKDQmoHjod85fGk683mALVXy`; deployed source `c75994d934743d64547f1fa7ac78664622204559`
 - Unauthenticated readback: `2026-07-15T07:55:47.542Z`; all 25 files and 183,781,036 bytes matched the immutable package, and all three mutation routes returned `403 PUBLIC_VIEWER_READ_ONLY`.
 - Live browser replay: `2026-07-15T10:03:50+02:00`; desktop and mobile had zero root overflow and zero console warnings/errors. Open Graph and Twitter metadata used the canonical HTTPS production origin.
-- Public YouTube demo: **gate open** — the accepted local delivery exists; publication requires Nicco's explicit confirmation.
-- Devpost entry: **gate open** — final English copy and media exist; public field edits and final submission require Nicco's explicit confirmation.
+- Public YouTube demo: **frozen** — no upload or publication until Nicco approves the connected-engine live experience.
+- Devpost entry: **frozen** — no field edits or submission until Nicco approves the connected-engine live experience.
 
 Public readback evidence:
 
@@ -31,10 +31,26 @@ Supported on macOS or Linux with Node.js `>=20.9 <27`, pnpm 10.32.1, Chrome/Edge
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm pitchflow
+pnpm pitchflow connect
 ```
 
-`pnpm pitchflow` binds only to `127.0.0.1`, waits for `/api/status`, and opens the browser. It uses the official local Codex SDK/CLI authentication path; no Platform API key or personal OAuth/session is copied into the repository or public deployment.
+`pnpm pitchflow connect` builds and starts the companion on `127.0.0.1`, waits for `/api/status`, and opens the local approval workspace. It uses the official local Codex SDK/CLI authentication path; no Platform API key or personal OAuth/session is copied into the repository, Vercel, URLs, persistent browser storage, or public deployment.
+
+## Connected-engine fresh repository proof
+
+- Repository: `https://github.com/sickn33/VibePalette`
+- Pinned commit: `16fdff48d28f7d92fcc0b79f4892baaea6efd82f`
+- Provider/model: `codex-sdk` / `gpt-5.6-sol`
+- Fresh Codex thread: `019f65be-f626-76d2-9e91-09719bcee42a`
+- Campaign: `campaign_01bcc79ebda52e49`
+- Package: `artifacts/verification/2026-07-15-connected-engine/vibepalette-candidate-02/pitchflow-campaign.zip`
+- Package SHA-256: `99c9553d893a168de5b999803ccac9e7af1296600f99fb6174f76ac8c2bc969b`
+- Bridge receipt: `artifacts/verification/2026-07-15-connected-engine/vibepalette-candidate-02/connected-engine-evidence.json`
+- Objective/visual report: `artifacts/verification/2026-07-15-connected-engine/inspection-candidate-02-v2/creative-output-verification.json`
+
+The run used the real pairing, local approval, project-bound session, job lifecycle, Codex orchestration, capture validation, export, Remotion, package ownership, and protected asset download path. All 24 result assets were downloaded through the authenticated bridge and matched their advertised byte counts and SHA-256 values. The production verifier passed 8 claims, 63 evidence links, both full media decodes, and a 28-entry traversal-safe ZIP. No candidate asset hash intersects the PitchFlow dogfood package and no blocked PitchFlow product copy appears; the subtle generator credit and Remotion composition identifier are intentional metadata, not dogfood leakage.
+
+Candidate 1 at `artifacts/verification/2026-07-15-connected-engine/vibepalette-fresh/` is preserved as failed visual evidence. Candidate 2 is the accepted creative result: all four social layouts are distinct and capture-led, the five carousel slides form the required source → extraction → result → controls/export → CTA narrative, visible text fits without ellipsis or collision, and both video ratios use real captures with feature-specific motion and a repository CTA.
 
 Clean-profile proof: `artifacts/verification/2026-07-15-pitchflow/clean-clone-verification.json`. At `2026-07-15T08:27:45.624Z`, a shallow clone of public `main` resolved exactly `d32e1c603b8e1411b2b00e5e36f0e9b54bcdf540`, installed with the frozen lockfile, passed static verification and 74 tests, resolved `codex-cli 0.144.4`, launched in empty `HOME` and `CODEX_HOME`, exposed generation disabled/authentication false, read or printed no credential values, and remained clean before deletion.
 
@@ -143,10 +159,11 @@ The README and five-minute public judge path were replayed against the deployed 
 
 ## Completion decision
 
-**NOT COMPLETE.** No mandatory product, media, evidence, public-viewer, or submission-asset defect is known. The only open conditions are:
+**NOT COMPLETE.** Candidate 2 clears the connected-engine functional, security, provenance, creative, media, and package gates. The remaining mandatory conditions are:
 
-1. explicit approval to publish and then read back the narrated demo on YouTube;
-2. explicit approval to edit and submit the final Devpost entry, followed by readback; and
-3. two consecutive strict `pnpm check:all` passes on the unchanged, fully gated state.
+1. commit and push the repaired source/evidence, deploy the exact implementation to the existing Vercel alias, and verify unauthenticated readback;
+2. verify the real normal-browser HTTPS-to-loopback behavior (including disconnected/permission behavior, explicit local approval, progress, fresh result, and ZIP) plus live desktop and 390px product gates;
+3. obtain Nicco's explicit approval of that exact live experience; and
+4. only after that gate, keep YouTube/Devpost actions separately approved and run the final unchanged clean-state suite twice when every publication/submission item is real.
 
 The goal must remain active until those conditions are real and verified.

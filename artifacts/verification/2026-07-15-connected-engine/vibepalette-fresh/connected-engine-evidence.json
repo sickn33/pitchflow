@@ -1,0 +1,177 @@
+{
+  "format": "pitchflow-connected-engine-evidence",
+  "version": 1,
+  "generatedAt": "2026-07-15T12:12:29.259Z",
+  "startedAt": "2026-07-15T12:07:52.296Z",
+  "origin": "https://pitchflow-ten.vercel.app",
+  "loopbackOnly": true,
+  "provider": "codex",
+  "providerStatus": "connected",
+  "repository": "https://github.com/sickn33/VibePalette",
+  "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+  "campaignId": "campaign_d2aa35064372906f",
+  "productName": "VibePalette",
+  "observedStages": [
+    "queued",
+    "fetching_evidence",
+    "creative_direction",
+    "rendering_site_images_copy",
+    "rendering_videos",
+    "packaging",
+    "complete"
+  ],
+  "captures": [
+    {
+      "fileName": "vibepalette-perfection-success.png",
+      "provenance": "creator-owned",
+      "sha256": "ea4704a2061a5f35db742e8156c0983e83fc1c1f823e1bffeecc6bbde8a60dab"
+    },
+    {
+      "fileName": "vibepalette-perfection-settings.png",
+      "provenance": "creator-owned",
+      "sha256": "68c0f8636327140406631d836ec10c9455ccc38ae074252efcad75af6312953b"
+    }
+  ],
+  "assets": [
+    {
+      "filename": "site/index.html",
+      "kind": "microsite",
+      "bytes": 11421,
+      "sha256": "28b45f3d28f32c35a0d0a721c8273aa2af265af800b54d6f89b779d1fbbc6eb3"
+    },
+    {
+      "filename": "site/styles.css",
+      "kind": "microsite",
+      "bytes": 4721,
+      "sha256": "e76f75a05c173b906235806bd738dc2e5cc503768258b91dd81602868529543c"
+    },
+    {
+      "filename": "copy/campaign.json",
+      "kind": "copy",
+      "bytes": 3574,
+      "sha256": "f6fe4ea84eae202ff5f9a133edaa3a3f28ae7c16dcc4616f5fe4992fbce2e33f"
+    },
+    {
+      "filename": "copy/campaign.md",
+      "kind": "copy",
+      "bytes": 3371,
+      "sha256": "df217165d93b8bdfd1b4b6c2d391ced270e4ef0674133557a0e4e0b59cb9daec"
+    },
+    {
+      "filename": "campaign-manifest.json",
+      "kind": "manifest",
+      "bytes": 30180,
+      "sha256": "aacb7784f9d089fede0efefc4b04535bfa30fc3ef07d90b6a3722d0375eccfc4"
+    },
+    {
+      "filename": "repository-snapshot.json",
+      "kind": "manifest",
+      "bytes": 23885,
+      "sha256": "fca5c7c1a775ef161fd5bff54a7065883051292fed4de3e1ae3b3f043e9645e4"
+    },
+    {
+      "filename": "capture-provenance.json",
+      "kind": "manifest",
+      "bytes": 1148,
+      "sha256": "7e9ee53da0fc3993a57ddad698ef7fc4adff4f1e1e34826b7270d526e4adcb81"
+    },
+    {
+      "filename": "images/og-1200x630.png",
+      "kind": "image",
+      "bytes": 108827,
+      "sha256": "fc204e5f5f9cee0d95105e6f441dc8f86f715939a6e575e287330cb22b892a74"
+    },
+    {
+      "filename": "images/x-1600x900.png",
+      "kind": "image",
+      "bytes": 162559,
+      "sha256": "b876d950b65df10109a1e60f2ab2e32046a8adf7f0d17a02750e9a37d321546f"
+    },
+    {
+      "filename": "images/linkedin-1200x627.png",
+      "kind": "image",
+      "bytes": 109819,
+      "sha256": "1f70337dbe55cee677ed4e0be2b2ddba5582b94e0ee836848f9f56aca6b2a74c"
+    },
+    {
+      "filename": "images/instagram-1080x1080.png",
+      "kind": "image",
+      "bytes": 148882,
+      "sha256": "20473392d2513583bcd721c00f90e84ff99bc9588240b1448862c005315b1eee"
+    },
+    {
+      "filename": "carousel/slide-01-1080x1350.png",
+      "kind": "carousel",
+      "bytes": 164640,
+      "sha256": "b3bbc41c7fbf8b10c94a8f50403b9bf830e06d65dc911541032047bcca7757df"
+    },
+    {
+      "filename": "carousel/slide-02-1080x1350.png",
+      "kind": "carousel",
+      "bytes": 163431,
+      "sha256": "bc725594ef38920f7dc957ee93dc7128ef4e1ac90e48730f75ba7ad363351a52"
+    },
+    {
+      "filename": "carousel/slide-03-1080x1350.png",
+      "kind": "carousel",
+      "bytes": 166556,
+      "sha256": "b95b9284560f06d2e85ed194601dd02123b71e701feaf5d610b78334029f5324"
+    },
+    {
+      "filename": "carousel/slide-04-1080x1350.png",
+      "kind": "carousel",
+      "bytes": 160628,
+      "sha256": "f2963d7900a01c68805a076bff6a38624e8e973011434c25d391cc57426cc681"
+    },
+    {
+      "filename": "carousel/slide-05-1080x1350.png",
+      "kind": "carousel",
+      "bytes": 165078,
+      "sha256": "c6e4bfb1370fe24ef10b19d564f93f2e441767a8d1870b48de0de316c5e3a004"
+    },
+    {
+      "filename": "images/product-capture-01.png",
+      "kind": "image",
+      "bytes": 158569,
+      "sha256": "ea4704a2061a5f35db742e8156c0983e83fc1c1f823e1bffeecc6bbde8a60dab"
+    },
+    {
+      "filename": "images/product-capture-02.png",
+      "kind": "image",
+      "bytes": 70659,
+      "sha256": "68c0f8636327140406631d836ec10c9455ccc38ae074252efcad75af6312953b"
+    },
+    {
+      "filename": "videos/launch-landscape-1920x1080.mp4",
+      "kind": "video",
+      "bytes": 42300854,
+      "sha256": "5cfb166cb37c0e143365ba4f0c789a604de01f6800be5e551728b2bdf6571b14"
+    },
+    {
+      "filename": "videos/launch-portrait-1080x1920.mp4",
+      "kind": "video",
+      "bytes": 49735848,
+      "sha256": "1732f560293078a1f5f891a81fd253819febb93eddb820cc37d19fe60353e580"
+    },
+    {
+      "filename": "video-render-metadata.json",
+      "kind": "manifest",
+      "bytes": 10069,
+      "sha256": "044ebeecf1ad93c4d78078a4ddde27a5d0700d1510aec78556db49f9fcb5720f"
+    },
+    {
+      "filename": "asset-index.json",
+      "kind": "manifest",
+      "bytes": 8519,
+      "sha256": "0472d9966c08c7c01b83802a52ce26c703f7c9f90e17c2bef0cf1d0e0214e82f"
+    },
+    {
+      "filename": "pitchflow-campaign.zip",
+      "kind": "archive",
+      "bytes": 93631277,
+      "sha256": "300710ef68fd16013d42efa8f2e2cb7b55563168cdc7e8818547765f63d25c82"
+    }
+  ],
+  "packageFilename": "pitchflow-campaign.zip",
+  "credentialValuesPrinted": false
+}

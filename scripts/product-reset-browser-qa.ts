@@ -197,8 +197,8 @@ try {
     .waitFor();
   await page.waitForFunction(
     (expectedRepository) =>
-      (document.querySelector("#repository-url") as HTMLInputElement | null)?.value ===
-        expectedRepository && !document.querySelector(".handoff-deep-link"),
+      document.querySelector<HTMLInputElement>("#repository-url")?.value === expectedRepository &&
+      !document.querySelector(".handoff-deep-link"),
     "https://github.com/sickn33/pitchflow",
     { timeout: 60_000 },
   );

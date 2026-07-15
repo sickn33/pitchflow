@@ -27,6 +27,7 @@ import {
   carouselImageDefinition,
   renderCampaignImage,
   socialImageDefinitions,
+  type CreativeLayoutReceipt,
   type SocialImageDefinition,
 } from "./images";
 import { renderMicrositeCss, renderMicrositeHtml } from "./site";
@@ -59,7 +60,16 @@ export type RenderBundleOptions = {
     scale?: number;
     onProgress?: (layout: VideoLayout, event: PitchFlowRenderProgress) => void;
   };
+  onStage?: (stage: RenderBundleStage) => void;
 };
+
+export type RenderBundleStage =
+  | "writing-core"
+  | "rendering-images"
+  | "rendering-videos"
+  | "indexing"
+  | "packaging"
+  | "complete";
 
 type StagedProductCapture = Omit<ProductCapture, "sourcePath" | "sceneIndexes"> & {
   filename: string;
@@ -291,6 +301,7 @@ export async function renderCampaignBundle(
     ),
   );
 
+  options.onStage?.("writing-core");
   await Promise.all([
     writeUtf8(
       join(outputDirectory, "site/index.html"),
@@ -343,20 +354,49 @@ export async function renderCampaignBundle(
   ]);
 
   const imageDefinitions = socialImageDefinitions(manifest);
-  await Promise.all(
-    imageDefinitions.map(async (definition) => {
-      const outputPath = join(outputDirectory, "images", definition.filename);
-      await renderCampaignImage(manifest, definition, outputPath);
-      await assertImageDimensions(outputPath, definition);
-    }),
+  const creativeLayoutReceipts: CreativeLayoutReceipt[] = [];
+  options.onStage?.("rendering-images");
+  creativeLayoutReceipts.push(
+    ...(await Promise.all(
+      imageDefinitions.map(async (definition) => {
+        const outputPath = join(outputDirectory, "images", definition.filename);
+        const receipt = await renderCampaignImage(
+          manifest,
+          definition,
+          outputPath,
+          productCaptures,
+        );
+        await assertImageDimensions(outputPath, definition);
+        return { ...receipt, filename: `images/${receipt.filename}` };
+      }),
+    )),
   );
-  await Promise.all(
-    manifest.carousel.map(async (slide) => {
-      const definition = carouselImageDefinition(slide, manifest.productBrief.productName);
-      const outputPath = join(outputDirectory, "carousel", definition.filename);
-      await renderCampaignImage(manifest, definition, outputPath);
-      await assertImageDimensions(outputPath, definition);
-    }),
+  creativeLayoutReceipts.push(
+    ...(await Promise.all(
+      manifest.carousel.map(async (slide) => {
+        const definition = carouselImageDefinition(slide, manifest.productBrief.productName);
+        const outputPath = join(outputDirectory, "carousel", definition.filename);
+        const receipt = await renderCampaignImage(
+          manifest,
+          definition,
+          outputPath,
+          productCaptures,
+        );
+        await assertImageDimensions(outputPath, definition);
+        return { ...receipt, filename: `carousel/${receipt.filename}` };
+      }),
+    )),
+  );
+  await writeUtf8(
+    join(outputDirectory, "creative-layout-receipts.json"),
+    `${JSON.stringify(
+      {
+        schemaVersion: "1.0.0",
+        assets: creativeLayoutReceipts,
+      },
+      null,
+      2,
+    )}\n`,
   );
 
   const knownMediaByFilename = new Map<
@@ -366,6 +406,7 @@ export async function renderCampaignBundle(
   const renderedVideos: Array<[filename: string, intendedChannel: string]> = [];
   const renderReceipts: Array<Record<string, unknown>> = [];
   if (options.renderVideos) {
+    options.onStage?.("rendering-videos");
     const layouts = options.renderVideos.layouts ?? [...VIDEO_LAYOUTS];
     if (new Set(layouts).size !== layouts.length) {
       throw new Error("Video render layouts must not contain duplicates.");
@@ -450,6 +491,7 @@ export async function renderCampaignBundle(
     ["campaign-manifest.json", "Structured campaign manifest"],
     ["repository-snapshot.json", "Repository evidence record", "repository-derived"],
     ["capture-provenance.json", "Product capture provenance record"],
+    ["creative-layout-receipts.json", "Static creative layout and text-fit evidence"],
     ...imageDefinitions.map(
       (definition) => [`images/${definition.filename}`, definition.channel] as [string, string],
     ),
@@ -483,6 +525,7 @@ export async function renderCampaignBundle(
         ],
     ),
   ];
+  options.onStage?.("indexing");
   const assets: CreativeAsset[] = [];
   for (const [filename, channel, provenance] of expectedAssets) {
     assets.push(
@@ -513,6 +556,7 @@ export async function renderCampaignBundle(
   );
 
   const zip = new JSZip();
+  options.onStage?.("packaging");
   for (const [filename] of expectedAssets) {
     assertSafeArchivePath(filename);
     zip.file(filename, await readFile(join(outputDirectory, filename)));
@@ -533,5 +577,6 @@ export async function renderCampaignBundle(
   assets.push(
     await inspectAsset(outputDirectory, basename(archivePath), "Complete campaign archive"),
   );
+  options.onStage?.("complete");
   return { outputDirectory, assets, assetIndexPath, archivePath };
 }

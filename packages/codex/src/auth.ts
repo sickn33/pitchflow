@@ -1,6 +1,7 @@
 import { execFile } from "node:child_process";
+import { realpathSync } from "node:fs";
 import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
+import { dirname, resolve, sep } from "node:path";
 import { promisify } from "node:util";
 
 import { buildCodexEnvironment } from "./environment";
@@ -16,6 +17,15 @@ export type CodexAuthStatus = {
 };
 
 export function resolveProjectCodexCli(): string {
+  const configured = process.env.PITCHFLOW_CODEX_CLI_PATH;
+  if (configured) {
+    const executable = realpathSync(configured);
+    const expectedSuffix = `${sep}node_modules${sep}@openai${sep}codex${sep}bin${sep}codex.js`;
+    if (!executable.endsWith(expectedSuffix)) {
+      throw new Error("PITCHFLOW_CODEX_CLI_PATH must resolve to the installed @openai/codex CLI.");
+    }
+    return executable;
+  }
   const packageJson = require.resolve("@openai/codex/package.json");
   return resolve(dirname(packageJson), "bin/codex.js");
 }

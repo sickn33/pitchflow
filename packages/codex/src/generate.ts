@@ -18,6 +18,7 @@ import {
 import { z } from "zod";
 
 import { buildCodexEnvironment } from "./environment";
+import { resolveProjectCodexCli } from "./auth";
 import { buildCreativeDirectorPrompt } from "./prompt";
 
 export { buildCodexEnvironment } from "./environment";
@@ -45,6 +46,7 @@ export type GenerateCampaignOptions = {
   runner?: StructuredRunner;
   generatedAt?: string;
   version?: number;
+  signal?: AbortSignal;
 };
 
 export class CodexGenerationError extends Error {
@@ -117,7 +119,10 @@ function parseDraft(response: string): CampaignDraft {
 }
 
 function createSdkRunner(model: string, workingDirectory: string): StructuredRunner {
-  const codex = new Codex({ env: buildCodexEnvironment() });
+  const codex = new Codex({
+    codexPathOverride: resolveProjectCodexCli(),
+    env: buildCodexEnvironment(),
+  });
   const thread = codex.startThread({
     model,
     modelReasoningEffort: "high",
@@ -172,7 +177,10 @@ export async function generateCampaignWithCodex(
     const runner = options.runner ?? createSdkRunner(model, isolatedDirectory!);
     const prompt = buildCreativeDirectorPrompt(snapshot, preferences);
     const outputSchema = z.toJSONSchema(CampaignDraftSchema);
-    const signal = AbortSignal.timeout(options.timeoutMs ?? 240_000);
+    const timeoutSignal = AbortSignal.timeout(options.timeoutMs ?? 240_000);
+    const signal = options.signal
+      ? AbortSignal.any([timeoutSignal, options.signal])
+      : timeoutSignal;
     let repairAttempts = 0;
     let totalUsage: Usage | null = null;
     let threadId: string | null = null;

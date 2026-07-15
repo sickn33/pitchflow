@@ -13,22 +13,22 @@ One validated `CampaignManifest` then drives:
 - reproducible 1920x1080 and 1080x1920 Remotion H.264 videos; and
 - a checksummed asset index plus traversal-safe ZIP.
 
-The public Vercel experience is an immutable, no-login PitchFlow dogfood package. Fresh repository analysis and Codex generation stay on the developer's machine; no personal Codex OAuth or session is deployed as a backend.
+The public Vercel experience is the same product workspace, preloaded with an immutable no-login PitchFlow demo. For a fresh repository it pairs with a loopback-only companion started by the developer; the job runs on that machine and its new outputs replace the demo in Website, Images, Videos, Copy, and Export. No personal Codex OAuth or session is deployed as a backend.
 
 ## Judge path
 
 Open the no-login production viewer: **<https://pitchflow-ten.vercel.app>**.
 
-The viewer presents the exact accepted PitchFlow dogfood campaign pinned to source commit `87d70cc297dc4320ed0a3e6aa059739565d0de43`. Judges can inspect the evidence, campaign, copy, real product captures, social system, five-slide carousel, both Remotion masters, visible SHA-256 values, static microsite, and complete ZIP without waiting for a model call. `GET /api/status` reports `generationEnabled: false`, and the public analyze/generate/export routes fail closed before parsing.
+The workspace presents the complete PitchFlow dogfood campaign immediately. Judges can explore its website, copy, real product captures, social system, five-slide carousel, both Remotion masters, and complete ZIP without waiting for a model call. The detailed hashes, provenance, security boundary, and Build Week proof remain secondary under `/evidence`.
 
 For fresh generation through your own Codex entitlement:
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm pitchflow
+pnpm pitchflow connect
 ```
 
-`pnpm pitchflow` starts the workspace on `127.0.0.1:3210`, waits until it is healthy, and opens the browser. Use `pnpm pitchflow --no-open` for a terminal-only launch or `--port 4321` for another loopback port.
+`pnpm pitchflow connect` builds and starts the production companion on `127.0.0.1:3210`, waits until it is healthy, and opens the local approval workspace. Use `pnpm pitchflow connect --no-open` for a terminal-only launch or `--port 4321` for another loopback port. The hosted workspace can then request a short-lived pairing; the user approves the exact repository, direction, and capture digest locally before generation begins.
 
 Then:
 
@@ -86,8 +86,9 @@ pnpm --filter @pitchflow/codex exec codex login
 - Snapshot IDs and evidence hashes are recomputed before model generation and again before export.
 - Every factual campaign surface carries evidence IDs; unsupported metrics, testimonials, customers, and superlatives are prohibited.
 - Codex runs from an isolated temporary directory with a small environment allowlist. Tool activity in the structured creative-director turn is a hard failure.
-- Public deployment mode rejects analyze, generate, and export before request payload processing.
+- Public deployment mode has no provider authority. Fresh generation is performed only by an explicitly paired loopback companion; legacy hosted mutation routes still reject before request payload processing.
 - Product captures are validated locally and never included in the Codex prompt.
+- Pairing uses exact origin/Host checks, high-entropy expiring in-memory tokens, one-time local approval challenges, replay-resistant request IDs, bounded inputs, and session-owned result access. Secrets and session tokens are never placed in URLs or persistent browser storage.
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/CODEX_COLLABORATION.md](docs/CODEX_COLLABORATION.md), [docs/JUDGING.md](docs/JUDGING.md), [docs/PROVENANCE.md](docs/PROVENANCE.md), and [docs/DEVPOST.md](docs/DEVPOST.md) for the full judge, submission, and audit trail.
 
@@ -107,17 +108,19 @@ pnpm test:e2e
 pnpm smoke:github -- --repo https://github.com/owner/repository --output artifacts/verification/run/repo-snapshot.json
 pnpm smoke:codex -- --snapshot artifacts/verification/run/repo-snapshot.json --output artifacts/verification/run/campaign-manifest.json
 pnpm smoke:render -- --manifest path/to/manifest.json --snapshot path/to/snapshot.json --output artifacts/exports/run --capture path/to/ui-1.png --capture path/to/ui-2.png
+pnpm verify:connected-engine -- --repo https://github.com/owner/repository --output artifacts/verification/fresh --capture path/to/ui-1.png --capture path/to/ui-2.png
+pnpm verify:creative-output -- --bundle artifacts/verification/fresh --output artifacts/verification/fresh-inspection --expected-product ProductName
 ```
 
 ## Repository map
 
 ```text
-apps/web           local workspace + immutable public viewer
+apps/web           unified public/local workspace + secure loopback bridge
 packages/core      schemas, GitHub intake, evidence, security, manifest logic
 packages/codex     authenticated GPT-5.6 Sol orchestration
 packages/export    static site, graphics, copy, bundle, ZIP
 packages/remotion  deterministic dual-ratio motion renderer
-packages/cli       one-command loopback launcher
+packages/cli       one-command production companion and local launcher
 scripts            real smoke and independent verification commands
 docs               architecture, judging, provenance, submission material
 ```

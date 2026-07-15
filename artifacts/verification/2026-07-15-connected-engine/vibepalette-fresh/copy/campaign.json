@@ -1,0 +1,36 @@
+{
+  "x": "The page in front of you is already a color brief. VibePalette captures the visible tab, extracts a balanced 5–10 color palette, and exports it as PNG, CSS custom properties, JSON, copied colors, or a Coolors link. Explore the MIT-licensed source on GitHub.",
+  "linkedIn": "A useful palette should reflect the page—not whichever tiny pixel happens to be loudest.\n\nVibePalette is a Chrome and Edge extension that captures the current tab and extracts an export-ready palette. Its documented approach combines dominance-aware RGB bins with spatial sampling and balanced selection to preserve meaningful color diversity.\n\nChoose 5–10 colors, work in HEX, RGB, or HSL, then copy the palette or export it as PNG, CSS custom properties, JSON, or a Coolors link.\n\nThe project is built with Vanilla JavaScript, tested with real-image regression fixtures, and released under the MIT license. Explore the source repository on GitHub.",
+  "productHunt": {
+    "name": "VibePalette",
+    "tagline": "Export-ready palettes from the tab in front of you",
+    "description": "VibePalette is a Chrome and Edge extension for turning the visible tab into a polished color palette. It uses dominance-aware and spatial sampling methods to reduce tiny saturated noise, then lets you refine 5–10 colors in HEX, RGB, or HSL. Copy the result, share it through Coolors, or export PNG, CSS custom properties, and JSON. Built with Vanilla JavaScript and released under the MIT license.",
+    "firstComment": "I built VibePalette around a simple workflow: capture the page you are already viewing, extract its meaningful colors, and move those colors into the next stage of your work.\n\nThe extraction approach combines quantized RGB bins, global dominance scoring, cell winners, corner averages, and top-band sampling. The goal is to keep small saturated details from taking over while preserving color diversity that actually belongs to the image.\n\nThe result can be copied or exported as PNG, CSS custom properties, JSON, or a Coolors link. The source is MIT-licensed and available on GitHub. I would especially value feedback on the palettes produced from the real pages you use every day."
+  },
+  "email": {
+    "subject": "Meet VibePalette: the visible tab, turned into a palette",
+    "body": "The page in front of you already contains a color system. VibePalette helps you use it.\n\nCapture the current tab in Chrome or Edge, extract a balanced palette, and choose 5–10 colors in HEX, RGB, or HSL. When the palette is ready, copy it or export it as PNG, CSS custom properties, JSON, or a Coolors link.\n\nVibePalette uses dominance-aware and spatial sampling methods designed to reduce the influence of tiny saturated details. It is built with Vanilla JavaScript, tested with real-image fixtures, and released under the MIT license.\n\nExplore VibePalette in the source repository on GitHub."
+  },
+  "headlineVariants": [
+    "Turn the visible tab into color you can ship.",
+    "A palette workflow built around the page in front of you.",
+    "Extract the page’s palette. Export it for the work ahead.",
+    "From browser capture to reusable color.",
+    "Real pages in. Export-ready palettes out."
+  ],
+  "ctaVariants": [
+    "Explore the source repository",
+    "Load VibePalette from source",
+    "See how VibePalette works",
+    "Build your next palette",
+    "View VibePalette on GitHub"
+  ],
+  "evidenceIds": [
+    "ev_1d1f635f3f7f",
+    "ev_29a17ee2ba13",
+    "ev_636c6f038df0",
+    "ev_f6bfc4d486d1",
+    "ev_32878d845a83",
+    "ev_de444c6d99a4"
+  ]
+}

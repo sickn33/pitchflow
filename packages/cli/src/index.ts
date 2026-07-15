@@ -1,13 +1,17 @@
-import { spawn } from "node:child_process";
+import { spawn, type ChildProcess } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
 import open from "open";
 
 import {
+  buildWorkspaceEnvironment,
   HELP_TEXT,
+  launcherMessages,
   parseLauncherArguments,
   waitForWorkspace,
+  WORKSPACE_BUILD_PROCESS,
+  workspaceProcess,
   type LauncherOptions,
 } from "./launcher";
 
@@ -31,22 +35,59 @@ if (options.help) {
 const port = String(options.port);
 const url = `http://127.0.0.1:${port}`;
 
-console.log(`Starting PitchFlow local workspace at ${url}`);
-console.log("Authenticated Codex generation remains on this machine.");
-
-const child = spawn("pnpm", ["--filter", "@pitchflow/web", "dev"], {
-  cwd: repositoryRoot,
-  env: {
-    ...process.env,
-    PITCHFLOW_PORT: port,
-    PITCHFLOW_PUBLIC_VIEWER: "0",
-    PITCHFLOW_REPOSITORY_ROOT: repositoryRoot,
-  },
-  stdio: "inherit",
-});
+for (const message of launcherMessages(url)) console.log(message);
 
 let stopping = false;
 const readinessController = new AbortController();
+let activeChild: ChildProcess | undefined;
+const environment = buildWorkspaceEnvironment(options, repositoryRoot);
+
+const stop = (signal: NodeJS.Signals) => {
+  stopping = true;
+  readinessController.abort(new Error(`PitchFlow stopped by ${signal}.`));
+  activeChild?.kill(signal);
+};
+
+process.on("SIGINT", () => stop("SIGINT"));
+process.on("SIGTERM", () => stop("SIGTERM"));
+
+async function runProductionBuild(): Promise<void> {
+  console.log("Preparing the production-safe local workspace...");
+  const build = spawn(WORKSPACE_BUILD_PROCESS.command, [...WORKSPACE_BUILD_PROCESS.args], {
+    cwd: repositoryRoot,
+    env: environment,
+    stdio: "inherit",
+  });
+  activeChild = build;
+
+  const code = await new Promise<number>((resolveExit, rejectExit) => {
+    build.once("error", rejectExit);
+    build.once("close", (exitCode) => resolveExit(exitCode ?? 1));
+  });
+  if (code !== 0) {
+    throw new Error(
+      "Unable to prepare PitchFlow. Run `pnpm install`, then `pnpm --filter @pitchflow/web build`, and retry `pnpm pitchflow connect`.",
+    );
+  }
+}
+
+try {
+  if (options.command === "connect") await runProductionBuild();
+} catch (error) {
+  if (!stopping) console.error(error instanceof Error ? error.message : String(error));
+  process.exitCode = 1;
+  process.exit();
+}
+
+if (stopping) process.exit();
+
+const processSpec = workspaceProcess(options.command);
+const child = spawn(processSpec.command, [...processSpec.args], {
+  cwd: repositoryRoot,
+  env: environment,
+  stdio: "inherit",
+});
+activeChild = child;
 
 const readiness = waitForWorkspace(url, { signal: readinessController.signal })
   .then(async () => {
@@ -60,15 +101,6 @@ const readiness = waitForWorkspace(url, { signal: readinessController.signal })
     child.kill("SIGTERM");
     process.exitCode = 1;
   });
-
-const stop = (signal: NodeJS.Signals) => {
-  stopping = true;
-  readinessController.abort(new Error(`PitchFlow stopped by ${signal}.`));
-  child.kill(signal);
-};
-
-process.on("SIGINT", () => stop("SIGINT"));
-process.on("SIGTERM", () => stop("SIGTERM"));
 
 child.on("exit", (code) => {
   stopping = true;

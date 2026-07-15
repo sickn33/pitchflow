@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0.0",
+  "captures": [
+    {
+      "filename": "images/product-capture-01.png",
+      "label": "Palette workspace",
+      "description": "Creator-owned VibePalette workspace showing a captured palette and export actions.",
+      "declaration": "creator-owned",
+      "provenance": "user-supplied",
+      "sceneIndexes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mediaType": "image/png",
+      "width": 800,
+      "height": 1440,
+      "bytes": 158569,
+      "sha256": "ea4704a2061a5f35db742e8156c0983e83fc1c1f823e1bffeecc6bbde8a60dab"
+    },
+    {
+      "filename": "images/product-capture-02.png",
+      "label": "Product settings 1",
+      "description": "Creator-owned VibePalette settings showing formats, themes, and product controls.",
+      "declaration": "creator-owned",
+      "provenance": "user-supplied",
+      "sceneIndexes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mediaType": "image/png",
+      "width": 800,
+      "height": 1440,
+      "bytes": 70659,
+      "sha256": "68c0f8636327140406631d836ec10c9455ccc38ae074252efcad75af6312953b"
+    }
+  ]
+}

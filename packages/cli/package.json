@@ -2,6 +2,7 @@
   "name": "@pitchflow/cli",
   "version": "0.1.0",
   "private": true,
+  "description": "Loopback-only PitchFlow generation companion launcher",
   "type": "module",
   "bin": {
     "pitchflow": "./src/index.ts"

@@ -16,6 +16,17 @@ import { renderCampaignBundle, type ProductCapture, type RenderBundleOptions } f
 
 const temporaryPaths = new Set<string>();
 
+type Bounds = { x: number; y: number; width: number; height: number };
+
+function boundsOverlap(left: Bounds, right: Bounds): boolean {
+  return (
+    left.x < right.x + right.width &&
+    left.x + left.width > right.x &&
+    left.y < right.y + right.height &&
+    left.y + left.height > right.y
+  );
+}
+
 afterEach(async () => {
   await Promise.all([...temporaryPaths].map((path) => rm(path, { recursive: true, force: true })));
   temporaryPaths.clear();
@@ -96,6 +107,7 @@ describe("renderCampaignBundle", () => {
         "carousel/slide-05-1080x1350.png",
         "copy/campaign.md",
         "capture-provenance.json",
+        "creative-layout-receipts.json",
         "campaign-manifest.json",
         "asset-index.json",
         "pitchflow-campaign.zip",
@@ -110,6 +122,7 @@ describe("renderCampaignBundle", () => {
     const archive = await JSZip.loadAsync(await readFile(result.archivePath));
     const filenames = Object.keys(archive.files);
     expect(filenames).toContain("asset-index.json");
+    expect(filenames).toContain("creative-layout-receipts.json");
     expect(filenames).toContain("site/index.html");
     expect(filenames).toContain("carousel/slide-05-1080x1350.png");
     expect(
@@ -136,6 +149,82 @@ describe("renderCampaignBundle", () => {
           JSON.stringify(capture.sceneIndexes) === JSON.stringify(renderableSceneIndexes),
       ),
     ).toBe(true);
+
+    const layoutEvidence = JSON.parse(
+      await readFile(join(output, "creative-layout-receipts.json"), "utf8"),
+    ) as {
+      schemaVersion: string;
+      assets: Array<{
+        filename: string;
+        layoutId: string;
+        narrativeStage: string | null;
+        width: number;
+        height: number;
+        captureFilenames: string[];
+        textBlocks: Array<{
+          original: string;
+          rendered: string;
+          lines: string[];
+          fits: boolean;
+          truncated: boolean;
+          bounds: Bounds;
+        }>;
+        reservedRegions: Array<{ id: string; bounds: Bounds }>;
+      }>;
+    };
+    expect(layoutEvidence.schemaVersion).toBe("1.0.0");
+    expect(layoutEvidence.assets).toHaveLength(9);
+    const socialReceipts = layoutEvidence.assets.filter((asset) =>
+      asset.filename.startsWith("images/"),
+    );
+    const carouselReceipts = layoutEvidence.assets.filter((asset) =>
+      asset.filename.startsWith("carousel/"),
+    );
+    expect(new Set(socialReceipts.map((asset) => asset.layoutId)).size).toBe(4);
+    expect(carouselReceipts.map((asset) => asset.narrativeStage)).toEqual([
+      "hook-problem",
+      "capture-flow",
+      "extracted-result",
+      "export-share-outcome",
+      "cta",
+    ]);
+    expect(layoutEvidence.assets.every((asset) => asset.captureFilenames.length > 0)).toBe(true);
+    expect(new Set(carouselReceipts.flatMap((asset) => asset.captureFilenames))).toEqual(
+      new Set(["images/product-capture-01.png", "images/product-capture-02.png"]),
+    );
+    expect(
+      layoutEvidence.assets.every((asset) =>
+        asset.textBlocks.every(
+          (block) =>
+            block.fits &&
+            !block.truncated &&
+            block.lines.join(" ") === block.original &&
+            !block.rendered.includes("…"),
+        ),
+      ),
+    ).toBe(true);
+    for (const receipt of layoutEvidence.assets) {
+      const metadata = await sharp(join(output, receipt.filename)).metadata();
+      expect(metadata).toMatchObject({
+        width: receipt.width,
+        height: receipt.height,
+        format: "png",
+      });
+      for (const [index, block] of receipt.textBlocks.entries()) {
+        for (const other of receipt.textBlocks.slice(index + 1)) {
+          expect(
+            boundsOverlap(block.bounds, other.bounds),
+            `${receipt.filename}: ${block.original} overlaps ${other.original}`,
+          ).toBe(false);
+        }
+        for (const region of receipt.reservedRegions) {
+          expect(
+            boundsOverlap(block.bounds, region.bounds),
+            `${receipt.filename}: ${block.original} overlaps ${region.id}`,
+          ).toBe(false);
+        }
+      }
+    }
   });
 
   it("escapes untrusted manifest text in the static microsite", async () => {

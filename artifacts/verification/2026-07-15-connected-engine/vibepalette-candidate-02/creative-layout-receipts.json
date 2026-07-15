@@ -1,0 +1,981 @@
+{
+  "schemaVersion": "1.0.0",
+  "assets": [
+    {
+      "filename": "images/og-1200x630.png",
+      "layoutId": "social-og-wide-split",
+      "narrativeStage": null,
+      "width": 1200,
+      "height": 630,
+      "captureFilenames": [
+        "images/product-capture-01.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "REPOSITORY-NATIVE LAUNCH",
+          "rendered": "REPOSITORY-NATIVE LAUNCH",
+          "lines": [
+            "REPOSITORY-NATIVE LAUNCH"
+          ],
+          "fontSize": 20,
+          "lineHeight": 22,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 70,
+            "y": 105,
+            "width": 500,
+            "height": 20
+          }
+        },
+        {
+          "id": "title",
+          "original": "From visible tab to export-ready palette.",
+          "rendered": "From visible tab\nto export-ready\npalette.",
+          "lines": [
+            "From visible tab",
+            "to export-ready",
+            "palette."
+          ],
+          "fontSize": 63,
+          "lineHeight": 69,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 70,
+            "y": 145,
+            "width": 500,
+            "height": 201
+          }
+        },
+        {
+          "id": "body",
+          "original": "A source-available Chrome and Edge extension that captures the visible tab, extracts a balanced palette inside the extension workflow, and prepares it for copying, sharing, or export.",
+          "rendered": "A source-available Chrome and Edge extension\nthat captures the visible tab, extracts a\nbalanced palette inside the extension workflow,\nand prepares it for copying, sharing, or export.",
+          "lines": [
+            "A source-available Chrome and Edge extension",
+            "that captures the visible tab, extracts a",
+            "balanced palette inside the extension workflow,",
+            "and prepares it for copying, sharing, or export."
+          ],
+          "fontSize": 21,
+          "lineHeight": 23,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 70,
+            "y": 459,
+            "width": 500,
+            "height": 90
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 14,
+          "lineHeight": 16,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 66,
+            "y": 595,
+            "width": 600,
+            "height": 14
+          }
+        },
+        {
+          "id": "marker",
+          "original": "1200×630",
+          "rendered": "1200×630",
+          "lines": [
+            "1200×630"
+          ],
+          "fontSize": 13,
+          "lineHeight": 15,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 774,
+            "y": 596,
+            "width": 360,
+            "height": 13
+          }
+        }
+      ],
+      "reservedRegions": []
+    },
+    {
+      "filename": "images/x-1600x900.png",
+      "layoutId": "social-x-feature-overlay",
+      "narrativeStage": null,
+      "width": 1600,
+      "height": 900,
+      "captureFilenames": [
+        "images/product-capture-01.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "SEE THE PRODUCT IN ACTION",
+          "rendered": "SEE THE PRODUCT IN ACTION",
+          "lines": [
+            "SEE THE PRODUCT IN ACTION"
+          ],
+          "fontSize": 22,
+          "lineHeight": 24,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 112,
+            "y": 143,
+            "width": 650,
+            "height": 22
+          }
+        },
+        {
+          "id": "title",
+          "original": "Dominant color, without the tiny saturated noise.",
+          "rendered": "Dominant color, without\nthe tiny saturated noise.",
+          "lines": [
+            "Dominant color, without",
+            "the tiny saturated noise."
+          ],
+          "fontSize": 54,
+          "lineHeight": 59,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 112,
+            "y": 216,
+            "width": 650,
+            "height": 113
+          }
+        },
+        {
+          "id": "body",
+          "original": "VibePalette 2.0.1 is a Chrome and Edge extension.",
+          "rendered": "VibePalette 2.0.1 is a Chrome and Edge\nextension.",
+          "lines": [
+            "VibePalette 2.0.1 is a Chrome and Edge",
+            "extension."
+          ],
+          "fontSize": 29,
+          "lineHeight": 32,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 112,
+            "y": 481,
+            "width": 650,
+            "height": 61
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 20,
+          "lineHeight": 22,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 88,
+            "y": 849,
+            "width": 800,
+            "height": 20
+          }
+        },
+        {
+          "id": "marker",
+          "original": "1600×900",
+          "rendered": "1600×900",
+          "lines": [
+            "1600×900"
+          ],
+          "fontSize": 19,
+          "lineHeight": 21,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 1032,
+            "y": 850,
+            "width": 480,
+            "height": 19
+          }
+        }
+      ],
+      "reservedRegions": []
+    },
+    {
+      "filename": "images/linkedin-1200x627.png",
+      "layoutId": "social-linkedin-editorial",
+      "narrativeStage": null,
+      "width": 1200,
+      "height": 627,
+      "captureFilenames": [
+        "images/product-capture-02.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "BUILT FROM PRODUCT EVIDENCE",
+          "rendered": "BUILT FROM PRODUCT EVIDENCE",
+          "lines": [
+            "BUILT FROM PRODUCT EVIDENCE"
+          ],
+          "fontSize": 18,
+          "lineHeight": 20,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 668,
+            "y": 140,
+            "width": 410,
+            "height": 18
+          }
+        },
+        {
+          "id": "title",
+          "original": "PNG, CSS, JSON—and one measured color workflow.",
+          "rendered": "PNG, CSS, JSON—and\none measured color\nworkflow.",
+          "lines": [
+            "PNG, CSS, JSON—and",
+            "one measured color",
+            "workflow."
+          ],
+          "fontSize": 42,
+          "lineHeight": 46,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 668,
+            "y": 193,
+            "width": 410,
+            "height": 134
+          }
+        },
+        {
+          "id": "body",
+          "original": "Developers and designers need a direct way to translate the colors visible on a real web page into reusable design and development formats.",
+          "rendered": "Developers and designers need a direct way to\ntranslate the colors visible on a real web page\ninto reusable design and development formats.",
+          "lines": [
+            "Developers and designers need a direct way to",
+            "translate the colors visible on a real web page",
+            "into reusable design and development formats."
+          ],
+          "fontSize": 18,
+          "lineHeight": 20,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 668,
+            "y": 389,
+            "width": 410,
+            "height": 58
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 14,
+          "lineHeight": 16,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 66,
+            "y": 592,
+            "width": 600,
+            "height": 14
+          }
+        },
+        {
+          "id": "marker",
+          "original": "1200×627",
+          "rendered": "1200×627",
+          "lines": [
+            "1200×627"
+          ],
+          "fontSize": 13,
+          "lineHeight": 15,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 774,
+            "y": 593,
+            "width": 360,
+            "height": 13
+          }
+        }
+      ],
+      "reservedRegions": [
+        {
+          "id": "product-evidence-callout",
+          "bounds": {
+            "x": 668,
+            "y": 478,
+            "width": 410,
+            "height": 30
+          }
+        }
+      ]
+    },
+    {
+      "filename": "images/instagram-1080x1080.png",
+      "layoutId": "social-instagram-product-stack",
+      "narrativeStage": null,
+      "width": 1080,
+      "height": 1080,
+      "captureFilenames": [
+        "images/product-capture-01.png",
+        "images/product-capture-02.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "MEET THE PROJECT",
+          "rendered": "MEET THE PROJECT",
+          "lines": [
+            "MEET THE PROJECT"
+          ],
+          "fontSize": 20,
+          "lineHeight": 22,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 100,
+            "y": 56,
+            "width": 880,
+            "height": 20
+          }
+        },
+        {
+          "id": "title",
+          "original": "From visible tab to export-ready palette.",
+          "rendered": "From visible tab to\nexport-ready palette.",
+          "lines": [
+            "From visible tab to",
+            "export-ready palette."
+          ],
+          "fontSize": 60,
+          "lineHeight": 65,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 100,
+            "y": 640,
+            "width": 880,
+            "height": 125
+          }
+        },
+        {
+          "id": "body",
+          "original": "Turn the visible tab into an export-ready color palette.",
+          "rendered": "Turn the visible tab into an export-ready color palette.",
+          "lines": [
+            "Turn the visible tab into an export-ready color palette."
+          ],
+          "fontSize": 27,
+          "lineHeight": 30,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 100,
+            "y": 863,
+            "width": 760,
+            "height": 27
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 24,
+          "lineHeight": 26,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 59,
+            "y": 1019,
+            "width": 540,
+            "height": 24
+          }
+        },
+        {
+          "id": "marker",
+          "original": "1080×1080",
+          "rendered": "1080×1080",
+          "lines": [
+            "1080×1080"
+          ],
+          "fontSize": 23,
+          "lineHeight": 25,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 697,
+            "y": 1020,
+            "width": 324,
+            "height": 23
+          }
+        }
+      ],
+      "reservedRegions": []
+    },
+    {
+      "filename": "carousel/slide-01-1080x1350.png",
+      "layoutId": "carousel-hook-problem",
+      "narrativeStage": "hook-problem",
+      "width": 1080,
+      "height": 1350,
+      "captureFilenames": [
+        "images/product-capture-01.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "01 — THE SOURCE",
+          "rendered": "01 — THE SOURCE",
+          "lines": [
+            "01 — THE SOURCE"
+          ],
+          "fontSize": 21,
+          "lineHeight": 23,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 85,
+            "width": 900,
+            "height": 21
+          }
+        },
+        {
+          "id": "title",
+          "original": "Start with the page you can see.",
+          "rendered": "Start with the page you\ncan see.",
+          "lines": [
+            "Start with the page you",
+            "can see."
+          ],
+          "fontSize": 65,
+          "lineHeight": 71,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 125,
+            "width": 880,
+            "height": 136
+          }
+        },
+        {
+          "id": "body",
+          "original": "VibePalette captures the current tab and turns it into a working color palette.",
+          "rendered": "VibePalette captures the current tab and turns it into a\nworking color palette.",
+          "lines": [
+            "VibePalette captures the current tab and turns it into a",
+            "working color palette."
+          ],
+          "fontSize": 29,
+          "lineHeight": 32,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 401,
+            "width": 840,
+            "height": 61
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 24,
+          "lineHeight": 26,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 59,
+            "y": 1280,
+            "width": 540,
+            "height": 24
+          }
+        },
+        {
+          "id": "marker",
+          "original": "01/05 · VibePalette",
+          "rendered": "01/05 · VibePalette",
+          "lines": [
+            "01/05 · VibePalette"
+          ],
+          "fontSize": 23,
+          "lineHeight": 25,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 697,
+            "y": 1281,
+            "width": 324,
+            "height": 23
+          }
+        }
+      ],
+      "reservedRegions": []
+    },
+    {
+      "filename": "carousel/slide-02-1080x1350.png",
+      "layoutId": "carousel-capture-flow",
+      "narrativeStage": "capture-flow",
+      "width": 1080,
+      "height": 1350,
+      "captureFilenames": [
+        "images/product-capture-01.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "02 — THE SIGNAL",
+          "rendered": "02 — THE SIGNAL",
+          "lines": [
+            "02 — THE SIGNAL"
+          ],
+          "fontSize": 21,
+          "lineHeight": 23,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 85,
+            "width": 900,
+            "height": 21
+          }
+        },
+        {
+          "id": "title",
+          "original": "Let dominant colors lead.",
+          "rendered": "Let dominant colors lead.",
+          "lines": [
+            "Let dominant colors lead."
+          ],
+          "fontSize": 65,
+          "lineHeight": 71,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 125,
+            "width": 880,
+            "height": 65
+          }
+        },
+        {
+          "id": "body",
+          "original": "RGB bins, cell winners, corner averages, and top-band samples help keep tiny saturated details from taking over.",
+          "rendered": "RGB bins, cell winners, corner averages, and top-band\nsamples help keep tiny saturated details from taking over.",
+          "lines": [
+            "RGB bins, cell winners, corner averages, and top-band",
+            "samples help keep tiny saturated details from taking over."
+          ],
+          "fontSize": 29,
+          "lineHeight": 32,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 1149,
+            "width": 840,
+            "height": 61
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 24,
+          "lineHeight": 26,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 59,
+            "y": 1280,
+            "width": 540,
+            "height": 24
+          }
+        },
+        {
+          "id": "marker",
+          "original": "02/05 · VibePalette",
+          "rendered": "02/05 · VibePalette",
+          "lines": [
+            "02/05 · VibePalette"
+          ],
+          "fontSize": 23,
+          "lineHeight": 25,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 697,
+            "y": 1281,
+            "width": 324,
+            "height": 23
+          }
+        }
+      ],
+      "reservedRegions": []
+    },
+    {
+      "filename": "carousel/slide-03-1080x1350.png",
+      "layoutId": "carousel-extracted-result",
+      "narrativeStage": "extracted-result",
+      "width": 1080,
+      "height": 1350,
+      "captureFilenames": [
+        "images/product-capture-01.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "03 — THE BALANCE",
+          "rendered": "03 — THE BALANCE",
+          "lines": [
+            "03 — THE BALANCE"
+          ],
+          "fontSize": 21,
+          "lineHeight": 23,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 85,
+            "width": 900,
+            "height": 21
+          }
+        },
+        {
+          "id": "title",
+          "original": "Keep meaningful diversity.",
+          "rendered": "Keep meaningful diversity.",
+          "lines": [
+            "Keep meaningful diversity."
+          ],
+          "fontSize": 65,
+          "lineHeight": 71,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 125,
+            "width": 880,
+            "height": 65
+          }
+        },
+        {
+          "id": "body",
+          "original": "Palette selection preserves useful color variation without forcing hue families that are irrelevant to the source.",
+          "rendered": "Palette selection preserves useful color variation without\nforcing hue families that are irrelevant to the source.",
+          "lines": [
+            "Palette selection preserves useful color variation without",
+            "forcing hue families that are irrelevant to the source."
+          ],
+          "fontSize": 29,
+          "lineHeight": 32,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 1149,
+            "width": 840,
+            "height": 61
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 24,
+          "lineHeight": 26,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 59,
+            "y": 1280,
+            "width": 540,
+            "height": 24
+          }
+        },
+        {
+          "id": "marker",
+          "original": "03/05 · VibePalette",
+          "rendered": "03/05 · VibePalette",
+          "lines": [
+            "03/05 · VibePalette"
+          ],
+          "fontSize": 23,
+          "lineHeight": 25,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 697,
+            "y": 1281,
+            "width": 324,
+            "height": 23
+          }
+        }
+      ],
+      "reservedRegions": []
+    },
+    {
+      "filename": "carousel/slide-04-1080x1350.png",
+      "layoutId": "carousel-export-share-outcome",
+      "narrativeStage": "export-share-outcome",
+      "width": 1080,
+      "height": 1350,
+      "captureFilenames": [
+        "images/product-capture-02.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "04 — THE WORKSPACE",
+          "rendered": "04 — THE WORKSPACE",
+          "lines": [
+            "04 — THE WORKSPACE"
+          ],
+          "fontSize": 21,
+          "lineHeight": 23,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 85,
+            "width": 900,
+            "height": 21
+          }
+        },
+        {
+          "id": "title",
+          "original": "Tune the palette to the job.",
+          "rendered": "Tune the palette to the job.",
+          "lines": [
+            "Tune the palette to the job."
+          ],
+          "fontSize": 65,
+          "lineHeight": 71,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 125,
+            "width": 880,
+            "height": 65
+          }
+        },
+        {
+          "id": "body",
+          "original": "Choose 5–10 colors, select HEX, RGB, or HSL, and switch among auto, dark, and light themes.",
+          "rendered": "Choose 5–10 colors, select HEX, RGB, or HSL, and switch\namong auto, dark, and light themes.",
+          "lines": [
+            "Choose 5–10 colors, select HEX, RGB, or HSL, and switch",
+            "among auto, dark, and light themes."
+          ],
+          "fontSize": 29,
+          "lineHeight": 32,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 1149,
+            "width": 840,
+            "height": 61
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 24,
+          "lineHeight": 26,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 59,
+            "y": 1280,
+            "width": 540,
+            "height": 24
+          }
+        },
+        {
+          "id": "marker",
+          "original": "04/05 · VibePalette",
+          "rendered": "04/05 · VibePalette",
+          "lines": [
+            "04/05 · VibePalette"
+          ],
+          "fontSize": 23,
+          "lineHeight": 25,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 697,
+            "y": 1281,
+            "width": 324,
+            "height": 23
+          }
+        }
+      ],
+      "reservedRegions": []
+    },
+    {
+      "filename": "carousel/slide-05-1080x1350.png",
+      "layoutId": "carousel-cta",
+      "narrativeStage": "cta",
+      "width": 1080,
+      "height": 1350,
+      "captureFilenames": [
+        "images/product-capture-01.png",
+        "images/product-capture-02.png"
+      ],
+      "textBlocks": [
+        {
+          "id": "eyebrow",
+          "original": "05 — THE HANDOFF",
+          "rendered": "05 — THE HANDOFF",
+          "lines": [
+            "05 — THE HANDOFF"
+          ],
+          "fontSize": 21,
+          "lineHeight": 23,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 85,
+            "width": 900,
+            "height": 21
+          }
+        },
+        {
+          "id": "title",
+          "original": "Export color where it needs to go.",
+          "rendered": "Export color where it\nneeds to go.",
+          "lines": [
+            "Export color where it",
+            "needs to go."
+          ],
+          "fontSize": 65,
+          "lineHeight": 71,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 125,
+            "width": 880,
+            "height": 136
+          }
+        },
+        {
+          "id": "body",
+          "original": "Copy colors, share a Coolors URL, or export PNG, CSS custom properties, and JSON.",
+          "rendered": "Copy colors, share a Coolors URL, or export PNG, CSS\ncustom properties, and JSON.",
+          "lines": [
+            "Copy colors, share a Coolors URL, or export PNG, CSS",
+            "custom properties, and JSON."
+          ],
+          "fontSize": 29,
+          "lineHeight": 32,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 90,
+            "y": 1149,
+            "width": 840,
+            "height": 61
+          }
+        },
+        {
+          "id": "cta",
+          "original": "TRY VIBEPALETTE →",
+          "rendered": "TRY VIBEPALETTE →",
+          "lines": [
+            "TRY VIBEPALETTE →"
+          ],
+          "fontSize": 31,
+          "lineHeight": 34,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 160,
+            "y": 1049,
+            "width": 760,
+            "height": 31
+          }
+        },
+        {
+          "id": "footer",
+          "original": "VibePalette · generated with PitchFlow",
+          "rendered": "VibePalette · generated with PitchFlow",
+          "lines": [
+            "VibePalette · generated with PitchFlow"
+          ],
+          "fontSize": 24,
+          "lineHeight": 26,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 59,
+            "y": 1280,
+            "width": 540,
+            "height": 24
+          }
+        },
+        {
+          "id": "marker",
+          "original": "05/05 · VibePalette",
+          "rendered": "05/05 · VibePalette",
+          "lines": [
+            "05/05 · VibePalette"
+          ],
+          "fontSize": 23,
+          "lineHeight": 25,
+          "fits": true,
+          "truncated": false,
+          "bounds": {
+            "x": 697,
+            "y": 1281,
+            "width": 324,
+            "height": 23
+          }
+        }
+      ],
+      "reservedRegions": []
+    }
+  ]
+}

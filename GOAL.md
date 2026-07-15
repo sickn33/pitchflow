@@ -8,7 +8,7 @@ Category: **Developer Tools**
 
 ## Active objective
 
-Complete and verify the PitchFlow OpenAI Build Week product defined in `/Users/nicco/Projects/Playground/pitchflow-build-week/GOAL.md`: a live product-first repo-to-launch workspace that passes the five-second desktop/390px comprehension gate, preserves the real local Codex + GPT-5.6 generation and export engine, keeps proof secondary under `/evidence`, passes all existing functional/security contracts, and receives Nicco's explicit approval before any YouTube or Devpost work resumes.
+Complete and verify the PitchFlow OpenAI Build Week product defined in `/Users/nicco/Projects/Playground/pitchflow-build-week/GOAL.md`: a live product-first repo-to-launch workspace whose public experience securely pairs with a user-owned loopback companion, performs real fresh-repository Codex + GPT-5.6 generation and rendering, returns a repository-specific complete package, keeps proof secondary under `/evidence`, passes all existing functional/security contracts, and receives Nicco's explicit approval before any YouTube or Devpost work resumes.
 
 ## Outcome
 
@@ -17,7 +17,7 @@ PitchFlow is a repo-to-launch studio for developers. A developer provides a cano
 The finished entry must include both:
 
 1. a one-command local workspace that performs real repository intake and Codex/GPT-5.6 generation without copying personal credentials; and
-2. the same product-first workspace on public Vercel, preloaded with an immutable, complete PitchFlow dogfood campaign that visitors can explore without login while fresh arbitrary-repository generation remains an honest local handoff.
+2. the same product-first workspace on public Vercel, preloaded with an immutable, complete PitchFlow dogfood campaign that visitors can explore without login and able to pair with a user-owned loopback companion for real fresh-repository generation without deploying the user's credentials.
 
 Tagline: **Ship the code. PitchFlow ships the story.**
 
@@ -30,9 +30,28 @@ At both 1440px desktop and a real 390px mobile viewport, the live homepage must 
 1. **Input:** a public GitHub repository plus 2–4 real product captures and creative direction.
 2. **Transformation:** PitchFlow understands the repository from pinned evidence and uses GPT-5.6 through the developer's local Codex entitlement to direct a coherent launch system.
 3. **Outputs:** Website, Images, Videos, Copy, and Export, culminating in one complete downloadable launch package.
-4. **How to try it:** the public site provides a complete interactive PitchFlow dogfood demo; a fresh arbitrary repository transitions honestly into the local Codex workflow with the repository URL preserved in the onboarding handoff.
+4. **How to try it:** the public site provides a complete interactive PitchFlow dogfood demo; a fresh arbitrary repository pairs with or opens the user-owned local companion, preserves the project inputs, runs the real Codex workflow after explicit local confirmation, and returns the new repository's actual outputs.
 
-The main route is the product workspace. Audit terminology, checksums, immutable-package details, security proofs, and Build Week material remain secondary under `/evidence` and may be linked quietly from the product UI. The public route must never simulate fresh generation, send mutation requests, expose personal Codex authority, or imply Platform API billing.
+The main route is the product workspace. Audit terminology, checksums, immutable-package details, security proofs, and Build Week material remain secondary under `/evidence` and may be linked quietly from the product UI. The public route must never simulate fresh generation, call a hosted provider with Nicco's authority, expose personal Codex authority, or imply Platform API billing.
+
+## Connected-engine completion finish line
+
+Nicco approved the product-first surface on 2026-07-15 but rejected the remaining explanatory handoff as incomplete product behavior. This section supersedes any earlier finish-line language that allowed an arbitrary repository to stop at a local link.
+
+The mandatory fresh-repository path is:
+
+1. `pitchflow connect` starts the existing workspace and execution engine on loopback only.
+2. The public workspace detects the companion when the browser permits HTTPS-to-loopback communication, establishes a user-initiated pairing with exact origin validation, and waits for explicit approval on the local machine.
+3. If browser private-network or mixed-content policy blocks direct communication, the public workspace opens the same product UI locally without claiming hosted generation; repository URL, direction, captures, and pending pairing state are transferred without putting credentials or tokens in URLs or persistent browser storage.
+4. The companion uses a short-lived high-entropy in-memory session, rejects expired or replayed mutations, bounds every job input, and exposes no LAN listener, wildcard CORS, long-lived secret, or public provider credential.
+5. A real job reports evidence fetching, product understanding, GPT-5.6 creative direction, asset/video rendering, validation, and packaging from actual operation boundaries. Errors, cancellation, and retry remain truthful.
+6. Completion replaces the demo campaign with the new repository's Website, Images, Videos, Copy, and Export in the same workspace. The download is that job's real ZIP and results remain isolated to the paired session.
+
+Codex is the required/default provider and uses the locally authenticated Codex entitlement with GPT-5.6 Sol. Optional Claude Code capability detection may be exposed only when a local authenticated client exists; it may not replace the Codex proof. No API-key adapter is required, and none may be enabled or paid from Nicco's Platform account without separate approval.
+
+The mandatory second-repository verifier targets `https://github.com/sickn33/VibePalette`, a separate small public repository owned by Nicco. Its generated package must be based on a newly pinned commit and creator-owned VibePalette captures, must contain the full website/image/carousel/landscape-video/portrait-video/copy/manifest/index/ZIP set, and must contain no PitchFlow dogfood campaign IDs, claims, media hashes, or product copy.
+
+File validity alone does not satisfy this verifier. When valid product captures exist, the reusable generator must make them the primary visual evidence in platform-specific social graphics, a five-slide narrative carousel, and both Remotion formats. Every visible line must fit without ellipsis or clipping; machine-readable layout receipts must prove that fitting and capture use. The carousel must progress from hook/problem through product flow and concrete result to export/share outcome and CTA. Both videos must use capture-specific motion, zoom, or highlights that substantiate the narration. Acceptance requires parent inspection of all four social graphics, all five carousel slides, and dense contact sheets for both video ratios. A visually generic, text-template, capture-light, or merely technically valid package fails closed and starts a repair loop.
 
 ## Grounded baseline
 
@@ -80,7 +99,7 @@ Use a small pnpm TypeScript workspace with deliberately few runtime boundaries:
 - `artifacts/dogfood`: immutable PitchFlow campaign manifest and all public judge exports.
 - `artifacts/verification`: timestamped machine-readable checks, screenshots, media probes, audit reports, and clean-run summaries.
 
-Repository input is untrusted. Intake uses GitHub APIs or bounded raw fetches and never checks out or executes submitted code. Local Codex authentication remains in the supported credential store and is never copied to source, logs, bundles, CI, or Vercel.
+`packages/cli` also owns `connect`, which binds only to `127.0.0.1`, passes the exact allowed public origin to the local runtime, and never prints pairing/session material. `apps/web` owns the in-memory bridge protocol, companion APIs, job orchestration, and the shared public/local product UI. Repository input is untrusted. Intake uses GitHub APIs or bounded raw fetches and never checks out or executes submitted code. Local Codex authentication remains in the supported credential store and is never copied to source, logs, bundles, CI, or Vercel.
 
 ## Required product behavior
 
@@ -114,6 +133,10 @@ Repository input is untrusted. Intake uses GitHub APIs or bounded raw fetches an
 - Produce JSON manifest, asset index, copy bundle, static microsite package, and ZIP with safe archive paths.
 - Use real product UI captures only. Optional image generation may create supporting textures/art, never fake UI.
 - Expose an immediate cached dogfood path in the public no-login viewer and an honest local-generation path.
+- Expose an engine state that distinguishes disconnected, awaiting local approval, connected, authentication required, rate-limited, and failed conditions without inventing readiness.
+- Preserve repository URL, direction fields, and 2–4 bounded captures through pairing or the local-open fallback.
+- Report real job stages, cancellation, retry, failure, and completion; never timer-simulate work.
+- Keep each generated campaign and every asset/ZIP isolated to its paired short-lived session.
 
 ## Primary verifier
 
@@ -122,9 +145,9 @@ Against the exact deployed public SHA and without relying on README or spoken ex
 1. What do I provide? A GitHub repository plus real product captures and direction.
 2. What does PitchFlow do? Understands the product from repository evidence and directs a launch campaign with GPT-5.6 through local Codex.
 3. What do I receive? Website, Images, Videos, Copy, and one complete Export package.
-4. How do I try it? Explore the complete public dogfood demo immediately; use the repository-preserving local handoff for fresh arbitrary-repository generation.
+4. How do I try it? Explore the complete public dogfood demo immediately; start `pitchflow connect`, pair the user-owned engine, and run a real fresh-repository job without sending provider credentials to Vercel.
 
-The verifier must then interact with the same continuous Analyze → Direct → Generate → Deliver → Export journey, explore every real dogfood output, exercise the immutable download, test the arbitrary-repository local handoff, and confirm that `/evidence` is available but secondary. It must assert exact screenshot dimensions, zero root horizontal overflow, operable controls and delivery tabs, zero console errors, and no serious or critical accessibility violations. A blunt product review must explicitly fail the gate if the interface reads as an auditor dashboard, a disconnected landing page, or a decorative mock.
+The verifier must then interact with the same continuous Analyze → Direct → Generate → Deliver → Export journey, explore every real dogfood output, exercise the immutable download, pair an actual loopback companion from the HTTPS deployment in Edge or Chrome, and run the second-repository proof through the user-owned Codex engine. It must assert exact screenshot dimensions, zero root horizontal overflow, operable controls and delivery tabs, zero console errors, and no serious or critical accessibility violations. A blunt product review must explicitly fail the gate if the interface reads as an auditor dashboard, a disconnected landing page, a decorative mock, or a hosted-generation claim whose work actually occurs only after an unexplained redirect.
 
 Acceptance evidence belongs under `artifacts/verification/{timestamp}/product-reset/` and must include full-page desktop/mobile screenshots, interaction/readback results, the exact deployed SHA, and Nicco's explicit approval of the redesigned live experience.
 
@@ -151,6 +174,8 @@ Additional required commands:
 - production smoke against GitHub and Vercel;
 - Lighthouse or equivalent public-path evidence targeting accessibility >= 90;
 - final `pnpm check:all` twice consecutively with no source changes.
+
+Focused bridge checks must cover pairing entropy, exact origin allowlists, browser preflight/private-network behavior, token expiry, replay rejection, secret redaction, provider detection, bounded job input, lifecycle transitions, cancellation, retry, progress provenance, result isolation, safe asset reads, and ZIP ownership.
 
 The earlier functional, clean-state, media, schema, evidence, export, security, provenance, and immutable-package checks remain mandatory supporting gates. They may not replace or weaken the live comprehension gate.
 
@@ -179,18 +204,22 @@ For each slice:
 
 ## Red-team of the finish line
 
-| Failure mode                                      | How the words could be gamed                       | Non-gameable check                                                                                                    |
-| ------------------------------------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Static demo masquerades as generation             | Cached JSON alone could satisfy the visible viewer | Preserve a real Codex/GPT-5.6 generation report for a second repository with model and schema metadata                |
-| Claims look sourced but evidence is broken        | Evidence IDs could be decorative                   | Audit every factual claim against the exact snapshot evidence set and pinned commit                                   |
-| Video files exist but are invalid                 | Empty or mislabeled files could pass path checks   | FFprobe codec, dimensions, duration, streams, decode check, first/middle/last frame inspection                        |
-| Public viewer looks complete but downloads fail   | UI buttons could be inert                          | Unauthenticated browser download plus checksum match for every required cached asset                                  |
-| "One command" still requires rebuilding/debugging | A script name alone could be claimed               | Clean-profile install/launch proof and documented supported platform                                                  |
-| Public app leaks local Codex authority            | Generation route could accidentally ship           | Deployment-mode assertion, route denial tests, secret scan, and public request proving live generation is unavailable |
-| Old work is hidden in a new history               | Files could be copied without commits              | Provenance audit, clean initial commit, file similarity/manual review, and explicit zero-import statement             |
-| Tests pass by skipping hard suites                | Aggregate script could omit required work          | Submission audit enumerates and asserts every mandated sub-verifier and two full logs are preserved                   |
-| Screenshots hide broken interaction               | Static captures could look polished                | Playwright completes the real cached journey with zero console errors and verifies download responses                 |
-| "GPT-5.6" is only documentation                   | Model could never run                              | Code-level model assertion plus redacted real run metadata from the authenticated Codex SDK path                      |
+| Failure mode                                      | How the words could be gamed                       | Non-gameable check                                                                                                      |
+| ------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Static demo masquerades as generation             | Cached JSON alone could satisfy the visible viewer | Preserve a real Codex/GPT-5.6 generation report for a second repository with model and schema metadata                  |
+| Claims look sourced but evidence is broken        | Evidence IDs could be decorative                   | Audit every factual claim against the exact snapshot evidence set and pinned commit                                     |
+| Video files exist but are invalid                 | Empty or mislabeled files could pass path checks   | FFprobe codec, dimensions, duration, streams, decode check, first/middle/last frame inspection                          |
+| Public viewer looks complete but downloads fail   | UI buttons could be inert                          | Unauthenticated browser download plus checksum match for every required cached asset                                    |
+| "One command" still requires rebuilding/debugging | A script name alone could be claimed               | Clean-profile install/launch proof and documented supported platform                                                    |
+| Public app leaks local Codex authority            | Generation route could accidentally ship           | Deployment-mode assertion, route denial tests, secret scan, and public request proving live generation is unavailable   |
+| Old work is hidden in a new history               | Files could be copied without commits              | Provenance audit, clean initial commit, file similarity/manual review, and explicit zero-import statement               |
+| Tests pass by skipping hard suites                | Aggregate script could omit required work          | Submission audit enumerates and asserts every mandated sub-verifier and two full logs are preserved                     |
+| Screenshots hide broken interaction               | Static captures could look polished                | Playwright completes the real cached journey with zero console errors and verifies download responses                   |
+| "GPT-5.6" is only documentation                   | Model could never run                              | Code-level model assertion plus redacted real run metadata from the authenticated Codex SDK path                        |
+| Pairing token becomes a bearer leak               | A URL or log could expose local job authority      | Scan URLs, console, storage, logs, reports, commits, and deployment env; accept tokens only in memory and auth headers  |
+| Timers impersonate generation                     | UI stages could advance without real work          | Stage timestamps must be emitted by the intake, Codex, renderer, validator, and packager boundaries                     |
+| One session reads another result                  | Guessable job IDs could expose media or ZIP        | Cross-session job/status/asset/download requests must fail; asset paths remain traversal-safe                           |
+| Second repo quietly reuses dogfood                | PitchFlow assets could be relabeled as a fresh run | Hash/copy/campaign audit rejects every PitchFlow dogfood identifier, hash, claim, and media asset in VibePalette output |
 
 ## Approval gates and authority
 
@@ -246,6 +275,9 @@ Before `update_goal(status="complete")`, `RESULT.md` must contain all of the fol
 - public repository URL and final commit SHA;
 - exact deployed product-reset SHA and full-page 1440px plus genuine 390px screenshots whose pixel dimensions were independently checked;
 - first-time-user comprehension evidence covering input, transformation, outputs, public demo, and repository-preserving local handoff;
+- live Edge/Chrome proof from the HTTPS deployment covering disconnected detection, pairing or the policy-driven local-open fallback, exact-origin enforcement, and explicit local approval;
+- pairing/session security evidence covering entropy, expiry, replay, redaction, bounded inputs, cancellation/retry, result isolation, and absence of token material from URLs/storage/logs/reports;
+- a real VibePalette Codex/GPT-5.6 generation report and complete repository-specific package with visually inspected images and both videos and a no-dogfood-leakage audit;
 - Nicco's explicit approval of the redesigned live experience;
 - one-command install/launch path and clean-profile proof;
 - Codex SDK/local-auth proof without credential disclosure;

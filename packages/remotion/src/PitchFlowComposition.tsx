@@ -20,6 +20,118 @@ const SYSTEM_SANS =
 const SYSTEM_SERIF = "Iowan Old Style, Charter, Georgia, serif";
 
 type Scene = CampaignManifest["video"]["scenes"][number];
+type SceneVisual = Scene["visual"];
+
+export type CaptureMotionPlan = {
+  focusX: number;
+  focusY: number;
+  startScale: number;
+  endScale: number;
+  highlightLeft: number;
+  highlightTop: number;
+  highlightWidth: number;
+  highlightHeight: number;
+  featureLabel: string;
+};
+
+const CAPTURE_MOTION_PLANS: Record<SceneVisual, CaptureMotionPlan> = {
+  opening: {
+    focusX: 50,
+    focusY: 46,
+    startScale: 1.04,
+    endScale: 1.14,
+    highlightLeft: 9,
+    highlightTop: 12,
+    highlightWidth: 82,
+    highlightHeight: 72,
+    featureLabel: "See the product",
+  },
+  repository: {
+    focusX: 24,
+    focusY: 22,
+    startScale: 1.08,
+    endScale: 1.25,
+    highlightLeft: 6,
+    highlightTop: 8,
+    highlightWidth: 54,
+    highlightHeight: 33,
+    featureLabel: "Start from source",
+  },
+  evidence: {
+    focusX: 73,
+    focusY: 40,
+    startScale: 1.1,
+    endScale: 1.28,
+    highlightLeft: 52,
+    highlightTop: 19,
+    highlightWidth: 41,
+    highlightHeight: 43,
+    featureLabel: "Show the proof",
+  },
+  workspace: {
+    focusX: 49,
+    focusY: 55,
+    startScale: 1.07,
+    endScale: 1.22,
+    highlightLeft: 22,
+    highlightTop: 27,
+    highlightWidth: 58,
+    highlightHeight: 54,
+    featureLabel: "Follow the workflow",
+  },
+  exports: {
+    focusX: 77,
+    focusY: 72,
+    startScale: 1.09,
+    endScale: 1.27,
+    highlightLeft: 54,
+    highlightTop: 53,
+    highlightWidth: 39,
+    highlightHeight: 35,
+    featureLabel: "Ready to share",
+  },
+  closing: {
+    focusX: 50,
+    focusY: 50,
+    startScale: 1.02,
+    endScale: 1.08,
+    highlightLeft: 12,
+    highlightTop: 12,
+    highlightWidth: 76,
+    highlightHeight: 76,
+    featureLabel: "Explore the product",
+  },
+};
+
+export function getCaptureMotionPlan(visual: SceneVisual, layout: VideoLayout): CaptureMotionPlan {
+  const plan = CAPTURE_MOTION_PLANS[visual];
+  if (layout === "landscape") return plan;
+
+  // Portrait is intentionally tighter: a social-native crop keeps the active UI region legible.
+  return {
+    ...plan,
+    startScale: plan.startScale + 0.12,
+    endScale: plan.endScale + 0.16,
+    highlightLeft: Math.max(5, plan.highlightLeft - 4),
+    highlightWidth: Math.min(90, plan.highlightWidth + 8),
+  };
+}
+
+export function selectSceneCaptures(captures: PreparedCapture[], scene: Scene): PreparedCapture[] {
+  const direct = captures.filter((capture) => capture.sceneIndex === scene.index);
+  if (scene.visual !== "closing") return direct;
+
+  // Closing scenes do not require dedicated capture inputs. Reuse the latest unique product
+  // captures so the CTA lands on the real product rather than an abstract end card.
+  return [...captures]
+    .reverse()
+    .filter(
+      (capture, index, reversed) =>
+        reversed.findIndex((candidate) => candidate.sha256 === capture.sha256) === index,
+    )
+    .slice(0, 2)
+    .reverse();
+}
 
 const clamp = {
   extrapolateLeft: "clamp" as const,
@@ -118,26 +230,36 @@ function CaptureSequence({
   manifest,
   layout,
   durationInFrames,
+  visual,
 }: {
   captures: PreparedCapture[];
   manifest: CampaignManifest;
   layout: VideoLayout;
   durationInFrames: number;
+  visual: SceneVisual;
 }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const motion = getCaptureMotionPlan(visual, layout);
+  const isOpening = visual === "opening";
   const enter = spring({
-    frame: frame - 6,
+    frame: frame - (isOpening ? 0 : 5),
     fps,
-    durationInFrames: 28,
-    config: { damping: 17, stiffness: 145, mass: 0.8 },
+    durationInFrames: isOpening ? 18 : 25,
+    config: { damping: 16, stiffness: isOpening ? 210 : 155, mass: 0.75 },
   });
   const slot = durationInFrames / Math.max(1, captures.length);
-  const scan = interpolate(frame % 75, [0, 74], [0, 100], clamp);
+  const emphasis = spring({
+    frame: frame - (isOpening ? 11 : 24),
+    fps,
+    durationInFrames: 24,
+    config: { damping: 18, stiffness: 175, mass: 0.7 },
+  });
+  const scan = interpolate(frame % 60, [0, 59], [0, 100], clamp);
   const frameStyle: CSSProperties =
     layout === "portrait"
-      ? { width: 936, height: 990, borderRadius: 34 }
-      : { width: 1030, height: 760, borderRadius: 28 };
+      ? { width: 936, height: 940, borderRadius: 34 }
+      : { width: 1100, height: 800, borderRadius: 28 };
 
   return (
     <div
@@ -148,10 +270,41 @@ function CaptureSequence({
         background: manifest.design.surface,
         border: `2px solid ${manifest.design.muted}55`,
         boxShadow: "0 44px 120px rgba(0,0,0,0.48)",
-        transform: `translateY(${(1 - enter) * 110}px) scale(${0.88 + enter * 0.12}) rotate(${(1 - enter) * (layout === "portrait" ? -2 : 1.5)}deg)`,
+        transform: `translateY(${(1 - enter) * (isOpening ? 150 : 90)}px) scale(${0.84 + enter * 0.16}) rotate(${(1 - enter) * (layout === "portrait" ? -2.4 : 1.2)}deg)`,
         opacity: enter,
       }}
+      data-capture-led={visual}
+      data-capture-count={captures.length}
     >
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: layout === "portrait" ? 38 : 34,
+          zIndex: 8,
+          display: "flex",
+          alignItems: "center",
+          gap: 9,
+          padding: "0 16px",
+          background: `${manifest.design.background}F2`,
+          borderBottom: `1px solid ${manifest.design.muted}44`,
+        }}
+      >
+        {[0, 1, 2].map((dot) => (
+          <span
+            key={dot}
+            style={{
+              width: 9,
+              height: 9,
+              borderRadius: "50%",
+              background: dot === 0 ? manifest.design.accent : manifest.design.muted,
+              opacity: dot === 0 ? 0.9 : 0.45,
+            }}
+          />
+        ))}
+      </div>
       {captures.map((capture, index) => {
         const start = index * slot;
         const end = (index + 1) * slot;
@@ -160,6 +313,14 @@ function CaptureSequence({
           index === captures.length - 1 ? 1 : interpolate(frame, [end - 10, end], [1, 0], clamp);
         const localProgress = interpolate(frame, [start, end], [0, 1], clamp);
         const direction = index % 2 === 0 ? 1 : -1;
+        const imageScale = interpolate(
+          localProgress,
+          [0, 1],
+          [motion.startScale, motion.endScale],
+          clamp,
+        );
+        const panX = direction * interpolate(localProgress, [0, 1], [-1.4, 1.4], clamp);
+        const panY = interpolate(localProgress, [0, 1], [1.1, -1.1], clamp);
         return (
           <div
             key={capture.id}
@@ -167,34 +328,53 @@ function CaptureSequence({
               position: "absolute",
               inset: 0,
               opacity: fadeIn * fadeOut,
-              transform: `scale(${1.015 + localProgress * 0.04}) translateX(${direction * (localProgress - 0.5) * 18}px)`,
+              overflow: "hidden",
             }}
           >
             <Img
               src={staticFile(capture.publicPath)}
               alt={capture.alt}
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: `${motion.focusX}% ${motion.focusY}%`,
+                transformOrigin: `${motion.focusX}% ${motion.focusY}%`,
+                transform: `scale(${imageScale}) translate(${panX}%, ${panY}%)`,
+              }}
             />
             <div
               style={{
                 position: "absolute",
-                left: 22,
-                right: 22,
-                bottom: 20,
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 20,
-                padding: "13px 17px",
-                borderRadius: 12,
-                background: `${manifest.design.background}E8`,
-                color: manifest.design.text,
-                fontSize: layout === "portrait" ? 20 : 17,
-                letterSpacing: 0.4,
+                left: `${motion.highlightLeft}%`,
+                top: `${motion.highlightTop}%`,
+                width: `${motion.highlightWidth}%`,
+                height: `${motion.highlightHeight}%`,
+                borderRadius: layout === "portrait" ? 22 : 18,
+                border: `3px solid ${manifest.design.accentAlt}`,
+                boxShadow: `0 0 0 ${8 * emphasis}px ${manifest.design.accentAlt}20, 0 0 44px ${manifest.design.accentAlt}55`,
+                opacity: emphasis * fadeIn * fadeOut,
+                transform: `scale(${0.96 + emphasis * 0.04})`,
+                transformOrigin: "center",
               }}
+              data-feature-focus={visual}
             >
-              <span>{capture.alt}</span>
-              <span style={{ color: manifest.design.accent, fontFamily: "monospace" }}>
-                {capture.sha256.slice(0, 10)}
+              <span
+                style={{
+                  position: "absolute",
+                  left: 14,
+                  top: -18,
+                  padding: layout === "portrait" ? "8px 13px" : "7px 11px",
+                  borderRadius: 999,
+                  background: manifest.design.accentAlt,
+                  color: manifest.design.background,
+                  fontSize: layout === "portrait" ? 19 : 16,
+                  fontWeight: 780,
+                  letterSpacing: 0.4,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {motion.featureLabel}
               </span>
             </div>
           </div>
@@ -210,18 +390,6 @@ function CaptureSequence({
           background: `linear-gradient(90deg, transparent, ${manifest.design.accent}, transparent)`,
           opacity: 0.75,
           boxShadow: `0 0 18px ${manifest.design.accent}`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          right: `${12 + ((frame * 0.41) % 62)}%`,
-          top: `${16 + Math.sin(frame / 17) * 7}%`,
-          width: layout === "portrait" ? 28 : 22,
-          height: layout === "portrait" ? 28 : 22,
-          borderRadius: "50%",
-          border: `3px solid ${manifest.design.accentAlt}`,
-          boxShadow: `0 0 0 8px ${manifest.design.accentAlt}22`,
         }}
       />
     </div>
@@ -350,6 +518,7 @@ function LandscapeScene({
           manifest={manifest}
           layout="landscape"
           durationInFrames={scene.durationFrames}
+          visual={scene.visual}
         />
       </div>
       {scene.visual === "opening" ? (
@@ -426,12 +595,13 @@ function PortraitScene({
           />
         </div>
       </div>
-      <div style={{ position: "absolute", top: 630, left: 72 }}>
+      <div style={{ position: "absolute", top: 610, left: 72 }}>
         <CaptureSequence
           captures={captures}
           manifest={manifest}
           layout="portrait"
           durationInFrames={scene.durationFrames}
+          visual={scene.visual}
         />
       </div>
       <div
@@ -453,10 +623,12 @@ function ClosingScene({
   manifest,
   scene,
   layout,
+  captures,
 }: {
   manifest: CampaignManifest;
   scene: Scene;
   layout: VideoLayout;
+  captures: PreparedCapture[];
 }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -466,6 +638,41 @@ function ClosingScene({
   const cta = manifest.copy.ctaVariants[0] ?? "Explore the repository";
   return (
     <AbsoluteFill>
+      {captures.slice(0, 2).map((capture, index) => {
+        const reveal = spring({
+          frame: frame - index * 7,
+          fps,
+          durationInFrames: 24,
+          config: { damping: 18, stiffness: 155 },
+        });
+        const isPortrait = layout === "portrait";
+        return (
+          <div
+            key={capture.id}
+            style={{
+              position: "absolute",
+              width: isPortrait ? 720 : 760,
+              height: isPortrait ? 520 : 500,
+              left: isPortrait ? (index === 0 ? -170 : 540) : index === 0 ? -100 : 1260,
+              top: isPortrait ? (index === 0 ? 260 : 1080) : index === 0 ? 100 : 520,
+              overflow: "hidden",
+              borderRadius: isPortrait ? 34 : 28,
+              border: `2px solid ${manifest.design.muted}55`,
+              boxShadow: "0 36px 100px rgba(0,0,0,0.55)",
+              opacity: reveal * 0.42,
+              transform: `translateY(${(1 - reveal) * 90}px) rotate(${index === 0 ? -7 : 7}deg) scale(${0.94 + reveal * 0.06})`,
+            }}
+            data-closing-capture={index + 1}
+          >
+            <Img
+              src={staticFile(capture.publicPath)}
+              alt=""
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+            <AbsoluteFill style={{ background: `${manifest.design.background}38` }} />
+          </div>
+        );
+      })}
       <div
         style={{
           position: "absolute",
@@ -480,6 +687,7 @@ function ClosingScene({
           textAlign: layout === "portrait" ? "left" : "center",
           transform: `scale(${0.9 + enter * 0.1})`,
           opacity: enter,
+          zIndex: 3,
         }}
       >
         <div
@@ -554,7 +762,7 @@ function SceneLayer({
     <AbsoluteFill style={{ opacity: exit }}>
       <MotionField manifest={manifest} layout={layout} />
       {scene.visual === "closing" ? (
-        <ClosingScene manifest={manifest} scene={scene} layout={layout} />
+        <ClosingScene manifest={manifest} scene={scene} layout={layout} captures={captures} />
       ) : layout === "portrait" ? (
         <PortraitScene manifest={manifest} scene={scene} captures={captures} />
       ) : (
@@ -587,7 +795,7 @@ export function PitchFlowComposition({ manifest, layout, captures }: PitchFlowCo
             manifest={manifest}
             scene={scene}
             layout={layout}
-            captures={captures.filter((capture) => capture.sceneIndex === scene.index)}
+            captures={selectSceneCaptures(captures, scene)}
           />
         </Sequence>
       ))}

@@ -136,6 +136,26 @@ describe("Codex campaign generation", () => {
     expect(runner).toHaveBeenCalledTimes(1);
   });
 
+  it("propagates external cancellation into the Codex run", async () => {
+    const controller = new AbortController();
+    const runner = vi.fn(async ({ signal }: { signal: AbortSignal }) => {
+      controller.abort(new Error("user cancelled"));
+      await new Promise((resolve, reject) => {
+        signal.addEventListener("abort", () => reject(new Error("cancelled")), { once: true });
+        if (signal.aborted) reject(new Error("cancelled"));
+      });
+      throw new Error("unreachable");
+    });
+    await expect(
+      generateCampaignWithCodex(createTestSnapshot(), preferences, {
+        workingDirectory: process.cwd(),
+        runner,
+        signal: controller.signal,
+      }),
+    ).rejects.toMatchObject({ code: "TIMEOUT" });
+    expect(runner).toHaveBeenCalledTimes(1);
+  });
+
   it("rejects any creative-director tool activity", async () => {
     const snapshot = createTestSnapshot();
     const draft = createDeterministicCampaignDraft(snapshot);

@@ -33,6 +33,20 @@ import {
   type CaptureUpload,
 } from "../lib/capture-contract";
 import {
+  BRIDGE_ORIGIN,
+  PUBLIC_PRODUCT_ORIGIN,
+  PitchFlowBridgeClient,
+  isAllowedPublicTransferOrigin,
+  isCompanionTransferMessage,
+  parseCompanionTransferMessage,
+  type BridgeJob,
+  type BridgeJobResult,
+  type BridgeJobStage,
+  type BridgeProjectState,
+  type BridgeStatus,
+  type PendingPairing,
+} from "../lib/bridge-client";
+import {
   approveCampaignClaim,
   buildLocalWorkspaceDeepLink,
   canonicalGitHubRepositoryUrl,
@@ -65,6 +79,20 @@ type CaptureDraft = Omit<CaptureUpload, "provenance"> & {
   width: number;
   height: number;
   bytes: number;
+};
+
+type PairingUiState = "idle" | "requesting" | "pending" | "paired" | "expired" | "rejected";
+
+const bridgeStageLabels: Record<BridgeJobStage, string> = {
+  queued: "Queued on the local engine",
+  fetching_evidence: "Fetching repository evidence",
+  understanding_product: "Understanding the product",
+  creative_direction: "Directing the campaign with GPT‑5.6",
+  rendering_site_images_copy: "Rendering site, images, carousel, and copy",
+  rendering_videos: "Rendering landscape and vertical videos",
+  validating: "Validating evidence and outputs",
+  packaging: "Packaging the complete launch kit",
+  complete: "Complete launch package ready",
 };
 
 const panels: Panel[] = ["website", "images", "videos", "copy", "export"];
@@ -237,7 +265,7 @@ function ProductHero({
             direction.
           </p>
           {publicViewer ? (
-            <p>Fresh repository analysis runs in the local PitchFlow workspace.</p>
+            <p>Fresh generation runs through your loopback-only PitchFlow engine.</p>
           ) : null}
           {error ? <ErrorBanner message={error} /> : null}
         </form>
@@ -705,7 +733,7 @@ function ImagesPanel({ campaign, assets }: { campaign: CampaignManifest; assets:
         </div>
         <p>
           {renderedImages.length > 0
-            ? "Production images from the complete PitchFlow demo."
+            ? "Production images from this completed campaign."
             : "Creative previews only. Downloading the package runs the local image renderer."}
         </p>
       </header>
@@ -767,7 +795,7 @@ function VideosPanel({ campaign, assets }: { campaign: CampaignManifest; assets:
         </div>
         <p>
           {videos.length > 0
-            ? "Play the landscape and portrait masters from the PitchFlow demo."
+            ? "Play the landscape and portrait masters from this completed campaign."
             : `Storyboard only · ${campaign.video.durationSeconds} seconds · ${campaign.video.fps} fps · final landscape and portrait videos render during export`}
         </p>
       </header>
@@ -1103,19 +1131,24 @@ function AssetFingerprint({ asset }: { asset: DogfoodAsset }) {
 
 function GalleryImage({ asset }: { asset: DogfoodAsset }) {
   const dimensions = getDogfoodImageDimensions(asset);
+  const protectedPreview = asset.href.startsWith("blob:");
 
   return (
     <figure className="gallery-image-card">
-      {/* This is a same-origin, immutable dogfood asset rather than reconstructed product UI. */}
-      {dimensions ? (
+      {/* Dogfood uses immutable paths; fresh jobs use authenticated, in-memory blob previews. */}
+      {dimensions || protectedPreview ? (
         <img
           src={asset.href}
           alt={asset.label}
           loading="lazy"
           decoding="async"
-          width={dimensions.width}
-          height={dimensions.height}
-          style={{ aspectRatio: `${dimensions.width} / ${dimensions.height}` }}
+          {...(dimensions
+            ? {
+                width: dimensions.width,
+                height: dimensions.height,
+                style: { aspectRatio: `${dimensions.width} / ${dimensions.height}` },
+              }
+            : {})}
         />
       ) : (
         <a className="gallery-image-fallback" href={asset.href} target="_blank" rel="noreferrer">
@@ -1646,6 +1679,39 @@ function ProductUnderstanding({
   );
 }
 
+function RepositoryQueued({ repositoryUrl }: { repositoryUrl: string }) {
+  const repository = new URL(repositoryUrl).pathname.slice(1);
+  return (
+    <section className="product-step analyze-step" id="analyze" aria-labelledby="analyze-heading">
+      <header className="step-heading">
+        <span>01 · Analyze</span>
+        <h2 id="analyze-heading">Repository ready for your local engine.</h2>
+        <p>
+          PitchFlow will pin public evidence and describe the real product only after you approve
+          the connected job.
+        </p>
+      </header>
+      <div className="understanding-grid queued-repository">
+        <article>
+          <span>Repository</span>
+          <strong>{repository}</strong>
+          <p>{repositoryUrl}</p>
+        </article>
+        <article>
+          <span>Evidence</span>
+          <strong>Not fetched yet</strong>
+          <p>No completion is simulated in the hosted page.</p>
+        </article>
+        <article>
+          <span>Execution</span>
+          <strong>User-owned engine</strong>
+          <p>Codex credentials remain on this machine.</p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function DemoCaptureStrip({ assets }: { assets: DogfoodAsset[] }) {
   const captures = selectDogfoodGalleryAssets(assets).productCaptures;
   if (captures.length === 0) return null;
@@ -1917,6 +1983,236 @@ function GenerateStep({
   );
 }
 
+function BridgeGenerateStep({
+  status,
+  probing,
+  pairing,
+  job,
+  projectReady,
+  canStart,
+  connectionError,
+  fallbackMessage,
+  onProbe,
+  onPair,
+  onStart,
+  onCancel,
+  onRetry,
+  onOpenLocal,
+}: {
+  status: BridgeStatus | null;
+  probing: boolean;
+  pairing: PairingUiState;
+  job: BridgeJob | null;
+  projectReady: boolean;
+  canStart: boolean;
+  connectionError: string | null;
+  fallbackMessage: string | null;
+  onProbe: () => void;
+  onPair: () => void;
+  onStart: () => void;
+  onCancel: () => void;
+  onRetry: () => void;
+  onOpenLocal: () => void;
+}) {
+  const engineStatus = status?.engine?.status ?? status?.status ?? "missing";
+  const provider = status?.engine?.provider ?? status?.provider ?? "Codex";
+  const connected = engineStatus === "connected";
+  const pairingPending = pairing === "requesting" || pairing === "pending";
+  const jobRunning = job?.status === "queued" || job?.status === "running";
+  const stageIndex = job ? Object.keys(bridgeStageLabels).indexOf(job.stage) : -1;
+
+  return (
+    <section
+      className="product-step generate-step"
+      id="generate"
+      aria-labelledby="generate-heading"
+    >
+      <header className="step-heading">
+        <span>03 · Generate</span>
+        <h2 id="generate-heading">Connect your generation engine.</h2>
+        <p>
+          PitchFlow runs Codex and GPT‑5.6 on your machine. Your credentials never enter this
+          website or a PitchFlow backend.
+        </p>
+      </header>
+      <div className="bridge-console">
+        <div className="bridge-connection" data-status={engineStatus}>
+          <div>
+            <span className="bridge-status-dot" aria-hidden="true" />
+            <div>
+              <strong>
+                {probing
+                  ? "Checking the local engine…"
+                  : connected
+                    ? `${provider} engine found`
+                    : "Local engine not connected"}
+              </strong>
+              <p>
+                {status?.engine?.message ??
+                  status?.message ??
+                  (connected
+                    ? "Pair this browser session, then start the real generation job."
+                    : "Start the loopback-only companion in a terminal. Credentials stay local.")}
+              </p>
+            </div>
+          </div>
+          <code>pnpm pitchflow connect</code>
+          <div className="bridge-actions">
+            <button type="button" onClick={onProbe} disabled={probing || jobRunning}>
+              {probing ? "Checking…" : "Check connection"}
+            </button>
+            {connected && pairing !== "paired" ? (
+              <button
+                type="button"
+                onClick={onPair}
+                disabled={!projectReady || pairingPending || jobRunning}
+              >
+                {pairingPending ? "Waiting for local approval…" : "Pair this browser"}
+              </button>
+            ) : null}
+            {pairing === "paired" ? (
+              <button type="button" onClick={onStart} disabled={!canStart || jobRunning}>
+                {jobRunning ? "Generation in progress…" : "Generate complete launch package"}
+              </button>
+            ) : null}
+          </div>
+          {!canStart && pairing === "paired" && !jobRunning ? (
+            <p className="bridge-requirement">
+              Complete the direction and attach 2–4 attributed product captures to start.
+            </p>
+          ) : null}
+          {!projectReady && connected && pairing !== "paired" ? (
+            <p className="bridge-requirement">
+              Complete the direction and 2–4 attributed captures before requesting a pairing. The
+              companion binds approval to this exact project.
+            </p>
+          ) : null}
+          {connectionError ? (
+            <div className="bridge-fallback" role="alert">
+              <strong>The hosted page could not reach loopback.</strong>
+              <p>
+                Browser HTTPS, mixed-content, or private-network policy may block the direct
+                connection. Open the same PitchFlow workspace locally and transfer only this
+                non-secret project brief after your click.
+              </p>
+              <button type="button" onClick={onOpenLocal}>
+                Open local workspace with this project
+              </button>
+              {fallbackMessage ? <span role="status">{fallbackMessage}</span> : null}
+            </div>
+          ) : null}
+        </div>
+
+        {pairing === "pending" ? (
+          <p className="pairing-notice" role="status">
+            Approve this short-lived request in the local PitchFlow window. No credentials or
+            session token are shown here.
+          </p>
+        ) : pairing === "expired" || pairing === "rejected" ? (
+          <ErrorBanner
+            message={
+              pairing === "expired"
+                ? "The pairing request expired. Request a new one when you are ready."
+                : "The local user rejected this pairing request."
+            }
+          />
+        ) : null}
+
+        {job ? (
+          <div className="bridge-job" aria-live="polite">
+            <div className="bridge-job-heading">
+              <div>
+                <span>Real generation job</span>
+                <strong>{job.message || bridgeStageLabels[job.stage]}</strong>
+              </div>
+              <span>{Math.max(0, Math.min(100, Math.round(job.progress)))}%</span>
+            </div>
+            <progress max="100" value={Math.max(0, Math.min(100, job.progress))}>
+              {job.progress}%
+            </progress>
+            <ol className="bridge-stages">
+              {(Object.entries(bridgeStageLabels) as Array<[BridgeJobStage, string]>).map(
+                ([stage, label], index) => (
+                  <li
+                    key={stage}
+                    data-state={
+                      job.status === "completed" || index < stageIndex
+                        ? "complete"
+                        : index === stageIndex && job.status !== "failed"
+                          ? "active"
+                          : job.status === "failed" && index === stageIndex
+                            ? "failed"
+                            : "upcoming"
+                    }
+                  >
+                    <span aria-hidden="true">
+                      {job.status === "completed" || index < stageIndex ? "✓" : index + 1}
+                    </span>
+                    {label}
+                  </li>
+                ),
+              )}
+            </ol>
+            {job.error ? <ErrorBanner message={job.error.message} /> : null}
+            <div className="bridge-job-actions">
+              {jobRunning ? (
+                <button type="button" onClick={onCancel}>
+                  Cancel generation
+                </button>
+              ) : null}
+              {job.status === "failed" || job.status === "cancelled" ? (
+                <button type="button" onClick={onRetry}>
+                  Retry this job
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function LocalPairApproval({
+  pairing,
+  busy,
+  onDecision,
+}: {
+  pairing: PendingPairing | null;
+  busy: boolean;
+  onDecision: (decision: "approve" | "reject") => void;
+}) {
+  if (!pairing) return null;
+  return (
+    <aside className="local-pair-approval" aria-labelledby="pair-approval-heading">
+      <div>
+        <span>Short-lived browser pairing</span>
+        <h2 id="pair-approval-heading">Allow this PitchFlow project?</h2>
+        <p>
+          <strong>{pairing.repositoryUrl}</strong> requested access from the exact origin{" "}
+          <code>{pairing.origin}</code>. Approval grants only this bounded local session.
+        </p>
+        <ul aria-label="Captures bound to this pairing">
+          {pairing.captures.map((capture) => (
+            <li key={capture.contentSha256}>
+              {capture.fileName} · {formatBytes(capture.encodedBytes)} ·{" "}
+              <code>{capture.contentSha256.slice(0, 12)}…</code>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <button type="button" onClick={() => onDecision("reject")} disabled={busy}>
+          Reject
+        </button>
+        <button type="button" onClick={() => onDecision("approve")} disabled={busy}>
+          {busy ? "Applying decision…" : "Approve pairing"}
+        </button>
+      </div>
+    </aside>
+  );
+}
+
 function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
   const [repositoryUrl, setRepositoryUrl] = useState("");
   const [stage, setStage] = useState<Stage>("idle");
@@ -1935,6 +2231,32 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
   const [captureError, setCaptureError] = useState<string | null>(null);
   const [captures, setCaptures] = useState<CaptureDraft[]>([]);
   const [exportReceipt, setExportReceipt] = useState<ExportReceipt | null>(null);
+  const bridge = useRef<PitchFlowBridgeClient | null>(null);
+  if (!bridge.current) bridge.current = new PitchFlowBridgeClient();
+  const bridgeClient = bridge.current;
+  const [freshPublicRepository, setFreshPublicRepository] = useState<string | null>(null);
+  const [bridgeStatus, setBridgeStatus] = useState<BridgeStatus | null>(null);
+  const [bridgeProbing, setBridgeProbing] = useState(false);
+  const [bridgeError, setBridgeError] = useState<string | null>(null);
+  const [pairing, setPairing] = useState<PairingUiState>("idle");
+  const [pairingId, setPairingId] = useState<string | null>(null);
+  const [bridgeJob, setBridgeJob] = useState<BridgeJob | null>(null);
+  const [bridgeJobId, setBridgeJobId] = useState<string | null>(null);
+  const [bridgePackageFilename, setBridgePackageFilename] = useState<string | null>(null);
+  const [fallbackMessage, setFallbackMessage] = useState<string | null>(null);
+  const [pendingLocalPairing, setPendingLocalPairing] = useState<PendingPairing | null>(null);
+  const [pairDecisionBusy, setPairDecisionBusy] = useState(false);
+  const [transferNotice, setTransferNotice] = useState<string | null>(null);
+  const bridgeObjectUrls = useRef<string[]>([]);
+
+  useEffect(
+    () => () => {
+      bridgeObjectUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      bridgeObjectUrls.current = [];
+      bridgeClient.clearSession();
+    },
+    [bridgeClient],
+  );
 
   useEffect(() => {
     if (publicViewer) {
@@ -1950,6 +2272,101 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
       })
       .finally(() => setRuntimePending(false));
     return () => controller.abort();
+  }, [publicViewer]);
+
+  useEffect(() => {
+    if (publicViewer) return;
+    let active = true;
+    async function refreshPendingPairing() {
+      try {
+        const pending = await bridgeClient.getPendingPairing();
+        if (active) setPendingLocalPairing(pending);
+      } catch {
+        // The normal local workspace may be running without companion mode.
+      }
+    }
+    void refreshPendingPairing();
+    const timer = window.setInterval(() => void refreshPendingPairing(), 1800);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, [bridgeClient, publicViewer]);
+
+  useEffect(() => {
+    if (publicViewer || new URLSearchParams(window.location.search).get("companion") !== "1") {
+      return;
+    }
+    const opener = window.opener as Window | null;
+    if (!opener) return;
+    const companionOpener = opener;
+    let accepted = false;
+    async function receiveProject(event: MessageEvent<unknown>) {
+      if (
+        accepted ||
+        event.source !== companionOpener ||
+        !isAllowedPublicTransferOrigin(event.origin) ||
+        !isCompanionTransferMessage(event.data)
+      ) {
+        return;
+      }
+      try {
+        const transfer = parseCompanionTransferMessage(event.data);
+        const canonical = canonicalGitHubRepositoryUrl(transfer.project.repositoryUrl);
+        const transferredCaptures = await Promise.all(
+          transfer.project.captures.map(async (capture) => {
+            const [dimensions, blob] = await Promise.all([
+              readCaptureDimensions(capture.dataUrl, capture.fileName),
+              fetch(capture.dataUrl).then((response) => response.blob()),
+            ]);
+            return {
+              ...capture,
+              provenance: capture.provenance,
+              width: dimensions.width,
+              height: dimensions.height,
+              bytes: blob.size,
+            } satisfies CaptureDraft;
+          }),
+        );
+        accepted = true;
+        setRepositoryUrl(canonical);
+        setPreferences(transfer.project.preferences);
+        setCaptures(transferredCaptures);
+        setTransferNotice(
+          "Project transferred from the public workspace. Confirm Analyze repository to begin locally.",
+        );
+        companionOpener.postMessage(
+          { type: "pitchflow:project-accepted", version: 1, nonce: transfer.nonce },
+          event.origin,
+        );
+        window.requestAnimationFrame(() =>
+          document.getElementById("top")?.scrollIntoView({ behavior: "smooth" }),
+        );
+      } catch {
+        companionOpener.postMessage(
+          {
+            type: "pitchflow:project-rejected",
+            version: 1,
+            nonce:
+              event.data && typeof event.data === "object" && "nonce" in event.data
+                ? event.data.nonce
+                : null,
+          },
+          event.origin,
+        );
+      }
+    }
+    const messageListener = (event: MessageEvent<unknown>) => void receiveProject(event);
+    window.addEventListener("message", messageListener);
+    let targetOrigin = PUBLIC_PRODUCT_ORIGIN;
+    try {
+      const referrerOrigin = new URL(document.referrer).origin;
+      if (isAllowedPublicTransferOrigin(referrerOrigin)) targetOrigin = referrerOrigin;
+    } catch {
+      // Use the configured production origin when no valid referrer exists.
+    }
+    companionOpener.postMessage({ type: "pitchflow:companion-ready", version: 1 }, targetOrigin);
+    return () => window.removeEventListener("message", messageListener);
   }, [publicViewer]);
 
   useEffect(() => {
@@ -1985,6 +2402,384 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
     return () => controller.abort();
   }, [publicViewer]);
 
+  function bridgeProject(): BridgeProjectState {
+    if (!freshPublicRepository) throw new Error("Choose a public repository first.");
+    return {
+      repositoryUrl: freshPublicRepository,
+      preferences,
+      captures: captures.map((capture) => {
+        if (!capture.provenance) throw new Error("Every capture needs attributed provenance.");
+        return {
+          id: capture.id,
+          order: capture.order,
+          fileName: capture.fileName,
+          label: capture.label,
+          description: capture.description,
+          provenance: capture.provenance,
+          mediaType: capture.mediaType,
+          dataUrl: capture.dataUrl,
+        };
+      }),
+      provider: "codex",
+    };
+  }
+
+  function clearBridgePreviews() {
+    bridgeObjectUrls.current.forEach((url) => URL.revokeObjectURL(url));
+    bridgeObjectUrls.current = [];
+  }
+
+  async function probeBridge() {
+    setBridgeProbing(true);
+    setBridgeError(null);
+    try {
+      setBridgeStatus(await bridgeClient.getStatus());
+    } catch (caught) {
+      setBridgeStatus(null);
+      setBridgeError(
+        caught instanceof Error
+          ? caught.message
+          : "The hosted page could not reach the local PitchFlow companion.",
+      );
+    } finally {
+      setBridgeProbing(false);
+    }
+  }
+
+  async function requestBridgePairing() {
+    if (!freshPublicRepository) return;
+    setPairing("requesting");
+    setBridgeError(null);
+    try {
+      const response = await bridgeClient.requestPairing(bridgeProject());
+      setPairingId(response.pairingId);
+      setPairing("pending");
+    } catch (caught) {
+      setPairing("idle");
+      setBridgeError(caught instanceof Error ? caught.message : "Pairing could not be requested.");
+    }
+  }
+
+  async function startBridgeJob() {
+    if (!capturesReady || !freshPublicRepository) return;
+    setBridgeError(null);
+    setBridgePackageFilename(null);
+    setCampaign(null);
+    setSnapshot(null);
+    setDemoAssets([]);
+    setExportReceipt(null);
+    setStage("generating");
+    try {
+      const response = await bridgeClient.startJob(bridgeProject());
+      setBridgeJobId(response.jobId);
+      setBridgeJob({
+        id: response.jobId,
+        status: "queued",
+        stage: "fetching_evidence",
+        progress: 0,
+        message: "Generation queued on your local engine.",
+      });
+    } catch (caught) {
+      setStage("review");
+      setBridgeError(caught instanceof Error ? caught.message : "Generation could not start.");
+    }
+  }
+
+  async function actOnBridgeJob(action: "cancel" | "retry") {
+    if (!bridgeJobId) return;
+    setBridgeError(null);
+    try {
+      const response = await bridgeClient.actOnJob(bridgeJobId, action);
+      setBridgeJobId(response.jobId);
+      setStage(action === "retry" ? "generating" : "review");
+      if (action === "retry") {
+        setBridgeJob({
+          id: response.jobId,
+          status: "queued",
+          stage: "fetching_evidence",
+          progress: 0,
+          message: "Retry queued on your local engine.",
+        });
+      }
+    } catch (caught) {
+      setBridgeError(caught instanceof Error ? caught.message : `Job ${action} failed.`);
+    }
+  }
+
+  async function downloadBridgePackage() {
+    if (!bridgeJobId || !bridgePackageFilename) return;
+    setExporting(true);
+    setBridgeError(null);
+    try {
+      const archive = await bridgeClient.getAsset(bridgeJobId, bridgePackageFilename);
+      const href = URL.createObjectURL(archive);
+      const anchor = document.createElement("a");
+      anchor.href = href;
+      anchor.download = bridgePackageFilename;
+      document.body.append(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(href);
+      setExportReceipt({
+        filename: bridgePackageFilename,
+        assetCount: bridgeJob?.result?.assets.length ?? 0,
+        sha256:
+          bridgeJob?.result?.assets.find((asset) => asset.filename === bridgePackageFilename)
+            ?.sha256 ?? "",
+      });
+    } catch (caught) {
+      setBridgeError(caught instanceof Error ? caught.message : "Package download failed.");
+    } finally {
+      setExporting(false);
+    }
+  }
+
+  function openLocalWorkspaceWithProject() {
+    let project: BridgeProjectState;
+    try {
+      project = bridgeProject();
+    } catch (caught) {
+      setFallbackMessage(caught instanceof Error ? caught.message : "The project is incomplete.");
+      return;
+    }
+    const local = window.open(`${BRIDGE_ORIGIN}/?companion=1`, "pitchflow-local-companion");
+    if (!local) {
+      setFallbackMessage("Allow this user-initiated popup, then try again.");
+      return;
+    }
+    const localWorkspace = local;
+    const transferNonce = crypto.randomUUID();
+    let transferSent = false;
+    setFallbackMessage("Waiting for the local workspace…");
+    const timeout = window.setTimeout(() => {
+      window.removeEventListener("message", handleMessage);
+      setFallbackMessage(
+        "The local workspace did not answer. Start `pnpm pitchflow connect`, then try again.",
+      );
+    }, 12_000);
+    function handleMessage(event: MessageEvent<unknown>) {
+      if (event.origin !== BRIDGE_ORIGIN || event.source !== localWorkspace || !event.data) return;
+      const message = event.data as { type?: string; version?: number; nonce?: string };
+      if (message.type === "pitchflow:companion-ready" && message.version === 1 && !transferSent) {
+        transferSent = true;
+        localWorkspace.postMessage(
+          {
+            type: "pitchflow:project-transfer",
+            version: 1,
+            nonce: transferNonce,
+            project,
+          },
+          BRIDGE_ORIGIN,
+        );
+      } else if (
+        (message.type === "pitchflow:project-accepted" ||
+          message.type === "pitchflow:project-rejected") &&
+        message.version === 1 &&
+        message.nonce === transferNonce
+      ) {
+        window.clearTimeout(timeout);
+        window.removeEventListener("message", handleMessage);
+        setFallbackMessage(
+          message.type === "pitchflow:project-accepted"
+            ? "Project opened locally. Confirm Analyze repository in that window."
+            : "The local workspace rejected the transferred project.",
+        );
+      }
+    }
+    window.addEventListener("message", handleMessage);
+  }
+
+  async function decideLocalPairing(decision: "approve" | "reject") {
+    if (!pendingLocalPairing) return;
+    setPairDecisionBusy(true);
+    try {
+      await bridgeClient.decidePairing(pendingLocalPairing.pairingId, decision);
+      setPendingLocalPairing(null);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "The pairing decision failed.");
+    } finally {
+      setPairDecisionBusy(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!publicViewer || !pairingId || pairing !== "pending") return;
+    let active = true;
+    async function poll() {
+      try {
+        const response = await bridgeClient.pollPairing(pairingId!);
+        if (!active) return;
+        if (response.status === "approved") {
+          setPairing("paired");
+          setPairingId(null);
+          setBridgeError(null);
+        } else if (response.status === "expired" || response.status === "rejected") {
+          setPairing(response.status);
+          setPairingId(null);
+        }
+      } catch (caught) {
+        if (active) {
+          setPairing("idle");
+          setPairingId(null);
+          setBridgeError(
+            caught instanceof Error ? caught.message : "The pairing request could not be checked.",
+          );
+        }
+      }
+    }
+    void poll();
+    const timer = window.setInterval(() => void poll(), 1250);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, [bridgeClient, pairing, pairingId, publicViewer]);
+
+  useEffect(() => {
+    if (!publicViewer || !bridgeJobId) return;
+    let active = true;
+    let loadingResult = false;
+
+    async function acceptResult(result: BridgeJobResult) {
+      if (loadingResult) return;
+      loadingResult = true;
+      const take = (
+        predicate: (asset: BridgeJobResult["assets"][number]) => boolean,
+        count: number,
+      ) => result.assets.filter(predicate).slice(0, count);
+      const previewAssets = [
+        ...take((asset) => asset.kind === "microsite", 1),
+        ...take((asset) => asset.kind === "image", 2),
+        ...take((asset) => asset.kind === "carousel", 2),
+        ...take(
+          (asset) => asset.kind === "video" && /landscape|1920x1080|16x9/i.test(asset.filename),
+          1,
+        ),
+        ...take(
+          (asset) =>
+            asset.kind === "video" && /portrait|vertical|1080x1920|9x16/i.test(asset.filename),
+          1,
+        ),
+      ].filter(
+        (asset, index, assets) =>
+          assets.findIndex((candidate) => candidate.filename === asset.filename) === index,
+      );
+      const websiteSupportAssets = result.assets.filter(
+        (asset) =>
+          asset.filename === "site/styles.css" ||
+          asset.filename === "images/og-1200x630.png" ||
+          /^images\/product-capture-[^/]+\.(?:png|jpe?g)$/i.test(asset.filename),
+      );
+      const fetchAssets = [...previewAssets, ...websiteSupportAssets].filter(
+        (asset, index, assets) =>
+          assets.findIndex((candidate) => candidate.filename === asset.filename) === index,
+      );
+      bridgeObjectUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      bridgeObjectUrls.current = [];
+      const fetched = await Promise.all(
+        fetchAssets.map(async (asset) => ({
+          asset,
+          blob: await bridgeClient.getAsset(bridgeJobId!, asset.filename),
+        })),
+      );
+      const fetchedByFilename = new Map(
+        fetched.map(({ asset, blob }) => [asset.filename, { asset, blob }] as const),
+      );
+      const micrositeAsset = previewAssets.find((asset) => asset.kind === "microsite");
+      let selfContainedMicrosite: Blob | null = null;
+      if (micrositeAsset) {
+        const microsite = fetchedByFilename.get(micrositeAsset.filename);
+        const stylesheet = fetchedByFilename.get("site/styles.css");
+        if (!microsite || !stylesheet) {
+          throw new Error("The generated website is missing its HTML or stylesheet asset.");
+        }
+        let html = await microsite.blob.text();
+        const css = await stylesheet.blob.text();
+        html = html.replace('<link rel="stylesheet" href="styles.css">', `<style>${css}</style>`);
+        for (const { asset, blob } of fetched) {
+          if (
+            asset.filename === "images/og-1200x630.png" ||
+            /^images\/product-capture-[^/]+\.(?:png|jpe?g)$/i.test(asset.filename)
+          ) {
+            const assetUrl = URL.createObjectURL(blob);
+            bridgeObjectUrls.current.push(assetUrl);
+            html = html.replaceAll(`../${asset.filename}`, assetUrl);
+          }
+        }
+        selfContainedMicrosite = new Blob([html], { type: "text/html" });
+      }
+      const loaded = previewAssets.map((asset) => {
+        const fetchedAsset = fetchedByFilename.get(asset.filename);
+        if (!fetchedAsset) throw new Error(`Generated preview asset is missing: ${asset.filename}`);
+        const blob =
+          asset.filename === micrositeAsset?.filename && selfContainedMicrosite
+            ? selfContainedMicrosite
+            : fetchedAsset.blob;
+        const href = URL.createObjectURL(blob);
+        bridgeObjectUrls.current.push(href);
+        const normalizedKind = asset.kind.toLowerCase();
+        const label = /landscape|1920x1080|16x9/i.test(asset.filename)
+          ? `Landscape video master · ${asset.filename}`
+          : /portrait|vertical|1080x1920|9x16/i.test(asset.filename)
+            ? `Portrait video master · ${asset.filename}`
+            : normalizedKind.includes("website") || asset.mediaType === "text/html"
+              ? `Launch site · ${asset.filename}`
+              : normalizedKind.includes("carousel")
+                ? `Carousel image · ${asset.filename}`
+                : normalizedKind.includes("capture")
+                  ? `Product UI capture · ${asset.filename}`
+                  : `Social image · ${asset.filename}`;
+        return {
+          label,
+          href,
+          mediaType: asset.mediaType,
+          bytes: asset.bytes,
+          sha256: asset.sha256,
+        } satisfies DogfoodAsset;
+      });
+      if (!active) {
+        loaded.forEach((asset) => URL.revokeObjectURL(asset.href));
+        return;
+      }
+      setSnapshot(result.snapshot);
+      setCampaign(result.campaign);
+      setDemoAssets(loaded);
+      setShowcaseAssets(loaded);
+      setBridgePackageFilename(result.packageFilename);
+      setStage("ready");
+      window.requestAnimationFrame(() =>
+        document.getElementById("deliver")?.scrollIntoView({ behavior: "smooth" }),
+      );
+    }
+
+    async function pollJob() {
+      try {
+        const next = await bridgeClient.getJob(bridgeJobId!);
+        if (!active) return;
+        setBridgeJob(next);
+        if (next.status === "completed") {
+          if (!next.result) throw new Error("The completed job did not include an owned result.");
+          await acceptResult(next.result);
+        } else if (next.status === "failed" || next.status === "cancelled") {
+          setStage("review");
+        }
+      } catch (caught) {
+        if (!active) return;
+        setStage("review");
+        setBridgeError(caught instanceof Error ? caught.message : "Job status polling failed.");
+      }
+    }
+
+    void pollJob();
+    const timer = window.setInterval(() => {
+      if (!loadingResult) void pollJob();
+    }, 1250);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, [bridgeClient, bridgeJobId, publicViewer]);
+
   useEffect(() => {
     if (publicViewer) return;
     const requestedRepository = new URLSearchParams(window.location.search).get("repo");
@@ -2010,7 +2805,17 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
 
   async function loadDemo() {
     setError(null);
+    clearBridgePreviews();
     setPublicRepoHandoff(null);
+    setFreshPublicRepository(null);
+    setBridgeStatus(null);
+    setBridgeError(null);
+    setPairing("idle");
+    setPairingId(null);
+    setBridgeJob(null);
+    setBridgeJobId(null);
+    setBridgePackageFilename(null);
+    bridgeClient.clearSession();
     setStage("analyzing");
     try {
       const response = await fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache" });
@@ -2045,9 +2850,26 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
       try {
         const canonical = canonicalGitHubRepositoryUrl(repositoryUrl);
         setRepositoryUrl(canonical);
+        setFreshPublicRepository(canonical);
         setPublicRepoHandoff(buildLocalWorkspaceDeepLink(canonical));
+        clearBridgePreviews();
+        setSnapshot(null);
+        setCampaign(null);
+        setDemoAssets([]);
+        setPreferences(defaultPreferences);
+        setCaptures([]);
+        setCaptureError(null);
+        setExportReceipt(null);
+        setBridgeJob(null);
+        setBridgeJobId(null);
+        setBridgePackageFilename(null);
+        setPairing("idle");
+        setPairingId(null);
+        bridgeClient.clearSession();
+        setStage("review");
+        void probeBridge();
         window.requestAnimationFrame(() =>
-          document.getElementById("generate")?.scrollIntoView({ behavior: "smooth" }),
+          document.getElementById("direct")?.scrollIntoView({ behavior: "smooth" }),
         );
       } catch (caught) {
         setError(
@@ -2282,7 +3104,8 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         capture.provenance !== "",
     );
   const busy = stage === "analyzing" || stage === "generating" || exporting || processingCaptures;
-  const demoMode = publicViewer || demoAssets.length > 0;
+  const freshBridgeMode = publicViewer && Boolean(freshPublicRepository);
+  const demoMode = !freshBridgeMode && (publicViewer || demoAssets.length > 0);
   const canGenerate =
     Boolean(snapshot) &&
     !busy &&
@@ -2293,21 +3116,25 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
     Boolean(runtime?.generationEnabled) &&
     preferences.channels.length > 0;
   const pendingInferenceCount = pendingClaimCount(campaign);
-  const exportDisabled = busy || pendingInferenceCount > 0 || !capturesReady;
+  const exportDisabled = freshBridgeMode
+    ? busy || !bridgePackageFilename
+    : busy || pendingInferenceCount > 0 || !capturesReady;
   const exportNote = demoMode
     ? null
-    : pendingInferenceCount > 0
-      ? `Review ${pendingInferenceCount} generated claim${pendingInferenceCount === 1 ? "" : "s"} before download.`
-      : !capturesReady
-        ? `Complete ${MIN_CAPTURE_COUNT}–${MAX_CAPTURE_COUNT} real product captures to download the package.`
-        : "Rendering the videos and ZIP can take a few minutes. Keep this tab open.";
+    : freshBridgeMode
+      ? "The ZIP is fetched from your paired local engine only after you click download."
+      : pendingInferenceCount > 0
+        ? `Review ${pendingInferenceCount} generated claim${pendingInferenceCount === 1 ? "" : "s"} before download.`
+        : !capturesReady
+          ? `Complete ${MIN_CAPTURE_COUNT}–${MAX_CAPTURE_COUNT} real product captures to download the package.`
+          : "Rendering the videos and ZIP can take a few minutes. Keep this tab open.";
   const activeStep = exportReceipt
     ? 5
     : campaign
       ? 4
-      : stage === "generating"
+      : stage === "generating" || pairing === "paired"
         ? 3
-        : snapshot
+        : snapshot || freshPublicRepository
           ? 2
           : 1;
 
@@ -2317,21 +3144,46 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         repositoryUrl={repositoryUrl}
         assets={showcaseAssets}
         publicViewer={publicViewer}
-        busy={stage === "analyzing"}
+        busy={stage === "analyzing" || stage === "generating"}
         error={error}
         onRepositoryUrlChange={(value) => {
           setRepositoryUrl(value);
           setPublicRepoHandoff(null);
+          if (freshPublicRepository && value !== freshPublicRepository) {
+            clearBridgePreviews();
+            setFreshPublicRepository(null);
+            setSnapshot(null);
+            setCampaign(null);
+            setDemoAssets([]);
+            setShowcaseAssets([]);
+            setPairing("idle");
+            setBridgeJob(null);
+            setBridgeJobId(null);
+            bridgeClient.clearSession();
+          }
         }}
         onAnalyze={(event) => void analyze(event)}
         onTryDemo={() => void loadDemo()}
       />
 
       {publicViewer && campaign ? (
-        <p className="demo-truthline">Interactive demo · generated from the PitchFlow repository</p>
+        <p className="demo-truthline">
+          {demoMode
+            ? "Interactive demo · generated from the PitchFlow repository"
+            : `Generated by your connected local engine · ${campaign.productBrief.productName}`}
+        </p>
       ) : null}
       <ProductStepper activeStep={activeStep} />
       <ProductOutputs />
+
+      {!publicViewer ? (
+        <LocalPairApproval
+          pairing={pendingLocalPairing}
+          busy={pairDecisionBusy}
+          onDecision={(decision) => void decideLocalPairing(decision)}
+        />
+      ) : null}
+      {transferNotice ? <p className="project-transfer-notice">{transferNotice}</p> : null}
 
       {stage === "analyzing" && !snapshot ? (
         <section className="product-loading" role="status">
@@ -2340,15 +3192,23 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         </section>
       ) : null}
 
-      {snapshot ? (
+      {snapshot || freshPublicRepository ? (
         <div className="product-intake-workbench">
-          <ProductUnderstanding snapshot={snapshot} campaign={campaign} />
+          {snapshot ? (
+            <ProductUnderstanding snapshot={snapshot} campaign={campaign} />
+          ) : freshPublicRepository ? (
+            <RepositoryQueued repositoryUrl={freshPublicRepository} />
+          ) : null}
           <DirectionPanel
             preferences={preferences}
             captures={captures}
             demoAssets={demoAssets}
             publicViewer={demoMode}
-            busy={busy}
+            busy={
+              busy ||
+              (freshBridgeMode &&
+                (pairing === "requesting" || pairing === "pending" || pairing === "paired"))
+            }
             captureError={captureError}
             onPreferencesChange={setPreferences}
             onVisualDirectionChange={(value) =>
@@ -2363,19 +3223,47 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         </div>
       ) : null}
 
-      {snapshot ? (
-        <GenerateStep
-          publicViewer={demoMode}
-          publicRepoHandoff={publicRepoHandoff}
-          busy={stage === "generating"}
-          campaign={campaign}
-          canGenerate={canGenerate}
-          creditAcknowledged={creditAcknowledged}
-          runtime={runtime}
-          runtimePending={runtimePending}
-          onCreditAcknowledgedChange={setCreditAcknowledged}
-          onGenerate={() => void generate()}
-        />
+      {snapshot || freshPublicRepository ? (
+        freshBridgeMode ? (
+          <BridgeGenerateStep
+            status={bridgeStatus}
+            probing={bridgeProbing}
+            pairing={pairing}
+            job={bridgeJob}
+            projectReady={
+              capturesReady &&
+              preferences.visualDirection.trim().length >= 3 &&
+              preferences.channels.length > 0
+            }
+            canStart={
+              pairing === "paired" &&
+              capturesReady &&
+              preferences.visualDirection.trim().length >= 3 &&
+              preferences.channels.length > 0
+            }
+            connectionError={bridgeError}
+            fallbackMessage={fallbackMessage}
+            onProbe={() => void probeBridge()}
+            onPair={() => void requestBridgePairing()}
+            onStart={() => void startBridgeJob()}
+            onCancel={() => void actOnBridgeJob("cancel")}
+            onRetry={() => void actOnBridgeJob("retry")}
+            onOpenLocal={openLocalWorkspaceWithProject}
+          />
+        ) : (
+          <GenerateStep
+            publicViewer={demoMode}
+            publicRepoHandoff={publicRepoHandoff}
+            busy={stage === "generating"}
+            campaign={campaign}
+            canGenerate={canGenerate}
+            creditAcknowledged={creditAcknowledged}
+            runtime={runtime}
+            runtimePending={runtimePending}
+            onCreditAcknowledgedChange={setCreditAcknowledged}
+            onGenerate={() => void generate()}
+          />
+        )
       ) : null}
 
       {campaign ? (
@@ -2389,16 +3277,20 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
             <h2 id="deliver-heading">
               {demoMode
                 ? "Explore the finished PitchFlow demo."
-                : exportReceipt
-                  ? "Your launch package is ready."
-                  : "Review the campaign plan before rendering."}
+                : freshBridgeMode
+                  ? "Your generated launch campaign is ready."
+                  : exportReceipt
+                    ? "Your launch package is ready."
+                    : "Review the campaign plan before rendering."}
             </h2>
             <p>
               {demoMode
                 ? "Every image and video here is a real rendered output from the PitchFlow dogfood campaign."
-                : exportReceipt
-                  ? "The complete website, images, videos, copy, and manifest have been downloaded."
-                  : "Website and copy are editable now. Images are creative previews and videos are storyboards until export."}
+                : freshBridgeMode
+                  ? "These website, image, video, and copy outputs belong to the repository processed by your paired local engine."
+                  : exportReceipt
+                    ? "The complete website, images, videos, copy, and manifest have been downloaded."
+                    : "Website and copy are editable now. Images are creative previews and videos are storyboards until export."}
             </p>
           </header>
           <CampaignCanvas
@@ -2407,7 +3299,7 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
             assets={demoAssets}
             stage={stage}
             error={null}
-            editable={!demoMode}
+            editable={!demoMode && !freshBridgeMode}
             onCampaignChange={(nextCampaign) => {
               setExportReceipt(null);
               setCampaign(nextCampaign);
@@ -2416,7 +3308,7 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
             exporting={exporting}
             exportDisabled={exportDisabled}
             exportNote={exportNote}
-            onExport={() => void exportCampaign()}
+            onExport={() => void (freshBridgeMode ? downloadBridgePackage() : exportCampaign())}
           />
         </section>
       ) : null}

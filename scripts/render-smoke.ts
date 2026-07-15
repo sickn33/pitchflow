@@ -10,6 +10,7 @@ const manifestPath = resolve(requiredArgument("manifest"));
 const snapshotPath = resolve(requiredArgument("snapshot"));
 const outputDirectory = resolve(requiredArgument("output"));
 const capturePaths = repeatedArgumentValues("capture").map((path) => resolve(path));
+const progressJson = process.argv.includes("--progress-json");
 const root = resolve(process.cwd());
 for (const path of [manifestPath, snapshotPath, outputDirectory, ...capturePaths]) {
   if (!path.startsWith(`${root}${sep}`)) {
@@ -50,7 +51,7 @@ async function readCaptureDeclarations(): Promise<CaptureDeclaration[] | null> {
     const label = isRecord(entry) ? entry.label : null;
     const description = isRecord(entry) ? entry.description : null;
     const provenance = isRecord(entry) ? entry.provenance : null;
-    const sceneIndexes = isRecord(entry) ? entry.sceneIndexes : null;
+    const sceneIndexes = isRecord(entry) ? (entry.sceneIndexes ?? null) : null;
     if (
       typeof path !== "string" ||
       resolve(path) !== capturePaths[index] ||
@@ -93,7 +94,16 @@ const bundle = await renderCampaignBundle(manifest, snapshot, outputDirectory, {
       ...(declaration?.sceneIndexes ? { sceneIndexes: declaration.sceneIndexes } : {}),
     };
   }),
-  renderVideos: {},
+  renderVideos: {
+    onProgress: (layout, event) => {
+      if (progressJson) {
+        console.log(JSON.stringify({ type: "pitchflow-render-progress", layout, event }));
+      }
+    },
+  },
+  onStage: (stage) => {
+    if (progressJson) console.log(JSON.stringify({ type: "pitchflow-bundle-stage", stage }));
+  },
 });
 console.log(
   JSON.stringify(

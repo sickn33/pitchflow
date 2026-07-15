@@ -18,8 +18,9 @@ The release gate is intended to fail closed. A failed verifier starts a repair l
 - isolated Codex environment and tool-activity rejection;
 - exact image dimensions, deterministic image hashes, HTML escaping, ZIP safety;
 - capture MIME/signature/dimension/count/order/provenance validation;
+- four distinct capture-led social layouts, five ordered carousel stages, text-fit receipts, and no ellipsis/overlap fallback;
 - Remotion timeline, safe areas, audience/internal-copy separation, and deterministic smoke;
-- local/public route boundaries and request origin/content-type/body limits;
+- project-bound pairing, exact origin/Host, local-only approval, expiry/replay, bounded streaming bodies, cancellation/retry, result isolation, and secret redaction;
 - Playwright happy, failure, keyboard/mobile, console, and axe accessibility checks.
 
 ## Real smoke commands
@@ -28,6 +29,8 @@ The release gate is intended to fail closed. A failed verifier starts a repair l
 pnpm smoke:github -- --repo https://github.com/owner/repository --output artifacts/verification/run/repo-snapshot.json
 pnpm smoke:codex -- --snapshot artifacts/verification/run/repo-snapshot.json --output artifacts/verification/run/campaign-manifest.json
 pnpm smoke:render -- --manifest artifacts/verification/run/campaign-manifest.json --snapshot artifacts/verification/run/repo-snapshot.json --output artifacts/exports/run --capture artifacts/verification/run/ui-1.png --capture artifacts/verification/run/ui-2.png
+pnpm verify:connected-engine -- --repo https://github.com/owner/repository --output artifacts/verification/fresh --capture path/to/ui-1.png --capture path/to/ui-2.png
+pnpm verify:creative-output -- --bundle artifacts/verification/fresh --output artifacts/verification/fresh-inspection --expected-product ProductName
 ```
 
 Real Codex smoke uses the current local authenticated entitlement and may consume eligible Codex credits. It does not use a Platform API key.

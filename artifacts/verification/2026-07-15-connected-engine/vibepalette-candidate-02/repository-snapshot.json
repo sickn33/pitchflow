@@ -1,0 +1,465 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "snapshot_68055acac65fc66d",
+  "repository": {
+    "owner": "sickn33",
+    "name": "VibePalette",
+    "canonicalUrl": "https://github.com/sickn33/VibePalette",
+    "description": null,
+    "homepage": null,
+    "defaultBranch": "main",
+    "licenseSpdx": "MIT",
+    "isArchived": false,
+    "isFork": false
+  },
+  "requestedRef": null,
+  "resolvedRef": "main",
+  "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+  "capturedAt": "2026-07-15T12:27:20.575Z",
+  "languages": {
+    "JavaScript": 125493,
+    "CSS": 12417,
+    "HTML": 11826,
+    "Shell": 962
+  },
+  "tree": [
+    {
+      "path": ".backup",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": ".backup/background.js.bak",
+      "size": 928,
+      "kind": "file"
+    },
+    {
+      "path": ".backup/popup.js.bak",
+      "size": 54117,
+      "kind": "file"
+    },
+    {
+      "path": ".gemini",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": ".gemini/scratchpad.md",
+      "size": 1694,
+      "kind": "file"
+    },
+    {
+      "path": ".github",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": ".github/workflows",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "size": 629,
+      "kind": "file"
+    },
+    {
+      "path": ".gitignore",
+      "size": 137,
+      "kind": "file"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "size": 2215,
+      "kind": "file"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1062,
+      "kind": "file"
+    },
+    {
+      "path": "PRIVACY.md",
+      "size": 2036,
+      "kind": "file"
+    },
+    {
+      "path": "README.md",
+      "size": 2824,
+      "kind": "file"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "size": 701,
+      "kind": "file"
+    },
+    {
+      "path": "archives",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "archives/VibePalette-v1.1.0.zip",
+      "size": 804168,
+      "kind": "file"
+    },
+    {
+      "path": "archives/VibePalette-v1.2.0.zip",
+      "size": 442469,
+      "kind": "file"
+    },
+    {
+      "path": "background.js",
+      "size": 1085,
+      "kind": "file"
+    },
+    {
+      "path": "color-utils.js",
+      "size": 27426,
+      "kind": "file"
+    },
+    {
+      "path": "docs",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "docs/findings.md",
+      "size": 2420,
+      "kind": "file"
+    },
+    {
+      "path": "docs/organization.md",
+      "size": 2505,
+      "kind": "file"
+    },
+    {
+      "path": "docs/progress.md",
+      "size": 1564,
+      "kind": "file"
+    },
+    {
+      "path": "docs/task_plan.md",
+      "size": 2455,
+      "kind": "file"
+    },
+    {
+      "path": "export.js",
+      "size": 12424,
+      "kind": "file"
+    },
+    {
+      "path": "fonts",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "fonts/DidactGothic-Regular.ttf",
+      "size": 177968,
+      "kind": "file"
+    },
+    {
+      "path": "fonts/OFL.txt",
+      "size": 4464,
+      "kind": "file"
+    },
+    {
+      "path": "fonts/PoiretOne-Regular.ttf",
+      "size": 44728,
+      "kind": "file"
+    },
+    {
+      "path": "icons",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "icons/icon128.png",
+      "size": 12996,
+      "kind": "file"
+    },
+    {
+      "path": "icons/icon16.png",
+      "size": 640,
+      "kind": "file"
+    },
+    {
+      "path": "icons/icon48.png",
+      "size": 3407,
+      "kind": "file"
+    },
+    {
+      "path": "icons/original.png",
+      "size": 846140,
+      "kind": "file"
+    },
+    {
+      "path": "icons/source_icon.png",
+      "size": 751297,
+      "kind": "file"
+    },
+    {
+      "path": "manifest.json",
+      "size": 741,
+      "kind": "file"
+    },
+    {
+      "path": "package-lock.json",
+      "size": 103216,
+      "kind": "file"
+    },
+    {
+      "path": "package.json",
+      "size": 1271,
+      "kind": "file"
+    },
+    {
+      "path": "popup.html",
+      "size": 11826,
+      "kind": "file"
+    },
+    {
+      "path": "popup.js",
+      "size": 23673,
+      "kind": "file"
+    },
+    {
+      "path": "scripts",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "scripts/package-extension.sh",
+      "size": 962,
+      "kind": "file"
+    },
+    {
+      "path": "scripts/validate-extension.mjs",
+      "size": 2542,
+      "kind": "file"
+    },
+    {
+      "path": "settings.js",
+      "size": 7075,
+      "kind": "file"
+    },
+    {
+      "path": "style.css",
+      "size": 12417,
+      "kind": "file"
+    },
+    {
+      "path": "tests",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "tests/accessibility.test.js",
+      "size": 2348,
+      "kind": "file"
+    },
+    {
+      "path": "tests/background.test.js",
+      "size": 1680,
+      "kind": "file"
+    },
+    {
+      "path": "tests/color-utils.test.js",
+      "size": 8835,
+      "kind": "file"
+    },
+    {
+      "path": "tests/export.test.js",
+      "size": 5296,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixtures",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "tests/fixtures/real-images",
+      "size": 0,
+      "kind": "directory"
+    },
+    {
+      "path": "tests/fixtures/real-images/README.md",
+      "size": 732,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixtures/real-images/astronaut.png",
+      "size": 791555,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixtures/real-images/chelsea.png",
+      "size": 240512,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixtures/real-images/coffee.png",
+      "size": 466706,
+      "kind": "file"
+    },
+    {
+      "path": "tests/fixtures/real-images/rocket.jpg",
+      "size": 112525,
+      "kind": "file"
+    },
+    {
+      "path": "tests/manifest.test.js",
+      "size": 481,
+      "kind": "file"
+    },
+    {
+      "path": "tests/popup.test.js",
+      "size": 6621,
+      "kind": "file"
+    },
+    {
+      "path": "tests/real-images.test.js",
+      "size": 4632,
+      "kind": "file"
+    },
+    {
+      "path": "tests/settings.test.js",
+      "size": 2585,
+      "kind": "file"
+    },
+    {
+      "path": "tests/simulation.test.js",
+      "size": 17813,
+      "kind": "file"
+    },
+    {
+      "path": "tests/theme.test.js",
+      "size": 362,
+      "kind": "file"
+    },
+    {
+      "path": "vitest.config.js",
+      "size": 615,
+      "kind": "file"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_c1a654ba1847",
+      "kind": "repository_metadata",
+      "label": "GitHub repository metadata",
+      "path": null,
+      "excerpt": "Name: sickn33/VibePalette\nDescription: No description supplied\nDefault branch: main\nArchived: false\nFork: false",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/tree/16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:c49c098ef8617c818b92fa3943a88361cce69518ae661f7c66ba2db787578fa7"
+    },
+    {
+      "id": "ev_137386abb660",
+      "kind": "languages",
+      "label": "GitHub language analysis",
+      "path": null,
+      "excerpt": "JavaScript: 125493 bytes\nCSS: 12417 bytes\nHTML: 11826 bytes\nShell: 962 bytes",
+      "normalizedFact": "JavaScript, CSS, HTML, Shell",
+      "sourceUrl": "https://github.com/sickn33/VibePalette/tree/16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:e98d850d5e08d309f4c222e8cbe4efea5bae4427a0e8f22833e590c54c80c098"
+    },
+    {
+      "id": "ev_dafcd8b2a781",
+      "kind": "source_tree",
+      "label": "Bounded repository tree",
+      "path": null,
+      "excerpt": ".backup/background.js.bak (928 bytes)\n.backup/popup.js.bak (54117 bytes)\n.gemini/scratchpad.md (1694 bytes)\n.github/workflows/test.yml (629 bytes)\n.gitignore (137 bytes)\nCHANGELOG.md (2215 bytes)\nLICENSE (1062 bytes)\nPRIVACY.md (2036 bytes)\nREADME.md (2824 bytes)\nTHIRD_PARTY_NOTICES.md (701 bytes)\narchives/VibePalette-v1.1.0.zip (804168 bytes)\narchives/VibePalette-v1.2.0.zip (442469 bytes)\nbackground.js (1085 bytes)\ncolor-utils.js (27426 bytes)\ndocs/findings.md (2420 bytes)\ndocs/organization.md (2505 bytes)\ndocs/progress.md (1564 bytes)\ndocs/task_plan.md (2455 bytes)\nexport.js (12424 bytes)\nfonts/DidactGothic-Regular.ttf (177968 bytes)\nfonts/OFL.txt (4464 bytes)\nfonts/PoiretOne-Regular.ttf (44728 bytes)\nicons/icon128.png (12996 bytes)\nicons/icon16.png (640 bytes)\nicons/icon48.png (3407 bytes)\nicons/original.png (846140 bytes)\nicons/source_icon.png (751297 bytes)\nmanifest.json (741 bytes)\npackage-lock.json (103216 bytes)\npackage.json (1271 bytes)\npopup.html (11826 bytes)\npopup.js (23673 bytes)\nscripts/package-extension.sh (962 bytes)\nscripts/validate-extension.mjs (2542 bytes)\nsettings.js (7075 bytes)\nstyle.css (12417 bytes)\ntests/accessibility.test.js (2348 bytes)\ntests/background.test.js (1680 bytes)\ntests/color-utils.test.js (8835 bytes)\ntests/export.test.js (5296 bytes)\ntests/fixtures/real-images/README.md (732 bytes)\ntests/fixtures/real-images/astronaut.png (791555 bytes)\ntests/fixtures/real-images/chelsea.png (240512 bytes)\ntests/fixtures/real-images/coffee.png (466706 bytes)\ntests/fixtures/real-images/rocket.jpg (112525 bytes)\ntests/manifest.test.js (481 bytes)\ntests…",
+      "normalizedFact": "52 files discovered; 64 bounded tree entries retained",
+      "sourceUrl": "https://github.com/sickn33/VibePalette/tree/16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:4f7ba1054a72a6a9f354edfb5348e266ee7604e1a4bac2857027aa84b6758887"
+    },
+    {
+      "id": "ev_1d1f635f3f7f",
+      "kind": "readme",
+      "label": "README.md",
+      "path": "README.md",
+      "excerpt": "# VibePalette\n\n**VibePalette 2.0.1** is a Chrome/Edge extension for capturing the current tab\nand extracting polished, export-ready color palettes.\n\n![VibePalette logo](icons/icon128.png)\n\n## Features\n\n- 📸 **Instant Capture**: Takes a screenshot of your current tab instantly.\n- 🎨 **Real-image palette extraction**: Uses dominance-aware RGB bins, cell\n winners, corner sampling, and top-band sampling to avoid tiny saturated noise.\n- 🧭 **Balanced palette selection**: Preserves meaningful color diversity without\n forcing irrelevant hue families.\n- 🎬 **Cinematic Export**: Save palettes as framed image exports with balanced\n rows, readable labels, and optional color codes.\n- 💻 **Dev-Friendly Exports**:\n - Copy palette colors\n - Share as a Coolors URL\n - Export as PNG, CSS custom properties, or JSON\n- 🔧 **Customizable**:\n - Adjust color count (5-10)\n - Choose formats (HEX, RGB, HSL)\n - Auto, dark, and light themes\n- ⌨️ **Keyboard Shortcuts**:\n - `Alt+R`: Recapture\n - `Alt+C`: Copy all colors\n - `Alt+E`: Export\n - `Alt+S`: Settings\n\n## Installation\n\n1. Clone this repository.\n2. Open Chrome or Edge and navigate to `chrome://extensions/` or\n `edge://extensions/`.\n3. Enable **Developer mode** (top right toggle).\n4. Click **Load unpacked**.\n5. Select the `VibePalette` folder.\n\n## Technologies\n\n- **Vanilla JavaScript** (No heavy frameworks)\n- **Custom palette heuristics** (candidate extraction and ranking)\n- **HTML5 Canvas** (for image processing)\n- **Vitest & JSDOM** (for automated testing)\n- **ImageMagick** (optional locally and required by CI for real-image regressions)\n\n## Pro…",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/blob/16fdff48d28f7d92fcc0b79f4892baaea6efd82f/README.md",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:4b6dc948325c388390463f1073cc90d4f6721c321eca42dae9111caeea8babd3"
+    },
+    {
+      "id": "ev_29a17ee2ba13",
+      "kind": "manifest",
+      "label": "package.json",
+      "path": "package.json",
+      "excerpt": "{\n \"name\": \"vibepalette\",\n \"version\": \"2.0.1\",\n \"description\": \"A Chrome and Edge extension for extracting export-ready color palettes from the visible tab.\",\n \"main\": \"background.js\",\n \"scripts\": {\n \"test\": \"vitest run tests/\",\n \"test:coverage\": \"vitest run tests/ --coverage\",\n \"validate:extension\": \"node scripts/validate-extension.mjs\",\n \"check\": \"npm run validate:extension && npm run test:coverage\",\n \"package:extension\": \"bash scripts/package-extension.sh\"\n },\n \"engines\": {\n \"node\": \">=20\"\n },\n \"files\": [\n \"background.js\",\n \"color-utils.js\",\n \"export.js\",\n \"fonts/\",\n \"icons/icon16.png\",\n \"icons/icon48.png\",\n \"icons/icon128.png\",\n \"LICENSE\",\n \"manifest.json\",\n \"popup.html\",\n \"popup.js\",\n \"PRIVACY.md\",\n \"README.md\",\n \"settings.js\",\n \"style.css\",\n \"THIRD_PARTY_NOTICES.md\"\n ],\n \"repository\": {\n \"type\": \"git\",\n \"url\": \"git+https://github.com/sickn33/VibePalette.git\"\n },\n \"keywords\": [],\n \"author\": \"\",\n \"license\": \"MIT\",\n \"bugs\": {\n \"url\": \"https://github.com/sickn33/VibePalette/issues\"\n },\n \"homepage\": \"https://github.com/sickn33/VibePalette#readme\",\n \"devDependencies\": {\n \"@vitest/coverage-v8\": \"^3.2.7\",\n \"jsdom\": \"^27.4.0\",\n \"vitest\": \"^3.2.7\"\n }\n}",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/blob/16fdff48d28f7d92fcc0b79f4892baaea6efd82f/package.json",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:1637bca83947893ef40664450a6c3bbe50aa7cc08029c58b84929d694df7330c"
+    },
+    {
+      "id": "ev_636c6f038df0",
+      "kind": "license",
+      "label": "LICENSE",
+      "path": "LICENSE",
+      "excerpt": "MIT License\n\nCopyright (c) 2026 Nicco\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/blob/16fdff48d28f7d92fcc0b79f4892baaea6efd82f/LICENSE",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:0ccbd1b8af0fa24448044045fc674e1411922ca7d7da679a5fdad4aeb58bd965"
+    },
+    {
+      "id": "ev_f6bfc4d486d1",
+      "kind": "documentation",
+      "label": "docs/findings.md",
+      "path": "docs/findings.md",
+      "excerpt": "# Findings - VibePalette\n\n## Research & Discoveries\n\n### Eyedropper Performance\n\n- The popup keeps a shared sampling canvas and refreshes it only after a\n screenshot is captured.\n- Pointer coordinates account for preview cropping, and each selection performs\n a single-pixel `getImageData` read from the shared context.\n\n### Storage Safety\n\n- `chrome.storage.sync.get` can return empty objects if keys are missing.\n- _Best Practice_: Always provide defaults.\n- _Status_: Implemented resilience in `loadSettings` and `loadPaletteHistory`.\n\n### Palette Extraction Quality\n\n- The old hue-first sampling could overfit tiny saturated pixels.\n- _Solution_: Use quantized RGB bins, global dominance scoring, cell winners,\n corner averages, and top-band sampling.\n- _Status_: Covered by simulation tests and real-image fixtures\n (`coffee.png`, `astronaut.png`, `chelsea.png`, `rocket.jpg`).\n\n### Release Hygiene\n\n- Public release assets need explicit provenance and dependency checks.\n- _Status_: v2.0.0 includes fixture license notes, `npm audit` verification,\n and an Edge unpacked-extension smoke test.\n\n### Verification Results\n\n- Eyedropper optimization: Verified that `sharedCtx` is reused. Sampling is now a single `getImageData` call per click.\n- Storage resilience: Functions now gracefully handle `undefined` or null storage responses.\n- Current palette extraction: `npm test` passes 125 tests, including real-image\n regression tests.\n- v2.0.0 browser smoke: Extension popup loads unpacked in Edge, scripts load,\n settings open, action labels render, and console errors are zero.\n\n### 2026-07-10 F…",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/blob/16fdff48d28f7d92fcc0b79f4892baaea6efd82f/docs/findings.md",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:6192996b3ecbf602d840dfe1913860abd84b2900925d96899d2cb8ac3f375c10"
+    },
+    {
+      "id": "ev_32878d845a83",
+      "kind": "documentation",
+      "label": "docs/organization.md",
+      "path": "docs/organization.md",
+      "excerpt": "# Project Organization - VibePalette\n\nThe VibePalette project has been organized for better maintainability and clarity.\n\n## Directory Structure\n\n```text\nVibePalette/\n├── .github/workflows/ # Continuous verification and packaged artifact build\n├── archives/ # Older version ZIPs (v1.1.0, v1.2.0)\n├── docs/ # Project documentation, research, and progress logs\n│ ├── findings.md # Technical discoveries and research\n│ ├── progress.md # Session development log\n│ └── task_plan.md # Current and future task planning\n├── fonts/ # Bundled UI/export fonts\n├── icons/ # Chrome Extension icons and source assets\n├── scripts/ # Extension validation and deterministic packaging\n├── tests/ # Automated test suites and real-image fixtures\n├── background.js # Chrome Extension background worker\n├── color-utils.js # Color conversion, naming, extraction, and ranking\n├── export.js # PNG/CSS/JSON/share export helpers\n├── manifest.json # Chrome Extension manifest\n├── popup.html # Extension popup interface\n├── popup.js # Main extension logic\n├── settings.js # Settings and palette history persistence\n├── style.css # Extension styling\n├── CHANGELOG.md # Release notes\n├── PRIVACY.md # User-data and permission disclosure\n├── THIRD_PARTY_NOTICES.md # Bundled font attribution\n├── package.json # Node.js dependencies and scripts\n├── vitest.config.js # Testing configuration\n└── README.md # Project overview\n```\n\n## Recent Cleanup Actions\n\n- Created `archives/`, `docs/`, and `tests/` directories.\n- Moved planning files into `docs/`.\n- Moved test files into `tests/`.\n- Moved versioned ZIP files into `archives/`.\n-…",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/blob/16fdff48d28f7d92fcc0b79f4892baaea6efd82f/docs/organization.md",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:a9bc19222d726a2a72841c0f2452374fd345b1424cb0c9c9cc1f71442f97963f"
+    },
+    {
+      "id": "ev_de444c6d99a4",
+      "kind": "documentation",
+      "label": "docs/progress.md",
+      "path": "docs/progress.md",
+      "excerpt": "# Progress Log - VibePalette\n\n## Session Log\n\n- **[2026-01-23]**: Initialized planning files (`task_plan.md`, `findings.md`, `progress.md`) based on the `planning-with-files` workflow.\n- **[2026-01-23]**: Set goals for Eyedropper optimization and Storage resilience.\n- **[2026-01-23]**: Decided to use a persistent `samplingCanvas` to avoid redundant `drawImage` calls in the Eyedropper tool.\n- **[2026-01-23]**: Completed Eyedropper optimization and Storage resilience improvements.\n- **[2026-01-23]**: Starting TDD Verification phase. Goal: Set up Vitest and write automated tests for corrected logic.\n- **[2026-01-23]**: Successfully verified optimizations and core logic using TDD Cycle (RED-GREEN-REFACTOR). All tests passing.\n- **[2026-01-23]**: Debugged Vitest/JSDOM execution errors (Mocked Canvas and Clipboard). Final suite is clean (0 errors, exit code 0).\n- **[2026-06-21]**: Completed public-deliverable pass for v2.0.0: UI polish,\n settings/export modules, manifest storage permission, MIT license, and\n package metadata alignment.\n- **[2026-06-21]**: Reworked palette extraction around real-image sampling and\n added scikit-image regression fixtures.\n- **[2026-06-21]**: Verified v2.0.0 with `npm test`, `npm audit\n --audit-level=moderate`, and an Edge unpacked-extension smoke test.\n- **[2026-07-10]**: Completed a line-by-line deep audit across runtime, tests,\n assets, archives, packaging, privacy, licensing, accessibility, and release\n surfaces. Implemented validated fixes and expanded the suite from 105 to 125\n tests across 10 files.",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/blob/16fdff48d28f7d92fcc0b79f4892baaea6efd82f/docs/progress.md",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:f50aa9bf16dcb2c1a7599af05ca92cf58585504058f8d508d337dcb105fd3590"
+    },
+    {
+      "id": "ev_c52cbc99eabb",
+      "kind": "documentation",
+      "label": "docs/task_plan.md",
+      "path": "docs/task_plan.md",
+      "excerpt": "# Task Plan - VibePalette Enhancements\n\n## Goal\n\nShip VibePalette 2.0.0 as a public-ready extension update.\n\n## Phases\n\n### Phase 1: Eyedropper Optimization [x]\n\n- [x] Research current `initEyedropper` implementation.\n- [x] Implement a more efficient way to sample a single pixel.\n- [x] Verify performance improvement.\n\n### Phase 2: Storage Resilience [x]\n\n- [x] Add try/catch blocks and default value handling to `loadSettings` and `loadPaletteHistory`.\n- [x] Test with corrupted or missing storage data.\n\n### Phase 3: Final Verification & Cleanup [x]\n\n- [x] Run overall functionality tests.\n- [x] Update documentation if needed.\n\n### Phase 4: TDD Verification [x]\n\n- [x] Initialize `package.json` and install testing dependencies (Vitest + JSDOM).\n- [x] Create test suite for storage resilience (`loadSettings`).\n- [x] Create test suite for core color logic (`rgbToHex`, `getColorFamily`).\n- [x] Verify everything passes and no regressions exist.\n\n### Phase 5: Public v2.0.0 Delivery [x]\n\n- [x] Improve palette extraction with dominance-aware real-image sampling.\n- [x] Add settings persistence, export helpers, and bundled fonts.\n- [x] Add manifest, popup, simulation, and real-image regression tests.\n- [x] Update README, changelog, and docs for release 2.0.0.\n- [x] Verify tests, audit, and unpacked browser smoke.\n\n### Phase 6: Full Reliability and Compliance Audit [x]\n\n- [x] Validate settings and palette-history schemas.\n- [x] Serialize history writes and order initialization safely.\n- [x] Prevent stale capture callbacks from overwriting newer captures.\n- [x] Correct eyedropper crop coor…",
+      "normalizedFact": null,
+      "sourceUrl": "https://github.com/sickn33/VibePalette/blob/16fdff48d28f7d92fcc0b79f4892baaea6efd82f/docs/task_plan.md",
+      "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f",
+      "contentHash": "sha256:f9588ff2c732e5d6da0b1a8b83431d9ec0e7f2b5e82790106da193b9f1c51f6a"
+    }
+  ],
+  "limits": {
+    "discoveredFiles": 52,
+    "includedFiles": 7,
+    "includedBytes": 14101,
+    "truncatedTree": false
+  }
+}

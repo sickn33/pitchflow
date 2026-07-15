@@ -1,0 +1,338 @@
+{
+  "format": "pitchflow-creative-output-verification",
+  "version": 1,
+  "generatedAt": "2026-07-15T12:34:33.499Z",
+  "bundle": "artifacts/verification/2026-07-15-connected-engine/vibepalette-candidate-02",
+  "expectedProduct": "VibePalette",
+  "status": "objective-pass-visual-review-required",
+  "staticAssets": [
+    {
+      "filename": "images/og-1200x630.png",
+      "layoutId": "social-og-wide-split",
+      "narrativeStage": null,
+      "captures": [
+        "images/product-capture-01.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "images/x-1600x900.png",
+      "layoutId": "social-x-feature-overlay",
+      "narrativeStage": null,
+      "captures": [
+        "images/product-capture-01.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "images/linkedin-1200x627.png",
+      "layoutId": "social-linkedin-editorial",
+      "narrativeStage": null,
+      "captures": [
+        "images/product-capture-02.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "images/instagram-1080x1080.png",
+      "layoutId": "social-instagram-product-stack",
+      "narrativeStage": null,
+      "captures": [
+        "images/product-capture-01.png",
+        "images/product-capture-02.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "carousel/slide-01-1080x1350.png",
+      "layoutId": "carousel-hook-problem",
+      "narrativeStage": "hook-problem",
+      "captures": [
+        "images/product-capture-01.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "carousel/slide-02-1080x1350.png",
+      "layoutId": "carousel-capture-flow",
+      "narrativeStage": "capture-flow",
+      "captures": [
+        "images/product-capture-01.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "carousel/slide-03-1080x1350.png",
+      "layoutId": "carousel-extracted-result",
+      "narrativeStage": "extracted-result",
+      "captures": [
+        "images/product-capture-01.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "carousel/slide-04-1080x1350.png",
+      "layoutId": "carousel-export-share-outcome",
+      "narrativeStage": "export-share-outcome",
+      "captures": [
+        "images/product-capture-02.png"
+      ],
+      "textFit": true
+    },
+    {
+      "filename": "carousel/slide-05-1080x1350.png",
+      "layoutId": "carousel-cta",
+      "narrativeStage": "cta",
+      "captures": [
+        "images/product-capture-01.png",
+        "images/product-capture-02.png"
+      ],
+      "textFit": true
+    }
+  ],
+  "narrativeStages": [
+    "hook-problem",
+    "capture-flow",
+    "extracted-result",
+    "export-share-outcome",
+    "cta"
+  ],
+  "distinctLayouts": 9,
+  "captures": [
+    "images/product-capture-01.png",
+    "images/product-capture-02.png"
+  ],
+  "productIsolation": {
+    "dogfoodAssetHashesCompared": 23,
+    "sharedDogfoodHashes": [],
+    "blockedDogfoodCopyHits": [],
+    "pitchFlowGeneratorCreditAllowed": true
+  },
+  "videoProbes": {
+    "landscape": {
+      "format": {
+        "filename": "/Users/nicco/Projects/Playground/pitchflow-build-week/artifacts/verification/2026-07-15-connected-engine/vibepalette-candidate-02/videos/launch-landscape-1920x1080.mp4",
+        "nb_streams": 1,
+        "nb_programs": 0,
+        "nb_stream_groups": 0,
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "format_long_name": "QuickTime / MOV",
+        "start_time": "0.000000",
+        "duration": "36.000000",
+        "size": "44224971",
+        "bit_rate": "9827771",
+        "probe_score": 100,
+        "tags": {
+          "major_brand": "isom",
+          "minor_version": "512",
+          "compatible_brands": "isomiso2avc1mp41",
+          "title": "VibePalette — PitchFlow campaign",
+          "encoder": "Lavf61.7.100",
+          "comment": "Made with Remotion 4.0.489; manifest=campaign_01bcc79ebda52e49; commit=16fdff48d28f7d92fcc0b79f4892baaea6efd82f"
+        }
+      },
+      "video": {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.640032",
+        "width": 1920,
+        "height": 1080,
+        "coded_width": 1920,
+        "coded_height": 1080,
+        "has_b_frames": 2,
+        "sample_aspect_ratio": "1:1",
+        "display_aspect_ratio": "16:9",
+        "pix_fmt": "yuv420p",
+        "level": 50,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "chroma_location": "center",
+        "field_order": "progressive",
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "time_base": "1/90000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 3240000,
+        "duration": "36.000000",
+        "bit_rate": "9824796",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "1080",
+        "extradata_size": 50,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "encoder": "Lavc61.19.100 libx264"
+        },
+        "side_data_list": [
+          {
+            "side_data_type": "ICC Profile"
+          }
+        ]
+      }
+    },
+    "portrait": {
+      "format": {
+        "filename": "/Users/nicco/Projects/Playground/pitchflow-build-week/artifacts/verification/2026-07-15-connected-engine/vibepalette-candidate-02/videos/launch-portrait-1080x1920.mp4",
+        "nb_streams": 1,
+        "nb_programs": 0,
+        "nb_stream_groups": 0,
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "format_long_name": "QuickTime / MOV",
+        "start_time": "0.000000",
+        "duration": "36.000000",
+        "size": "52515073",
+        "bit_rate": "11670016",
+        "probe_score": 100,
+        "tags": {
+          "major_brand": "isom",
+          "minor_version": "512",
+          "compatible_brands": "isomiso2avc1mp41",
+          "title": "VibePalette — PitchFlow campaign",
+          "encoder": "Lavf61.7.100",
+          "comment": "Made with Remotion 4.0.489; manifest=campaign_01bcc79ebda52e49; commit=16fdff48d28f7d92fcc0b79f4892baaea6efd82f"
+        }
+      },
+      "video": {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.640032",
+        "width": 1080,
+        "height": 1920,
+        "coded_width": 1080,
+        "coded_height": 1920,
+        "has_b_frames": 2,
+        "sample_aspect_ratio": "1:1",
+        "display_aspect_ratio": "9:16",
+        "pix_fmt": "yuv420p",
+        "level": 50,
+        "color_range": "tv",
+        "color_space": "bt709",
+        "chroma_location": "center",
+        "field_order": "progressive",
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "time_base": "1/90000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 3240000,
+        "duration": "36.000000",
+        "bit_rate": "11666879",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "1080",
+        "extradata_size": 50,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "encoder": "Lavc61.19.100 libx264"
+        },
+        "side_data_list": [
+          {
+            "side_data_type": "ICC Profile"
+          }
+        ]
+      }
+    }
+  },
+  "evidenceFiles": [
+    {
+      "filename": "carousel-all-5.png",
+      "bytes": 324742,
+      "sha256": "8f1ed864bc02fb18e81b603e582b136b529429a0606001ebfec230f9bdd5c8ee"
+    },
+    {
+      "filename": "landscape-contact-18.png",
+      "bytes": 448507,
+      "sha256": "a280217af2349c2740a3deff2ee25c3dbae897d9fab4aff57b05ab1bfd3b2e41"
+    },
+    {
+      "filename": "landscape-opening-8.png",
+      "bytes": 364735,
+      "sha256": "c61a0e4ac9b5f9c13388673033ca61feeadef6e05a7487125efc24d507904e4e"
+    },
+    {
+      "filename": "portrait-contact-18.png",
+      "bytes": 409819,
+      "sha256": "a77d32c837009a3e64b2b417f5337afec586bdaa8e57dfd86b63422870693cc7"
+    },
+    {
+      "filename": "portrait-opening-8.png",
+      "bytes": 406711,
+      "sha256": "3c58e115fd834d4b8cd053bb15e91aff0f67cb8d23935bbf30ad0517cb55ab6e"
+    },
+    {
+      "filename": "social-all-4.png",
+      "bytes": 612149,
+      "sha256": "a40eb212bfe2a733f73c6815d0f992b1f4c6088b69293c25f5e8329db16dcacd"
+    }
+  ],
+  "assertions": {
+    "allNineCreativesPresent": true,
+    "dimensionsExact": true,
+    "captureLed": true,
+    "textFitsWithoutTruncation": true,
+    "distinctPlatformLayouts": true,
+    "carouselNarrativeComplete": true,
+    "videosPresentAtRequiredRatios": true,
+    "noPitchFlowDogfoodContentLeakage": true,
+    "parentVisualReviewRequired": true
+  }
+}

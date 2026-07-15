@@ -1,0 +1,416 @@
+{
+  "schemaVersion": "1.1.0",
+  "id": "campaign_d2aa35064372906f",
+  "version": 1,
+  "source": {
+    "snapshotId": "snapshot_68055acac65fc66d",
+    "repositoryUrl": "https://github.com/sickn33/VibePalette",
+    "commitSha": "16fdff48d28f7d92fcc0b79f4892baaea6efd82f"
+  },
+  "generation": {
+    "provider": "codex-sdk",
+    "model": "gpt-5.6-sol",
+    "promptVersion": "creative-director-2026-07-15.2",
+    "generatedAt": "2026-07-15T12:09:06.194Z",
+    "threadId": "019f65ad-2fea-7113-9dfd-822588978094",
+    "repairAttempts": 0,
+    "usage": {
+      "inputTokens": 27091,
+      "cachedInputTokens": 0,
+      "outputTokens": 4167,
+      "reasoningOutputTokens": 954
+    }
+  },
+  "productBrief": {
+    "productName": "VibePalette",
+    "oneLiner": "Capture the visible tab and turn it into a polished, export-ready color palette.",
+    "problem": "Turning a page’s visible colors into reusable assets otherwise requires separate capture, selection, formatting, and export steps.",
+    "audience": [
+      "Developers translating visual references into CSS or structured color data",
+      "Designers building palettes from real web pages",
+      "Chrome and Edge users who want a browser-native palette workflow"
+    ],
+    "positioning": "A browser-native path from the visible tab to an export-ready palette, using current-tab capture, Canvas-based image processing, and practical developer formats.",
+    "tone": "precise",
+    "differentiators": [
+      "Dominance-aware extraction designed to reduce the influence of tiny saturated details",
+      "Balanced selection that preserves meaningful diversity without forcing irrelevant hue families",
+      "Exports spanning PNG, CSS custom properties, JSON, copied colors, and Coolors sharing",
+      "Configurable palettes of 5–10 colors with HEX, RGB, and HSL formats",
+      "Vanilla JavaScript implementation with automated and real-image regression testing"
+    ],
+    "evidenceIds": [
+      "ev_1d1f635f3f7f",
+      "ev_29a17ee2ba13",
+      "ev_f6bfc4d486d1",
+      "ev_32878d845a83",
+      "ev_de444c6d99a4"
+    ]
+  },
+  "claims": [
+    {
+      "id": "claim_01",
+      "text": "VibePalette 2.0.1 is a Chrome and Edge extension that captures the current tab and extracts export-ready color palettes.",
+      "classification": "fact",
+      "confidence": 0.99,
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_29a17ee2ba13"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# VibePalette\n\n**VibePalette 2.0.1** is a Chrome/Edge extension for capturing the current tab\nand extracting polished, export-ready color palettes.\n\n![VibePalette logo](icons/icon128.png)\n\n## Features\n\n- 📸 **Instant Capture**: Takes a screenshot of your current tab instantly.\n- 🎨 **Real-image palette extraction**: Uses dominance-aware RGB bins, cell\n winners, corner sampling, and top-band sampling to avoid tiny saturated noise.\n- 🧭 **Balanced palette selection**: Preserves meaningful color diversity without\n forcing irrelevant hue families.\n- 🎬 **Cinematic Export**: Save palettes as framed image exports with balanced\n rows, readable labels, and optional color codes.\n- 💻 **Dev-Friendly Exports**:\n - Copy palette colors\n - Share as a Coolors URL\n - Export as PNG, CSS custom properties, or JSON\n- 🔧 **Customizable**:\n - Adjust color count (5-10)\n - Choose formats (HEX, RGB, HSL)\n - Auto, dark, and light themes\n- ⌨️ **Keyboard Shortcuts**:\n - `Alt+R`: Recapture\n - `Alt+C`: Copy all colors\n - `Alt+E`: Export\n - `Alt+S`: Settings\n\n## Installation\n\n1. Clone this repository.\n2. Open Chrome or Edge and navigate to `chrome://extensions/` or\n `edge://extensions/`.\n3. Enable **Developer mode** (top right toggle).\n4. Click **Load unpacked**.\n5. Select the `VibePalette` folder.\n\n## Technologies\n\n- **Vanilla JavaScript** (No heavy frameworks)\n- **Custom palette heuristics** (candidate extraction and ranking)\n- **HTML5 Canvas** (for image processing)\n- **Vitest & JSDOM** (for automated testing)\n- **ImageMagick** (optional locally and required by CI for real-image regressions)\n\n## Pro…",
+      "approvalRequired": false,
+      "rationale": "The README and package manifest directly identify the version, supported browsers, capture target, and product purpose."
+    },
+    {
+      "id": "claim_02",
+      "text": "Its extraction process uses dominance-aware RGB bins, cell winners, corner sampling, and top-band sampling to reduce the impact of tiny saturated noise.",
+      "classification": "fact",
+      "confidence": 0.98,
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_f6bfc4d486d1"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# VibePalette\n\n**VibePalette 2.0.1** is a Chrome/Edge extension for capturing the current tab\nand extracting polished, export-ready color palettes.\n\n![VibePalette logo](icons/icon128.png)\n\n## Features\n\n- 📸 **Instant Capture**: Takes a screenshot of your current tab instantly.\n- 🎨 **Real-image palette extraction**: Uses dominance-aware RGB bins, cell\n winners, corner sampling, and top-band sampling to avoid tiny saturated noise.\n- 🧭 **Balanced palette selection**: Preserves meaningful color diversity without\n forcing irrelevant hue families.\n- 🎬 **Cinematic Export**: Save palettes as framed image exports with balanced\n rows, readable labels, and optional color codes.\n- 💻 **Dev-Friendly Exports**:\n - Copy palette colors\n - Share as a Coolors URL\n - Export as PNG, CSS custom properties, or JSON\n- 🔧 **Customizable**:\n - Adjust color count (5-10)\n - Choose formats (HEX, RGB, HSL)\n - Auto, dark, and light themes\n- ⌨️ **Keyboard Shortcuts**:\n - `Alt+R`: Recapture\n - `Alt+C`: Copy all colors\n - `Alt+E`: Export\n - `Alt+S`: Settings\n\n## Installation\n\n1. Clone this repository.\n2. Open Chrome or Edge and navigate to `chrome://extensions/` or\n `edge://extensions/`.\n3. Enable **Developer mode** (top right toggle).\n4. Click **Load unpacked**.\n5. Select the `VibePalette` folder.\n\n## Technologies\n\n- **Vanilla JavaScript** (No heavy frameworks)\n- **Custom palette heuristics** (candidate extraction and ranking)\n- **HTML5 Canvas** (for image processing)\n- **Vitest & JSDOM** (for automated testing)\n- **ImageMagick** (optional locally and required by CI for real-image regressions)\n\n## Pro…",
+      "approvalRequired": false,
+      "rationale": "Both the README and technical findings explicitly describe these extraction methods and their purpose."
+    },
+    {
+      "id": "claim_03",
+      "text": "Users can copy colors, create a Coolors URL, or export palettes as PNG, CSS custom properties, and JSON.",
+      "classification": "fact",
+      "confidence": 0.99,
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_32878d845a83"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# VibePalette\n\n**VibePalette 2.0.1** is a Chrome/Edge extension for capturing the current tab\nand extracting polished, export-ready color palettes.\n\n![VibePalette logo](icons/icon128.png)\n\n## Features\n\n- 📸 **Instant Capture**: Takes a screenshot of your current tab instantly.\n- 🎨 **Real-image palette extraction**: Uses dominance-aware RGB bins, cell\n winners, corner sampling, and top-band sampling to avoid tiny saturated noise.\n- 🧭 **Balanced palette selection**: Preserves meaningful color diversity without\n forcing irrelevant hue families.\n- 🎬 **Cinematic Export**: Save palettes as framed image exports with balanced\n rows, readable labels, and optional color codes.\n- 💻 **Dev-Friendly Exports**:\n - Copy palette colors\n - Share as a Coolors URL\n - Export as PNG, CSS custom properties, or JSON\n- 🔧 **Customizable**:\n - Adjust color count (5-10)\n - Choose formats (HEX, RGB, HSL)\n - Auto, dark, and light themes\n- ⌨️ **Keyboard Shortcuts**:\n - `Alt+R`: Recapture\n - `Alt+C`: Copy all colors\n - `Alt+E`: Export\n - `Alt+S`: Settings\n\n## Installation\n\n1. Clone this repository.\n2. Open Chrome or Edge and navigate to `chrome://extensions/` or\n `edge://extensions/`.\n3. Enable **Developer mode** (top right toggle).\n4. Click **Load unpacked**.\n5. Select the `VibePalette` folder.\n\n## Technologies\n\n- **Vanilla JavaScript** (No heavy frameworks)\n- **Custom palette heuristics** (candidate extraction and ranking)\n- **HTML5 Canvas** (for image processing)\n- **Vitest & JSDOM** (for automated testing)\n- **ImageMagick** (optional locally and required by CI for real-image regressions)\n\n## Pro…",
+      "approvalRequired": false,
+      "rationale": "The README lists these export paths, and the project organization identifies the corresponding export helpers."
+    },
+    {
+      "id": "claim_04",
+      "text": "Users can select 5–10 colors and display values as HEX, RGB, or HSL.",
+      "classification": "fact",
+      "confidence": 0.99,
+      "evidenceIds": [
+        "ev_1d1f635f3f7f"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# VibePalette\n\n**VibePalette 2.0.1** is a Chrome/Edge extension for capturing the current tab\nand extracting polished, export-ready color palettes.\n\n![VibePalette logo](icons/icon128.png)\n\n## Features\n\n- 📸 **Instant Capture**: Takes a screenshot of your current tab instantly.\n- 🎨 **Real-image palette extraction**: Uses dominance-aware RGB bins, cell\n winners, corner sampling, and top-band sampling to avoid tiny saturated noise.\n- 🧭 **Balanced palette selection**: Preserves meaningful color diversity without\n forcing irrelevant hue families.\n- 🎬 **Cinematic Export**: Save palettes as framed image exports with balanced\n rows, readable labels, and optional color codes.\n- 💻 **Dev-Friendly Exports**:\n - Copy palette colors\n - Share as a Coolors URL\n - Export as PNG, CSS custom properties, or JSON\n- 🔧 **Customizable**:\n - Adjust color count (5-10)\n - Choose formats (HEX, RGB, HSL)\n - Auto, dark, and light themes\n- ⌨️ **Keyboard Shortcuts**:\n - `Alt+R`: Recapture\n - `Alt+C`: Copy all colors\n - `Alt+E`: Export\n - `Alt+S`: Settings\n\n## Installation\n\n1. Clone this repository.\n2. Open Chrome or Edge and navigate to `chrome://extensions/` or\n `edge://extensions/`.\n3. Enable **Developer mode** (top right toggle).\n4. Click **Load unpacked**.\n5. Select the `VibePalette` folder.\n\n## Technologies\n\n- **Vanilla JavaScript** (No heavy frameworks)\n- **Custom palette heuristics** (candidate extraction and ranking)\n- **HTML5 Canvas** (for image processing)\n- **Vitest & JSDOM** (for automated testing)\n- **ImageMagick** (optional locally and required by CI for real-image regressions)\n\n## Pro…",
+      "approvalRequired": false,
+      "rationale": "These customization options are stated directly in the README."
+    },
+    {
+      "id": "claim_05",
+      "text": "The documented image-processing implementation uses HTML5 Canvas and custom palette heuristics in a Vanilla JavaScript extension.",
+      "classification": "fact",
+      "confidence": 0.98,
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_137386abb660"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# VibePalette\n\n**VibePalette 2.0.1** is a Chrome/Edge extension for capturing the current tab\nand extracting polished, export-ready color palettes.\n\n![VibePalette logo](icons/icon128.png)\n\n## Features\n\n- 📸 **Instant Capture**: Takes a screenshot of your current tab instantly.\n- 🎨 **Real-image palette extraction**: Uses dominance-aware RGB bins, cell\n winners, corner sampling, and top-band sampling to avoid tiny saturated noise.\n- 🧭 **Balanced palette selection**: Preserves meaningful color diversity without\n forcing irrelevant hue families.\n- 🎬 **Cinematic Export**: Save palettes as framed image exports with balanced\n rows, readable labels, and optional color codes.\n- 💻 **Dev-Friendly Exports**:\n - Copy palette colors\n - Share as a Coolors URL\n - Export as PNG, CSS custom properties, or JSON\n- 🔧 **Customizable**:\n - Adjust color count (5-10)\n - Choose formats (HEX, RGB, HSL)\n - Auto, dark, and light themes\n- ⌨️ **Keyboard Shortcuts**:\n - `Alt+R`: Recapture\n - `Alt+C`: Copy all colors\n - `Alt+E`: Export\n - `Alt+S`: Settings\n\n## Installation\n\n1. Clone this repository.\n2. Open Chrome or Edge and navigate to `chrome://extensions/` or\n `edge://extensions/`.\n3. Enable **Developer mode** (top right toggle).\n4. Click **Load unpacked**.\n5. Select the `VibePalette` folder.\n\n## Technologies\n\n- **Vanilla JavaScript** (No heavy frameworks)\n- **Custom palette heuristics** (candidate extraction and ranking)\n- **HTML5 Canvas** (for image processing)\n- **Vitest & JSDOM** (for automated testing)\n- **ImageMagick** (optional locally and required by CI for real-image regressions)\n\n## Pro…",
+      "approvalRequired": false,
+      "rationale": "The README names the technologies, while repository language analysis confirms JavaScript, CSS, and HTML as implementation languages."
+    },
+    {
+      "id": "claim_06",
+      "text": "The repository documentation reports 125 passing tests, including real-image regression tests.",
+      "classification": "fact",
+      "confidence": 0.96,
+      "evidenceIds": [
+        "ev_f6bfc4d486d1",
+        "ev_de444c6d99a4"
+      ],
+      "evidencePath": "docs/findings.md",
+      "evidenceExcerpt": "# Findings - VibePalette\n\n## Research & Discoveries\n\n### Eyedropper Performance\n\n- The popup keeps a shared sampling canvas and refreshes it only after a\n screenshot is captured.\n- Pointer coordinates account for preview cropping, and each selection performs\n a single-pixel `getImageData` read from the shared context.\n\n### Storage Safety\n\n- `chrome.storage.sync.get` can return empty objects if keys are missing.\n- _Best Practice_: Always provide defaults.\n- _Status_: Implemented resilience in `loadSettings` and `loadPaletteHistory`.\n\n### Palette Extraction Quality\n\n- The old hue-first sampling could overfit tiny saturated pixels.\n- _Solution_: Use quantized RGB bins, global dominance scoring, cell winners,\n corner averages, and top-band sampling.\n- _Status_: Covered by simulation tests and real-image fixtures\n (`coffee.png`, `astronaut.png`, `chelsea.png`, `rocket.jpg`).\n\n### Release Hygiene\n\n- Public release assets need explicit provenance and dependency checks.\n- _Status_: v2.0.0 includes fixture license notes, `npm audit` verification,\n and an Edge unpacked-extension smoke test.\n\n### Verification Results\n\n- Eyedropper optimization: Verified that `sharedCtx` is reused. Sampling is now a single `getImageData` call per click.\n- Storage resilience: Functions now gracefully handle `undefined` or null storage responses.\n- Current palette extraction: `npm test` passes 125 tests, including real-image\n regression tests.\n- v2.0.0 browser smoke: Extension popup loads unpacked in Edge, scripts load,\n settings open, action labels render, and console errors are zero.\n\n### 2026-07-10 F…",
+      "approvalRequired": false,
+      "rationale": "The findings and progress logs directly report the passing test count and real-image regression coverage."
+    },
+    {
+      "id": "claim_07",
+      "text": "VibePalette is MIT-licensed.",
+      "classification": "fact",
+      "confidence": 1,
+      "evidenceIds": [
+        "ev_636c6f038df0",
+        "ev_29a17ee2ba13"
+      ],
+      "evidencePath": "LICENSE",
+      "evidenceExcerpt": "MIT License\n\nCopyright (c) 2026 Nicco\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+      "approvalRequired": false,
+      "rationale": "The repository includes the MIT license text, and package metadata declares the MIT license."
+    },
+    {
+      "id": "claim_08",
+      "text": "VibePalette provides an end-to-end browser-extension workflow from visible-tab capture through palette selection and reusable exports.",
+      "classification": "supported_inference",
+      "confidence": 0.93,
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_32878d845a83"
+      ],
+      "evidencePath": "README.md",
+      "evidenceExcerpt": "# VibePalette\n\n**VibePalette 2.0.1** is a Chrome/Edge extension for capturing the current tab\nand extracting polished, export-ready color palettes.\n\n![VibePalette logo](icons/icon128.png)\n\n## Features\n\n- 📸 **Instant Capture**: Takes a screenshot of your current tab instantly.\n- 🎨 **Real-image palette extraction**: Uses dominance-aware RGB bins, cell\n winners, corner sampling, and top-band sampling to avoid tiny saturated noise.\n- 🧭 **Balanced palette selection**: Preserves meaningful color diversity without\n forcing irrelevant hue families.\n- 🎬 **Cinematic Export**: Save palettes as framed image exports with balanced\n rows, readable labels, and optional color codes.\n- 💻 **Dev-Friendly Exports**:\n - Copy palette colors\n - Share as a Coolors URL\n - Export as PNG, CSS custom properties, or JSON\n- 🔧 **Customizable**:\n - Adjust color count (5-10)\n - Choose formats (HEX, RGB, HSL)\n - Auto, dark, and light themes\n- ⌨️ **Keyboard Shortcuts**:\n - `Alt+R`: Recapture\n - `Alt+C`: Copy all colors\n - `Alt+E`: Export\n - `Alt+S`: Settings\n\n## Installation\n\n1. Clone this repository.\n2. Open Chrome or Edge and navigate to `chrome://extensions/` or\n `edge://extensions/`.\n3. Enable **Developer mode** (top right toggle).\n4. Click **Load unpacked**.\n5. Select the `VibePalette` folder.\n\n## Technologies\n\n- **Vanilla JavaScript** (No heavy frameworks)\n- **Custom palette heuristics** (candidate extraction and ranking)\n- **HTML5 Canvas** (for image processing)\n- **Vitest & JSDOM** (for automated testing)\n- **ImageMagick** (optional locally and required by CI for real-image regressions)\n\n## Pro…",
+      "approvalRequired": true,
+      "rationale": "The README documents capture, extraction, customization, and export as product features; describing them as one end-to-end workflow is a reasonable synthesis."
+    }
+  ],
+  "design": {
+    "accent": "#C79A3B",
+    "accentAlt": "#704B38",
+    "background": "#F5ECDD",
+    "surface": "#FFF9EF",
+    "text": "#2C211B",
+    "muted": "#7C6A5D",
+    "radius": 18,
+    "displayFont": "system-serif"
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "eyebrow": "Visible tab. Usable palette.",
+      "heading": "Turn the page in front of you into color you can ship.",
+      "body": "VibePalette captures the current tab, extracts a balanced palette, and prepares it for design and development workflows.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f"
+      ]
+    },
+    {
+      "id": "extraction",
+      "eyebrow": "Measured extraction",
+      "heading": "Built to notice dominant color—not just the loudest pixel.",
+      "body": "Dominance-aware RGB bins, spatial sampling, and balanced selection help preserve meaningful color diversity while reducing tiny saturated noise.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_f6bfc4d486d1"
+      ]
+    },
+    {
+      "id": "workspace",
+      "eyebrow": "Shape the result",
+      "heading": "Choose the palette that fits the work.",
+      "body": "Set a palette from 5 to 10 colors, switch between HEX, RGB, and HSL, and use auto, dark, or light themes.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f"
+      ]
+    },
+    {
+      "id": "exports",
+      "eyebrow": "From reference to reusable asset",
+      "heading": "Export for code, presentation, or the next tool.",
+      "body": "Copy every color, share through Coolors, or export the palette as PNG, CSS custom properties, or JSON.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_32878d845a83"
+      ]
+    },
+    {
+      "id": "trust",
+      "eyebrow": "Repository-grounded",
+      "heading": "Open source, tested against real images.",
+      "body": "VibePalette is MIT-licensed, built in Vanilla JavaScript, and documented with automated tests that include real-image regression fixtures.",
+      "evidenceIds": [
+        "ev_636c6f038df0",
+        "ev_1d1f635f3f7f",
+        "ev_f6bfc4d486d1",
+        "ev_de444c6d99a4"
+      ]
+    }
+  ],
+  "socialCards": [
+    {
+      "headline": "The visible tab is already a color brief.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f"
+      ]
+    },
+    {
+      "headline": "Capture the page. Extract the palette. Export the result.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_32878d845a83"
+      ]
+    },
+    {
+      "headline": "From real web pages to CSS, JSON, and PNG.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f"
+      ]
+    }
+  ],
+  "carousel": [
+    {
+      "index": 1,
+      "eyebrow": "VibePalette 01",
+      "headline": "Start with the page in front of you.",
+      "body": "Capture the current Chrome or Edge tab directly from the extension.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_29a17ee2ba13"
+      ]
+    },
+    {
+      "index": 2,
+      "eyebrow": "VibePalette 02",
+      "headline": "Extract signal from visual noise.",
+      "body": "Dominance-aware and spatial sampling methods are designed to keep tiny saturated pixels from steering the entire palette.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_f6bfc4d486d1"
+      ]
+    },
+    {
+      "index": 3,
+      "eyebrow": "VibePalette 03",
+      "headline": "Keep meaningful color diversity.",
+      "body": "Balanced selection preserves useful variation without forcing hue families that do not belong.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f"
+      ]
+    },
+    {
+      "index": 4,
+      "eyebrow": "VibePalette 04",
+      "headline": "Make the palette fit the task.",
+      "body": "Choose 5–10 colors and work in HEX, RGB, or HSL.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f"
+      ]
+    },
+    {
+      "index": 5,
+      "eyebrow": "VibePalette 05",
+      "headline": "Move from inspiration to output.",
+      "body": "Copy the colors or export them as PNG, CSS custom properties, JSON, or a Coolors link.",
+      "evidenceIds": [
+        "ev_1d1f635f3f7f",
+        "ev_32878d845a83"
+      ]
+    }
+  ],
+  "copy": {
+    "x": "The page in front of you is already a color brief. VibePalette captures the visible tab, extracts a balanced 5–10 color palette, and exports it as PNG, CSS custom properties, JSON, copied colors, or a Coolors link. Explore the MIT-licensed source on GitHub.",
+    "linkedIn": "A useful palette should reflect the page—not whichever tiny pixel happens to be loudest.\n\nVibePalette is a Chrome and Edge extension that captures the current tab and extracts an export-ready palette. Its documented approach combines dominance-aware RGB bins with spatial sampling and balanced selection to preserve meaningful color diversity.\n\nChoose 5–10 colors, work in HEX, RGB, or HSL, then copy the palette or export it as PNG, CSS custom properties, JSON, or a Coolors link.\n\nThe project is built with Vanilla JavaScript, tested with real-image regression fixtures, and released under the MIT license. Explore the source repository on GitHub.",
+    "productHunt": {
+      "name": "VibePalette",
+      "tagline": "Export-ready palettes from the tab in front of you",
+      "description": "VibePalette is a Chrome and Edge extension for turning the visible tab into a polished color palette. It uses dominance-aware and spatial sampling methods to reduce tiny saturated noise, then lets you refine 5–10 colors in HEX, RGB, or HSL. Copy the result, share it through Coolors, or export PNG, CSS custom properties, and JSON. Built with Vanilla JavaScript and released under the MIT license.",
+      "firstComment": "I built VibePalette around a simple workflow: capture the page you are already viewing, extract its meaningful colors, and move those colors into the next stage of your work.\n\nThe extraction approach combines quantized RGB bins, global dominance scoring, cell winners, corner averages, and top-band sampling. The goal is to keep small saturated details from taking over while preserving color diversity that actually belongs to the image.\n\nThe result can be copied or exported as PNG, CSS custom properties, JSON, or a Coolors link. The source is MIT-licensed and available on GitHub. I would especially value feedback on the palettes produced from the real pages you use every day."
+    },
+    "email": {
+      "subject": "Meet VibePalette: the visible tab, turned into a palette",
+      "body": "The page in front of you already contains a color system. VibePalette helps you use it.\n\nCapture the current tab in Chrome or Edge, extract a balanced palette, and choose 5–10 colors in HEX, RGB, or HSL. When the palette is ready, copy it or export it as PNG, CSS custom properties, JSON, or a Coolors link.\n\nVibePalette uses dominance-aware and spatial sampling methods designed to reduce the influence of tiny saturated details. It is built with Vanilla JavaScript, tested with real-image fixtures, and released under the MIT license.\n\nExplore VibePalette in the source repository on GitHub."
+    },
+    "headlineVariants": [
+      "Turn the visible tab into color you can ship.",
+      "A palette workflow built around the page in front of you.",
+      "Extract the page’s palette. Export it for the work ahead.",
+      "From browser capture to reusable color.",
+      "Real pages in. Export-ready palettes out."
+    ],
+    "ctaVariants": [
+      "Explore the source repository",
+      "Load VibePalette from source",
+      "See how VibePalette works",
+      "Build your next palette",
+      "View VibePalette on GitHub"
+    ],
+    "evidenceIds": [
+      "ev_1d1f635f3f7f",
+      "ev_29a17ee2ba13",
+      "ev_636c6f038df0",
+      "ev_f6bfc4d486d1",
+      "ev_32878d845a83",
+      "ev_de444c6d99a4"
+    ]
+  },
+  "video": {
+    "fps": 30,
+    "durationSeconds": 36,
+    "scenes": [
+      {
+        "index": 1,
+        "startFrame": 0,
+        "durationFrames": 180,
+        "title": "A Page Becomes a Palette",
+        "audienceCaption": "The visible tab is already a color brief.",
+        "visualDirection": "Begin with a restrained editorial browser composition on a cream field. Use cocoa typography, thin gold rules, and a precise grid to connect page regions with emerging color swatches.",
+        "evidenceIds": [
+          "ev_1d1f635f3f7f"
+        ],
+        "visual": "opening"
+      },
+      {
+        "index": 2,
+        "startFrame": 180,
+        "durationFrames": 180,
+        "title": "Built in the Open",
+        "audienceCaption": "A browser extension built with Vanilla JavaScript.",
+        "visualDirection": "Present a measured repository view with JavaScript, CSS, and HTML files arranged like an editorial contents page. Keep the MIT license marker visible but secondary.",
+        "evidenceIds": [
+          "ev_1d1f635f3f7f",
+          "ev_137386abb660",
+          "ev_636c6f038df0"
+        ],
+        "visual": "repository"
+      },
+      {
+        "index": 3,
+        "startFrame": 360,
+        "durationFrames": 180,
+        "title": "Color with Context",
+        "audienceCaption": "Dominant color matters more than the loudest pixel.",
+        "visualDirection": "Show an image divided into balanced sampling cells. Contrast a tiny saturated accent with larger cream, cocoa, and gold regions, then consolidate the sampled values into an ordered grid.",
+        "evidenceIds": [
+          "ev_1d1f635f3f7f",
+          "ev_f6bfc4d486d1"
+        ],
+        "visual": "evidence"
+      },
+      {
+        "index": 4,
+        "startFrame": 540,
+        "durationFrames": 180,
+        "title": "A Palette You Can Shape",
+        "audienceCaption": "Choose 5–10 colors in HEX, RGB, or HSL.",
+        "visualDirection": "Frame the extension workspace as a compact instrument panel. Use evenly measured swatches, clear numeric labels, and restrained theme controls without decorative interface clutter.",
+        "evidenceIds": [
+          "ev_1d1f635f3f7f"
+        ],
+        "visual": "workspace"
+      },
+      {
+        "index": 5,
+        "startFrame": 720,
+        "durationFrames": 180,
+        "title": "Ready for the Next Step",
+        "audienceCaption": "Copy colors or export PNG, CSS, JSON, and Coolors.",
+        "visualDirection": "Arrange each export format as a precise material output: a framed image, a CSS token sheet, a JSON panel, copied swatches, and a browser link. Maintain the cream-and-cocoa editorial system with gold highlights.",
+        "evidenceIds": [
+          "ev_1d1f635f3f7f",
+          "ev_32878d845a83"
+        ],
+        "visual": "exports"
+      },
+      {
+        "index": 6,
+        "startFrame": 900,
+        "durationFrames": 180,
+        "title": "Source-Repository CTA",
+        "audienceCaption": "Explore VibePalette on GitHub and load it from the source repository.",
+        "visualDirection": "Close on the VibePalette name, a compact palette grid, and the canonical repository address. Hold the final composition long enough for the source CTA to be read clearly.",
+        "evidenceIds": [
+          "ev_c1a654ba1847",
+          "ev_1d1f635f3f7f",
+          "ev_29a17ee2ba13"
+        ],
+        "visual": "closing"
+      }
+    ]
+  }
+}
