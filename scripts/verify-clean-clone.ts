@@ -187,7 +187,7 @@ try {
 
   const statusAfter = await run(cloneDirectory, "git", ["status", "--porcelain"]);
   if (statusAfter.stdout.trim() !== "") {
-    throw new Error("Clean clone became dirty during verification.");
+    throw new Error(`Clean clone became dirty during verification:\n${statusAfter.stdout.trim()}`);
   }
   const testMatch = staticCheck.stdout.match(/Tests\s+(\d+) passed/u);
   const report = {

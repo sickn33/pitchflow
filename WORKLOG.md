@@ -175,3 +175,9 @@ The finish line was tested against static-demo substitution, decorative evidence
 - HTTPS HTML readback now emits canonical `https://pitchflow-ten.vercel.app/opengraph-image...` Open Graph and Twitter tags. Neither contains localhost or an HTTP origin. HSTS, `nosniff`, frame denial, permissions policy, and strict-origin referrer policy remain present.
 - Live in-app browser replay passed after media settled. Desktop 1440x1000: `#local-run` top/bottom `447.05/812.05`, root overflow `0`, console warnings/errors `0`. Mobile 390x844: top/bottom `206.62/644.17`, root overflow `0`, console warnings/errors `0`; the intended carousel remains contained and operable at 332px client width over 1,448px content.
 - Fresh live Lighthouse reports pass the quality floor. Mobile: performance 93, accessibility 100, best practices 100, SEO 100, CLS 0. Desktop: performance 95, accessibility 100, best practices 100, SEO 100, CLS 0. Browser viewport overrides were reset and test tabs finalized after evidence capture.
+
+## 2026-07-15 — clean-clone verifier repair loop
+
+- The first public clean-clone run against `f914566` correctly failed its final clean-tree assertion after every build, test, submission, Codex CLI, and safe launcher check had passed. The failed clone was removed as designed; a phase-by-phase local diagnostic clone reproduced the mutation.
+- Root cause: Next.js 16 rewrites its generated `apps/web/next-env.d.ts` import between `.next/types/routes.d.ts` during production builds and `.next/dev/types/routes.d.ts` when the local launcher starts. This is generated framework state, not product source. A cache-free typecheck, lint, and all 74 tests pass before the file exists.
+- Repair: stop tracking and narrowly ignore only `apps/web/next-env.d.ts`. The clean-clone assertion remains strict for every tracked or untracked non-ignored path; no verifier exception was added.
