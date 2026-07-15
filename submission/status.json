@@ -1,0 +1,25 @@
+{
+  "format": "pitchflow-submission-status",
+  "version": 1,
+  "category": "Developer Tools",
+  "language": "English",
+  "repositoryUrl": "https://github.com/sickn33/pitchflow",
+  "publicViewerUrl": "https://pitchflow-ten.vercel.app",
+  "demo": {
+    "path": "submission/demo/pitchflow-build-week-demo.mp4",
+    "reportPath": "submission/demo/pitchflow-build-week-demo-report.json",
+    "youtubeUrl": null,
+    "published": false
+  },
+  "feedback": {
+    "primarySessionId": null,
+    "invocation": "manual-required"
+  },
+  "devpost": {
+    "copyPath": "docs/DEVPOST.md",
+    "mediaManifestPath": "submission/media/manifest.json",
+    "fieldsEdited": false,
+    "submitted": false,
+    "submissionUrl": null
+  }
+}

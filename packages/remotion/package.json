@@ -5,6 +5,7 @@
   "type": "module",
   "exports": "./src/index.ts",
   "scripts": {
+    "demo:render": "tsx src/demo-render-cli.ts",
     "smoke": "node --disable-warning=DEP0205 --import tsx/esm src/smoke.ts",
     "smoke:portrait": "node --disable-warning=DEP0205 --import tsx/esm src/smoke.ts portrait",
     "test": "vitest run --config vitest.config.ts",

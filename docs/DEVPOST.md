@@ -107,15 +107,14 @@ PitchFlow is new work created during the Build Week submission period. The prior
 | Thumbnail / cover  | `submission/media/pitchflow-cover-1800x1200.png`    |                    1800×1200 | `aece40e4e081dde45f532f98c910b23a5334b7c12b19011333f3059d0eb1697a` |
 | Gallery — evidence | `submission/media/pitchflow-evidence-1800x1200.png` |                    1800×1200 | `9a9c08e8172f3844707e2da50d675a9209ea9e9e2a003107fb821e2b066fde42` |
 | Gallery — handoff  | `submission/media/pitchflow-handoff-1800x1200.png`  |                    1800×1200 | `6e15a8a0d208877e01634b2203573d8e268624df961dacaaba8874c4d49f5b77` |
-| Narrated demo      | `submission/demo/pitchflow-build-week-demo.mp4`     | 1920×1080, under 3:00, audio | pending final render and verification                              |
+| Narrated demo      | `submission/demo/pitchflow-build-week-demo.mp4`     | 1920×1080, 2:39.6, AAC audio | `ce868accdc0b15552b3dd3e9a8413177e6d64119724441f4155376f4d1fd9459` |
 
 The media manifest at `submission/media/manifest.json` records the real UI source hashes, creator ownership, deterministic composition method, and `fakeProductUi: false`.
 
 ## Remaining gated fields
 
-Do not describe the project as submitted until all four are real:
+The finished local narrated demo has passed FFprobe, full decode, audio, dense timeline, and full-resolution parent review. Do not describe the project as submitted until all three external/manual gates are real:
 
-1. finished local narrated demo passes media and visual review;
-2. Nicco explicitly authorizes YouTube publication and the public URL is read back;
-3. Nicco invokes `/feedback` in the primary task and supplies the Session ID;
-4. Nicco explicitly authorizes Devpost field edits and final submission, followed by a public submission readback.
+1. Nicco explicitly authorizes YouTube publication and the public URL is read back;
+2. Nicco invokes `/feedback` in the primary task and supplies the Session ID;
+3. Nicco explicitly authorizes Devpost field edits and final submission, followed by a public submission readback.

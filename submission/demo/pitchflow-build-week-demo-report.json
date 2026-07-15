@@ -1,0 +1,32 @@
+{
+  "format": "pitchflow-build-week-demo-delivery",
+  "version": 1,
+  "source": {
+    "path": "packages/remotion/artifacts/demo/pitchflow-build-week-demo.mp4",
+    "bytes": 214901124,
+    "sha256": "be5099a8dc24afb6e7b842e896fd608882d8980cccdb81ca12a75ceb5d32a854",
+    "renderer": "Remotion"
+  },
+  "outputPath": "submission/demo/pitchflow-build-week-demo.mp4",
+  "reportPath": "submission/demo/pitchflow-build-week-demo-report.json",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "durationFrames": 4788,
+  "durationSeconds": 159.6,
+  "videoCodec": "h264",
+  "videoProfile": "High",
+  "pixelFormat": "yuv420p",
+  "colorSpace": "bt709",
+  "targetVideoBitrate": 4200000,
+  "actualVideoBitrate": 4104871,
+  "audioCodec": "aac",
+  "audioProfile": "LC",
+  "audioSampleRate": 48000,
+  "audioChannels": 2,
+  "audioBitrate": 189969,
+  "bytes": 85845793,
+  "sha256": "ce868accdc0b15552b3dd3e9a8413177e6d64119724441f4155376f4d1fd9459",
+  "music": null,
+  "thirdPartyFootage": false
+}

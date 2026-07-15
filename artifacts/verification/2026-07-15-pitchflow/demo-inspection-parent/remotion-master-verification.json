@@ -1,0 +1,59 @@
+{
+  "format": "pitchflow-build-week-demo-verification",
+  "version": 1,
+  "output": {
+    "filename": "pitchflow-build-week-demo.mp4",
+    "bytes": 214901124,
+    "sha256": "be5099a8dc24afb6e7b842e896fd608882d8980cccdb81ca12a75ceb5d32a854"
+  },
+  "renderReport": {
+    "filename": "pitchflow-build-week-demo-report.json",
+    "sha256": "5f8bc9925b0fe06afc9a9d9c7c2af5b76998fc11a2b6eee7cd59f38c2be18b94"
+  },
+  "probe": {
+    "durationSeconds": 159.6,
+    "containerBitrate": 10771986,
+    "video": {
+      "codec": "h264",
+      "profile": "High",
+      "width": 1920,
+      "height": 1080,
+      "pixelFormat": "yuv420p",
+      "colorSpace": "bt709",
+      "frameRate": "30/1",
+      "frames": 4788,
+      "bitrate": 10574430
+    },
+    "audio": {
+      "codec": "aac",
+      "profile": "LC",
+      "sampleRate": 48000,
+      "channels": 2,
+      "layout": "stereo",
+      "bitrate": 189375,
+      "meanVolumeDb": -18.4,
+      "maxVolumeDb": -4.5
+    }
+  },
+  "fullDecode": {
+    "video": true,
+    "audio": true,
+    "errors": 0
+  },
+  "inspection": {
+    "contact-sheet.jpg": "6f94f44347201c25f03ab0c999d5b0f55c523c7fe7806601c8382b011fe757a3",
+    "opening.png": "b3b69cae17d9ceb88a6550b493792765b1a5918bc0e74d94d086657710be88d2",
+    "workflow.png": "e24b42a4ec129013afa83a8290aeb6d57124396222af1a9c50ea6caeb5527b9c",
+    "export.png": "67fae72257bf100fc04c268685d491eff25c5e956ac1dbe6c3c35316fc009935",
+    "codex-repair.png": "381f95e30980ec4cd927a440a1eb7d63075dbce83ce979b26cf2c010414d32e3",
+    "closing.png": "4576e4989bbe8722852a866b8bd4cae5ec0736dbcd07ffef755be4200682beaf"
+  },
+  "visualInspection": {
+    "realProductUiLegible": true,
+    "explanatoryGraphicsDistinctFromProductUi": true,
+    "keyCaptionsInsideSafeMargins": true,
+    "publicAndRepositoryUrlsVisibleAtClose": true,
+    "music": null,
+    "thirdPartyFootage": false
+  }
+}

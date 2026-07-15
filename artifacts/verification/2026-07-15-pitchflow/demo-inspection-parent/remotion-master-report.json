@@ -1,0 +1,80 @@
+{
+  "format": "pitchflow-build-week-demo-render",
+  "version": 1,
+  "compositionId": "PitchFlowBuildWeekDemo",
+  "outputPath": "pitchflow-build-week-demo.mp4",
+  "reportPath": "pitchflow-build-week-demo-report.json",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "durationFrames": 4788,
+  "durationSeconds": 159.6,
+  "videoCodec": "h264",
+  "audioCodec": "aac",
+  "videoBitrate": "12M",
+  "audioBitrate": "192k",
+  "bytes": 214901124,
+  "sha256": "be5099a8dc24afb6e7b842e896fd608882d8980cccdb81ca12a75ceb5d32a854",
+  "inputs": {
+    "narration": {
+      "relativePath": "submission/demo/narration.m4a",
+      "bytes": 3544453,
+      "sha256": "8a2d33c74e70b1bdde34b6779deee8887e9a6446763fb8bc2fbc21efdc8bca11"
+    },
+    "cover": {
+      "relativePath": "submission/media/pitchflow-cover-1800x1200.png",
+      "bytes": 476374,
+      "sha256": "aece40e4e081dde45f532f98c910b23a5334b7c12b19011333f3059d0eb1697a"
+    },
+    "evidence": {
+      "relativePath": "submission/media/pitchflow-evidence-1800x1200.png",
+      "bytes": 435304,
+      "sha256": "9a9c08e8172f3844707e2da50d675a9209ea9e9e2a003107fb821e2b066fde42"
+    },
+    "handoff": {
+      "relativePath": "submission/media/pitchflow-handoff-1800x1200.png",
+      "bytes": 570655,
+      "sha256": "6e15a8a0d208877e01634b2203573d8e268624df961dacaaba8874c4d49f5b77"
+    },
+    "capture01": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/images/product-capture-01.png",
+      "bytes": 238771,
+      "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7"
+    },
+    "capture02": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/images/product-capture-02.png",
+      "bytes": 359473,
+      "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2"
+    },
+    "capture03": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/images/product-capture-03.png",
+      "bytes": 278991,
+      "sha256": "8933f20014ff072777d10eb57437d99638cf622a34a22ca370d75daec6f14e7e"
+    },
+    "capture04": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/images/product-capture-04.png",
+      "bytes": 444156,
+      "sha256": "99560315c64fe328144d97d8623dae97ff7562e5a9cdfb3af6973882363d7ae7"
+    },
+    "socialX": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/images/x-1600x900.png",
+      "bytes": 109856,
+      "sha256": "fa415146bf78d06abbfb134a5c9a300ac285bc06573e4acf6cfcebe0aa13c4e6"
+    },
+    "carousel01": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/carousel/slide-01-1080x1350.png",
+      "bytes": 123050,
+      "sha256": "6bc579d59679a0a9751fdfadaff478da2bb72a15f93d06d45bab8b56bc9d194a"
+    },
+    "landscapeVideo": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/videos/launch-landscape-1920x1080.mp4",
+      "bytes": 41078320,
+      "sha256": "32743c9f4f6dd87e0b51cae9776361bb84c9dd50999ae942270d01201ac9639e"
+    },
+    "portraitVideo": {
+      "relativePath": "apps/web/public/dogfood/pitchflow/v1/videos/launch-portrait-1080x1920.mp4",
+      "bytes": 48468846,
+      "sha256": "2de969b9dad2dcb53cadc21313f6fc541de2557100e9f202d490083cf9efc094"
+    }
+  }
+}

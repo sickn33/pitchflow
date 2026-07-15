@@ -1,5 +1,8 @@
 export { PitchFlowComposition } from "./PitchFlowComposition";
 export { PitchFlowRoot } from "./Root";
+export { BuildWeekDemoComposition } from "./DemoComposition";
+export { BuildWeekDemoRoot } from "./DemoRoot";
+export { renderBuildWeekDemo } from "./demo-render";
 export { createCaptureInputsFromPaths, prepareCaptures } from "./captures";
 export {
   PITCHFLOW_COMPOSITION_ID,

@@ -6,6 +6,7 @@ export default tseslint.config(
   {
     ignores: [
       "**/.next/**",
+      "**/.vercel/**",
       "artifacts/dogfood/exports/**",
       "coverage/**",
       "**/dist/**",

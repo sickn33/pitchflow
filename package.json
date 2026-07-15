@@ -17,9 +17,10 @@
   "scripts": {
     "build": "pnpm --filter @pitchflow/web build",
     "capture:dogfood": "node --disable-warning=DEP0205 --import tsx/esm scripts/capture-dogfood-ui.ts",
-    "check:all": "pnpm check:static && pnpm verify:secrets && pnpm verify:licenses && pnpm verify:dependencies && pnpm verify:release-assets && pnpm test:e2e && pnpm test:public",
+    "check:all": "pnpm check:static && pnpm verify:secrets && pnpm verify:licenses && pnpm verify:dependencies && pnpm verify:release-assets && pnpm test:e2e && pnpm test:public && pnpm verify:submission",
     "check:static": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
     "dev": "pnpm --filter @pitchflow/web dev",
+    "encode:demo-delivery": "node --disable-warning=DEP0205 --import tsx/esm scripts/encode-demo-delivery.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint . --max-warnings=0",
@@ -40,6 +41,7 @@
     "verify:public-url": "node --disable-warning=DEP0205 --import tsx/esm scripts/verify-public-url.ts",
     "verify:release-assets": "pnpm verify:public-package -- --directory apps/web/public/dogfood/pitchflow/v1 && pnpm verify:bundle -- --bundle apps/web/public/dogfood/pitchflow/v1 --production",
     "verify:secrets": "node --disable-warning=DEP0205 --import tsx/esm scripts/verify-secrets.ts",
+    "verify:submission": "node --disable-warning=DEP0205 --import tsx/esm scripts/verify-submission.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "devDependencies": {
