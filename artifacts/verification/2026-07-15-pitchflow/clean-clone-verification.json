@@ -1,0 +1,74 @@
+{
+  "format": "pitchflow-clean-clone-verification",
+  "version": 1,
+  "status": "ok",
+  "verifiedAt": "2026-07-15T08:20:52.905Z",
+  "repository": "https://github.com/sickn33/pitchflow",
+  "commitSha": "3f78a97dfd77d80854d3b390ea201c875ecff566",
+  "clone": {
+    "shallow": true,
+    "partialCloneFilter": "blob:none",
+    "dirtyAfterVerification": false
+  },
+  "commands": [
+    {
+      "command": "git clone --depth 1 --filter=blob:none --branch main https://github.com/sickn33/pitchflow.git /var/folders/1j/_3_4w7ls2jq5p0bhrk57_9lm0000gn/T/pitchflow-clean-clone-YUrAsx/repo",
+      "durationMs": 60069,
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "durationMs": 4060,
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm check:static",
+      "durationMs": 27985,
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm verify:secrets",
+      "durationMs": 929,
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm verify:submission -- --allow-gates",
+      "durationMs": 427,
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm --filter @pitchflow/codex exec codex --version",
+      "durationMs": 3962,
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm pitchflow --no-open --port 50901",
+      "durationMs": 0,
+      "exitCode": 0
+    }
+  ],
+  "checks": {
+    "frozenLockfileInstall": true,
+    "productionBuild": true,
+    "strictTypecheck": true,
+    "zeroWarningLint": true,
+    "testsPassed": 74,
+    "secretScan": true,
+    "localSubmissionPacket": true,
+    "codexCliVersion": "codex-cli 0.144.4"
+  },
+  "launcher": {
+    "command": "pnpm pitchflow --no-open --port 50901",
+    "pageStatus": 200,
+    "mode": "local",
+    "generationEnabledWithoutAuth": false,
+    "codexAuthenticatedInEmptyProfile": false,
+    "credentialValuesRead": false,
+    "credentialValuesPrinted": false,
+    "readyMessageObserved": true
+  },
+  "cleanup": {
+    "cloneRemovedAfterReport": true,
+    "personalAuthCopied": false
+  }
+}

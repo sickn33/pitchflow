@@ -28,6 +28,10 @@ function booleanValue(record: JsonRecord, key: string): boolean | null {
   return typeof record[key] === "boolean" ? record[key] : null;
 }
 
+function recordValue(record: JsonRecord, key: string): JsonRecord | null {
+  return isRecord(record[key]) ? record[key] : null;
+}
+
 function safePath(root: string, relativePath: string): string {
   const target = resolve(root, relativePath);
   if (!target.startsWith(`${resolve(root)}${sep}`)) {
@@ -118,6 +122,7 @@ export async function verifySubmission(
     "docs/JUDGING.md",
     "docs/PROVENANCE.md",
     "docs/TESTING.md",
+    "RESULT.md",
   ];
   await Promise.all(requiredDocuments.map((path) => count(path)));
 
@@ -252,10 +257,71 @@ export async function verifySubmission(
       "Evidence-link audit is incomplete.",
     ],
     [
+      "artifacts/verification/2026-07-15-pitchflow/bundle-verification.json",
+      (value) => {
+        const evidenceAudit = recordValue(value, "evidenceAudit");
+        const archive = recordValue(value, "archive");
+        const mediaReports = Array.isArray(value.mediaReports) ? value.mediaReports : [];
+        const verifiedAssets = Array.isArray(value.verifiedAssets) ? value.verifiedAssets : [];
+        const expectedDimensions = new Set(["1920x1080", "1080x1920"]);
+        return (
+          value.status === "ok" &&
+          value.production === true &&
+          evidenceAudit?.valid === true &&
+          evidenceAudit.checkedClaims === 8 &&
+          verifiedAssets.length === 23 &&
+          mediaReports.length === 2 &&
+          mediaReports.every((entry) => {
+            if (!isRecord(entry)) return false;
+            const dimensions = `${String(entry.width)}x${String(entry.height)}`;
+            expectedDimensions.delete(dimensions);
+            return (
+              entry.codec_name === "h264" &&
+              entry.profile === "High" &&
+              entry.pix_fmt === "yuv420p" &&
+              entry.r_frame_rate === "30/1" &&
+              entry.fullDecode === true
+            );
+          }) &&
+          expectedDimensions.size === 0 &&
+          archive?.entries === 29 &&
+          typeof archive.sha256 === "string" &&
+          /^[0-9a-f]{64}$/u.test(archive.sha256)
+        );
+      },
+      "Production bundle, media decode, or provenance verification is incomplete.",
+    ],
+    [
       "artifacts/verification/2026-07-15-pitchflow/dependency-audit.json",
       (value) =>
         value.status === "ok" && Array.isArray(value.findings) && value.findings.length === 0,
       "Dependency audit is incomplete.",
+    ],
+    [
+      "artifacts/verification/2026-07-15-pitchflow/license-audit.json",
+      (value) => {
+        const summary = recordValue(value, "summary");
+        return (
+          value.format === "pitchflow-license-inventory" &&
+          value.version === 1 &&
+          Array.isArray(value.packages) &&
+          value.packages.length > 0 &&
+          Array.isArray(summary?.disallowedOrMissing) &&
+          summary.disallowedOrMissing.length === 0
+        );
+      },
+      "License audit is incomplete.",
+    ],
+    [
+      "artifacts/verification/2026-07-15-pitchflow/secret-audit.json",
+      (value) =>
+        value.format === "pitchflow-secret-audit" &&
+        value.version === 1 &&
+        value.status === "ok" &&
+        Array.isArray(value.findings) &&
+        value.findings.length === 0 &&
+        value.credentialValuesPrinted === false,
+      "Secret audit is incomplete.",
     ],
     [
       "artifacts/verification/2026-07-15-pitchflow/public-url-verification.json",
@@ -268,12 +334,150 @@ export async function verifySubmission(
         value.publicStatus.generationEnabled === false,
       "Public URL verification is incomplete.",
     ],
+    [
+      "artifacts/verification/2026-07-15-pitchflow/clean-clone-verification.json",
+      (value) => {
+        const clone = recordValue(value, "clone");
+        const checks = recordValue(value, "checks");
+        const launcher = recordValue(value, "launcher");
+        return (
+          value.status === "ok" &&
+          value.repository === "https://github.com/sickn33/pitchflow" &&
+          typeof value.commitSha === "string" &&
+          /^[0-9a-f]{40}$/u.test(value.commitSha) &&
+          clone?.dirtyAfterVerification === false &&
+          checks?.frozenLockfileInstall === true &&
+          checks.productionBuild === true &&
+          checks.strictTypecheck === true &&
+          checks.zeroWarningLint === true &&
+          checks.secretScan === true &&
+          typeof checks.testsPassed === "number" &&
+          checks.testsPassed >= 74 &&
+          launcher?.pageStatus === 200 &&
+          launcher.generationEnabledWithoutAuth === false &&
+          launcher.codexAuthenticatedInEmptyProfile === false &&
+          launcher.credentialValuesRead === false &&
+          launcher.credentialValuesPrinted === false
+        );
+      },
+      "Clean-clone verification is incomplete.",
+    ],
+    [
+      "artifacts/verification/2026-07-15-pitchflow/lighthouse/summary.json",
+      (value) => {
+        const mobile = recordValue(value, "mobile");
+        const desktop = recordValue(value, "desktop");
+        return (
+          value.status === "ok" &&
+          value.url === "https://pitchflow-ten.vercel.app/" &&
+          typeof mobile?.performance === "number" &&
+          mobile.performance >= 0.9 &&
+          typeof mobile.accessibility === "number" &&
+          mobile.accessibility >= 0.9 &&
+          typeof mobile.bestPractices === "number" &&
+          mobile.bestPractices >= 0.9 &&
+          typeof mobile.seo === "number" &&
+          mobile.seo >= 0.9 &&
+          mobile.cumulativeLayoutShift === 0 &&
+          typeof desktop?.performance === "number" &&
+          desktop.performance >= 0.9 &&
+          typeof desktop.accessibility === "number" &&
+          desktop.accessibility >= 0.9 &&
+          typeof desktop.bestPractices === "number" &&
+          desktop.bestPractices >= 0.9 &&
+          typeof desktop.seo === "number" &&
+          desktop.seo >= 0.9 &&
+          desktop.cumulativeLayoutShift === 0
+        );
+      },
+      "Live Lighthouse verification is incomplete.",
+    ],
+    [
+      "artifacts/verification/2026-07-15-pitchflow/live-browser-verification.json",
+      (value) => {
+        const metadata = recordValue(value, "metadata");
+        const desktop = recordValue(value, "desktop");
+        const mobile = recordValue(value, "mobile");
+        const carousel = mobile ? recordValue(mobile, "carousel") : null;
+        return (
+          value.status === "ok" &&
+          value.url === "https://pitchflow-ten.vercel.app" &&
+          metadata?.containsLocalhost === false &&
+          desktop?.rootOverflowPixels === 0 &&
+          desktop.consoleWarningsOrErrors === 0 &&
+          mobile?.rootOverflowPixels === 0 &&
+          mobile.consoleWarningsOrErrors === 0 &&
+          carousel?.contained === true &&
+          value.viewportOverrideReset === true &&
+          value.browserTabsFinalized === true
+        );
+      },
+      "Live browser verification is incomplete.",
+    ],
   ];
   for (const [path, predicate, message] of reports) {
     try {
       const report = await jsonFile(root, path);
       checkedFiles += 1;
       if (!predicate(report)) errors.push(message);
+      if (path.endsWith("/lighthouse/summary.json")) {
+        const mobile = recordValue(report, "mobile");
+        const desktop = recordValue(report, "desktop");
+        await Promise.all([
+          count(
+            "artifacts/verification/2026-07-15-pitchflow/lighthouse/live-mobile.report.json",
+            null,
+            mobile ? stringValue(mobile, "jsonSha256") : null,
+          ),
+          count(
+            "artifacts/verification/2026-07-15-pitchflow/lighthouse/live-mobile.report.html",
+            null,
+            mobile ? stringValue(mobile, "htmlSha256") : null,
+          ),
+          count(
+            "artifacts/verification/2026-07-15-pitchflow/lighthouse/live-desktop.report.json",
+            null,
+            desktop ? stringValue(desktop, "jsonSha256") : null,
+          ),
+          count(
+            "artifacts/verification/2026-07-15-pitchflow/lighthouse/live-desktop.report.html",
+            null,
+            desktop ? stringValue(desktop, "htmlSha256") : null,
+          ),
+        ]);
+      }
+      if (path.endsWith("/live-browser-verification.json")) {
+        const desktop = recordValue(report, "desktop");
+        const mobile = recordValue(report, "mobile");
+        const desktopScreenshot = desktop ? recordValue(desktop, "screenshot") : null;
+        const mobileScreenshots =
+          mobile && Array.isArray(mobile.screenshots) ? mobile.screenshots : [];
+        if (desktopScreenshot) {
+          const screenshotPath = stringValue(desktopScreenshot, "path");
+          if (screenshotPath) {
+            await count(screenshotPath, null, stringValue(desktopScreenshot, "sha256"));
+          } else {
+            errors.push("Desktop browser screenshot path is missing.");
+          }
+        } else {
+          errors.push("Desktop browser screenshot metadata is missing.");
+        }
+        if (mobileScreenshots.length !== 2) {
+          errors.push("Live browser verification must contain two mobile screenshots.");
+        }
+        for (const screenshot of mobileScreenshots) {
+          if (!isRecord(screenshot)) {
+            errors.push("Mobile browser screenshot metadata is malformed.");
+            continue;
+          }
+          const screenshotPath = stringValue(screenshot, "path");
+          if (!screenshotPath) {
+            errors.push("Mobile browser screenshot path is missing.");
+            continue;
+          }
+          await count(screenshotPath, null, stringValue(screenshot, "sha256"));
+        }
+      }
     } catch (error) {
       errors.push(error instanceof Error ? error.message : String(error));
     }

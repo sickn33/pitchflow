@@ -1,9 +1,11 @@
 import { execFile } from "node:child_process";
-import { readFile } from "node:fs/promises";
-import { extname, relative, resolve, sep } from "node:path";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, extname, relative, resolve, sep } from "node:path";
 import { promisify } from "node:util";
 
 import { containsBinaryData, redactPotentialSecrets } from "@pitchflow/core";
+
+import { argumentValue } from "./arguments";
 
 const execFileAsync = promisify(execFile);
 const root = resolve(process.cwd());
@@ -74,6 +76,9 @@ for (const filename of files) {
 }
 
 const result = {
+  format: "pitchflow-secret-audit",
+  version: 1,
+  generatedAt: new Date().toISOString(),
   status: findings.length === 0 ? "ok" : "failed",
   filesConsidered: files.length,
   textFilesScanned,
@@ -81,5 +86,14 @@ const result = {
   findings,
   credentialValuesPrinted: false,
 };
+const configuredOutput = argumentValue("output");
+if (configuredOutput) {
+  const output = resolve(configuredOutput);
+  if (!output.startsWith(`${root}${sep}`)) {
+    throw new Error("Secret audit output must remain inside the PitchFlow repository.");
+  }
+  await mkdir(dirname(output), { recursive: true });
+  await writeFile(output, `${JSON.stringify(result, null, 2)}\n`, "utf8");
+}
 console.log(JSON.stringify(result, null, 2));
 if (findings.length > 0) process.exitCode = 1;
