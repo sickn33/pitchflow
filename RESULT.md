@@ -1,12 +1,12 @@
 # PitchFlow Result
 
-Status: **ACTIVE — SECOND COMPREHENSION RESET VERIFIED LOCALLY; DEPLOYMENT AND NICCO APPROVAL REMAIN**
+Status: **ACTIVE — SECOND COMPREHENSION RESET DEPLOYED AND VERIFIED; NICCO APPROVAL REMAINS**
 Started: 2026-07-15  
 Last evidence update: 2026-07-16
 Category: Developer Tools  
 Public language: English
 
-This is the durable evidence index for the active goal. The product-first workspace, secure user-owned companion, real Codex/GPT-5.6 path, fresh VibePalette package, capture-led creative system, immutable demo, and submission media are real and verified. The focused Entry → Repository → Direction → Engine → Generate → Results state model remains intact. A second comprehension repair now makes the homepage proposition explicit and turns `/evidence` into a guided proof page; it has passed local Edge QA and awaits exact-source deployment plus Nicco review. Completion remains forbidden until Nicco explicitly approves that deployed experience. YouTube and Devpost remain frozen until that approval.
+This is the durable evidence index for the active goal. The product-first workspace, secure user-owned companion, real Codex/GPT-5.6 path, fresh VibePalette package, capture-led creative system, immutable demo, and submission media are real and verified. The focused Entry → Repository → Direction → Engine → Generate → Results state model remains intact. A second comprehension repair now makes the homepage proposition explicit and turns `/evidence` into a guided proof page; the exact source is deployed and has passed production readback plus desktop/mobile Edge QA. Completion remains forbidden until Nicco explicitly approves that deployed experience. YouTube and Devpost remain frozen until that approval.
 
 ## Second comprehension reset candidate
 
@@ -17,17 +17,23 @@ This is the durable evidence index for the active goal. The product-first worksp
 - Evidence hierarchy: purpose, project summary, 3-minute judge path, Product proof, Codex & GPT-5.6, Trust & provenance, Verification, then collapsed Raw evidence.
 - Exact-size Edge screenshots and machine-readable report: `artifacts/verification/2026-07-16-comprehension-reset/local/`.
 - Local QA: 1440×1000 and 390×844; all homepage comprehension elements inside the first viewport; four evidence sections; four `Why this matters`; four raw disclosures closed by default; 25 asset rows after expansion; zero root overflow, console errors, or serious/critical axe findings.
-- Focused UI tests: 6/6. Web unit/integration tests: 65/65. Root tests: 84/84. Local E2E: 3/3. Public-mode E2E: 4/4. Production build, secret, dependency, license, immutable package, and full media decode checks pass.
+- Focused UI tests: 7/7. Web unit/integration tests: 66/66. Root tests: 84/84. Local E2E: 3/3. Public-mode E2E: 4/4. Production build, secret, dependency, license, immutable package, and full media decode checks pass.
+- Deployed implementation commit: `6067831826bbbd89bd9e1b0428305ea64e9ca6f8`.
+- Deployment: `dpl_ArhVPoJa8DhztaFSzL5AfCK93j64`, `READY`; immutable URL `https://pitchflow-ov7nucwsh-sickn33s-projects.vercel.app`; stable URL `https://pitchflow-ten.vercel.app`.
+- Live readback: `2026-07-16T07:12:56.099Z`; live Edge replay: `2026-07-16T07:13:14.554Z`.
+- Post-repair counts: web tests 66/66, root tests 84/84, local E2E 3/3, public-mode E2E 4/4; secret audit zero findings across 399 considered/243 text files; 480 licenses inventoried; 287 production dependencies with zero OSV findings.
+- Live artifacts: `artifacts/verification/2026-07-16-comprehension-reset/live/` and `LIVE_REVIEW.md` inside that directory.
 
 ## Public surfaces
 
 - Public repository: <https://github.com/sickn33/pitchflow>
 - Connected-engine implementation commit: `52cd9c32553ab754121d946a73bd4bec56922048`
 - Simplified product-shell implementation commit: `973b71218ef22997addf99fc5973dab0225e167d`
+- Explicit-comprehension implementation commit: `6067831826bbbd89bd9e1b0428305ea64e9ca6f8`
 - Public viewer: <https://pitchflow-ten.vercel.app>
-- Vercel deployment: `dpl_A3ZCpt5eVjTBxu6tfFVVK8zGQiAx`; state `READY`; production URL `https://pitchflow-se6buzr11-sickn33s-projects.vercel.app`; aliased to the public viewer.
-- Unauthenticated readback: `2026-07-16T06:01:19.482Z`; all 25 files and 183,781,036 bytes matched the immutable package, all three public mutation routes returned `403 PUBLIC_VIEWER_READ_ONLY`, and the new entry signals were present.
-- Live Edge replay: `2026-07-16T06:12:43.822Z`; desktop 1440×1000 and mobile 390×844 had zero root overflow, console errors, or serious/critical axe violations. The entry, read-only demo, Direction, disconnected Engine, all five Results tabs, and ZIP ownership passed.
+- Vercel deployment: `dpl_ArhVPoJa8DhztaFSzL5AfCK93j64`; state `READY`; production URL `https://pitchflow-ov7nucwsh-sickn33s-projects.vercel.app`; aliased to the public viewer.
+- Current unauthenticated readback: `2026-07-16T07:12:56.099Z`; all 25 files and 183,781,036 bytes matched the immutable package, all three public mutation routes returned `403 PUBLIC_VIEWER_READ_ONLY`, and the explicit homepage plus guided Evidence signals were present.
+- Current live Edge replay: `2026-07-16T07:13:14.554Z`; desktop 1440×1000 and mobile 390×844 had zero root overflow, console errors, or serious/critical axe violations. The complete five-second homepage contract and the collapsed/expanded Evidence hierarchy passed.
 - Visible-pixel proof: all 13 images decoded at natural dimensions with luminance range >100 and standard deviation >20. Both 36-second videos produced non-blank frames at one second in both viewports. Export uses natural content height (278px desktop, 376px mobile) instead of the rejected 620px empty minimum.
 - Real Edge policy replay: `2026-07-15T13:12:17.534Z`; Edge `150.0.4078.65` reported Local Network Access permission `prompt`, blocked the direct HTTPS-to-loopback request, and passed the explicit user-initiated local fallback with the VibePalette repository and two creator-owned captures preserved. Credential transfer: false.
 - Public YouTube demo: **frozen** — no upload or publication until Nicco approves the connected-engine live experience.
@@ -42,6 +48,9 @@ Public readback evidence:
 - `artifacts/verification/2026-07-16-ux-reset/live/public-readback.json`
 - `artifacts/verification/2026-07-16-ux-reset/live/live-ux-report.json`
 - `artifacts/verification/2026-07-16-ux-reset/UX_REVIEW.md`
+- `artifacts/verification/2026-07-16-comprehension-reset/live/public-readback.json`
+- `artifacts/verification/2026-07-16-comprehension-reset/live/comprehension-browser-qa.json`
+- `artifacts/verification/2026-07-16-comprehension-reset/live/LIVE_REVIEW.md`
 
 ## One-command local path
 
