@@ -7,6 +7,10 @@ const workspaceSource = readFileSync(
   fileURLToPath(new URL("../components/workspace.tsx", import.meta.url)),
   "utf8",
 );
+const metadataSource = readFileSync(
+  fileURLToPath(new URL("../app/layout.tsx", import.meta.url)),
+  "utf8",
+);
 
 const proposition =
   "Turn a GitHub repository into a launch website, social images, product videos, and";
@@ -63,5 +67,14 @@ describe("five-second homepage comprehension contract", () => {
     expect(outputs.indexOf("01 · Input")).toBeLessThan(outputs.indexOf("02 · Process"));
     expect(outputs.indexOf("02 · Process")).toBeLessThan(outputs.indexOf("03 · Outputs"));
     expect(outputs).toContain('aria-label="Generated deliverables"');
+  });
+
+  it("keeps link-preview metadata synchronized with the explicit proposition", () => {
+    expect(metadataSource).toContain(
+      "Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy",
+    );
+    expect(metadataSource).toContain("GPT-5.6 through local Codex");
+    expect(metadataSource).not.toContain("launch-ready");
+    expect(metadataSource).not.toContain("social kit");
   });
 });

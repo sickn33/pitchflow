@@ -80,7 +80,7 @@ if (
   ) ||
   !evidenceHtml.includes("3-minute judge path") ||
   !evidenceHtml.includes("Product proof") ||
-  !evidenceHtml.includes("Codex &amp; GPT-5.6") ||
+  !evidenceHtml.includes("Codex &amp; GPT‑5.6") ||
   !evidenceHtml.includes("Trust &amp; provenance") ||
   !evidenceHtml.includes("Verification") ||
   !evidenceHtml.includes("Raw evidence")

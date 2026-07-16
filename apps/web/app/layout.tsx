@@ -9,32 +9,32 @@ const metadataBase = resolveMetadataBase();
 export const metadata: Metadata = {
   applicationName: "PitchFlow",
   description:
-    "Turn a public GitHub repository into an evidence-grounded site, social system, motion promo, and launch copy with GPT-5.6 in Codex.",
+    "Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy with GPT-5.6 through local Codex.",
   keywords: ["Codex", "GPT-5.6", "developer tools", "launch campaign", "GitHub"],
   metadataBase,
   openGraph: {
     description:
-      "Paste a public GitHub repository. Get a launch-ready site, social kit, product video, and channel copy directed with GPT-5.6 in Codex.",
+      "PitchFlow uses repository evidence and real product screenshots to create a website, social images, videos, and copy with GPT-5.6 through local Codex.",
     images: [
       {
-        alt: "PitchFlow turns a repository into a complete launch campaign",
+        alt: "PitchFlow turns a GitHub repository into a website, social images, videos, and copy",
         height: 630,
         url: "/opengraph-image",
         width: 1200,
       },
     ],
     siteName: "PitchFlow",
-    title: "PitchFlow · Your repo, launch-ready",
+    title: "PitchFlow · Repository to marketing assets",
     type: "website",
   },
   robots: { follow: true, index: true },
-  title: { default: "PitchFlow · Your repo, launch-ready", template: "%s · PitchFlow" },
+  title: { default: "PitchFlow · Repository to marketing assets", template: "%s · PitchFlow" },
   twitter: {
     card: "summary_large_image",
     description:
-      "Turn a public GitHub repository into a launch-ready site, social kit, product video, and copy with GPT-5.6 in Codex.",
+      "Turn a GitHub repository into a website, social images, product videos, and ready-to-post copy with GPT-5.6 through local Codex.",
     images: ["/opengraph-image"],
-    title: "PitchFlow · Your repo, launch-ready",
+    title: "PitchFlow · Repository to marketing assets",
   },
 };
 
