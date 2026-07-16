@@ -1,6 +1,6 @@
 # PitchFlow — final Devpost submission copy
 
-Status: **content complete; public YouTube publication, Devpost field edits, and final submission remain explicit approval gates.**
+Status: **Nicco approved the connected-engine experience and explicitly authorized public YouTube publication plus the existing PitchFlow Devpost draft's final edit and submission on 2026-07-15. Public URLs and post-submit readback remain to be recorded.**
 
 ## Submission fields
 
@@ -9,7 +9,7 @@ Status: **content complete; public YouTube publication, Devpost field edits, and
 - **Category:** Developer Tools
 - **Public viewer:** <https://pitchflow-ten.vercel.app>
 - **Public repository:** <https://github.com/sickn33/pitchflow>
-- **YouTube demo:** insert the approved public URL after the finished local video passes verification
+- **YouTube demo:** insert the public URL only after YouTube reports the accepted file as processed and publicly visible
 - **Primary `/feedback` Session ID:** `019f63f6-0b11-7310-a7c1-d62b3a51e774`
 
 ## Short description
@@ -37,11 +37,13 @@ Creators can review or edit claims, explicitly approve supported inferences, att
 - a SHA-256 asset index; and
 - a traversal-safe ZIP.
 
-The public Vercel deployment is intentionally an immutable, no-login judge viewer. Its analyze, generate, and export routes fail closed. Fresh Codex authentication and generation stay on the developer's machine; no personal OAuth session or API key is deployed.
+The public Vercel deployment uses the same product workspace and opens with a complete immutable PitchFlow demo. A visitor can inspect the generated Website, Images, Videos, Copy, and Export package immediately. For a fresh repository, the page connects to a loopback-only companion started with `pnpm pitchflow connect`. The browser requires explicit local approval, and the repository URL, creative direction, and 2–4 product captures remain on the developer's machine. If the hosted browser cannot reach loopback because of Local Network Access policy, one explicit action opens the same workspace locally with the entered project preserved. The hosted app never pretends that this local handoff is cloud generation.
+
+Fresh Codex authentication and generation stay on the developer's machine. No personal OAuth session, API key, generation proxy, or paid provider authority is deployed. Legacy hosted analyze, generate, and export API routes remain fail-closed.
 
 ## How we built it
 
-PitchFlow is a TypeScript/pnpm monorepo with a Next.js workspace, strict Zod schemas, a bounded GitHub intake engine, an official Codex SDK adapter pinned to `gpt-5.6-sol`, deterministic Sharp exports, Remotion rendering, FFmpeg/FFprobe media verification, Vitest, Playwright, axe, Lighthouse, license/secret/dependency scanners, and Vercel for the public cached viewer.
+PitchFlow is a TypeScript/pnpm monorepo with a Next.js workspace, strict Zod schemas, a bounded GitHub intake engine, an official Codex SDK adapter pinned to `gpt-5.6-sol`, a tokenized loopback companion, deterministic Sharp exports, Remotion rendering, FFmpeg/FFprobe media verification, Vitest, Playwright, axe, Lighthouse, license/secret/dependency scanners, and Vercel for the public product workspace and immutable demo.
 
 The accepted dogfood campaign was generated from PitchFlow's own pinned public commit through a real authenticated Codex turn:
 
@@ -58,11 +60,11 @@ The accepted dogfood campaign was generated from PitchFlow's own pinned public c
 
 Codex was the primary development partner across architecture, implementation, testing, media, and deployment. It helped turn the design packet into executable schemas and adversarial finish-line checks; implement the evidence engine, SDK boundary, export pipeline, local launcher, browser workspace, and Remotion renderer; trace failures across unit, browser, media, and public-deployment layers; and preserve a durable repair log.
 
-The collaboration was not one-shot generation. Key product and engineering decisions stayed explicit and reviewable: use the user's Codex entitlement instead of deploying personal OAuth; separate the public immutable viewer from local generation; pin source evidence before GPT runs; treat model tools as forbidden during the structured creative-director turn; and make failed verifiers start repair loops. Independent review rejected two technically valid video candidates because their visible product proof was insufficient. The content contract, captures, pacing, and export handoff were repaired and reverified rather than accepted as “good enough.”
+The collaboration was not one-shot generation. Key product and engineering decisions stayed explicit and reviewable: use the user's Codex entitlement instead of deploying personal OAuth; pair the public product UI with a loopback-only user-owned engine; pin source evidence before GPT runs; treat model tools as forbidden during the structured creative-director turn; and make failed verifiers start repair loops. Independent review rejected technically valid media candidates because their visible product proof was insufficient. The reusable capture-led compositions, narrative arc, pacing, and export handoff were repaired and reverified rather than accepted as “good enough.”
 
 ## Challenges
 
-The hardest problem was making creative output both compelling and falsifiable. It required one canonical manifest, exact evidence equality, explicit inference approval, and a renderer that could prove each visible claim with real product UI. The first media candidates passed codec and dimension checks but failed marketing acceptance. Another challenge was keeping fresh generation local while offering judges a complete no-login experience. The final split—local Codex orchestration plus an immutable cached dogfood viewer—solved both security and judge latency.
+The hardest problem was making creative output both compelling and falsifiable. It required one canonical manifest, exact evidence equality, explicit inference approval, and renderers that prove visible claims with real product UI. The first media candidates passed codec and dimension checks but failed marketing acceptance. Another challenge was connecting an HTTPS product surface to a user-owned loopback engine without exporting private credentials. PitchFlow uses short-lived pairing, exact origins, explicit local approval, replay protection, bounded jobs, and an honest same-workspace local fallback when browser policy blocks HTTPS-to-loopback communication.
 
 ## Accomplishments
 
@@ -73,7 +75,7 @@ The hardest problem was making creative output both compelling and falsifiable. 
 - Deterministic, independently inspected dual-ratio Remotion masters.
 - Twenty-five immutable public assets with byte-for-byte SHA-256 readback.
 - Public mutation routes denied before parsing and no cloud Codex identity.
-- A judge path that works without a live presentation or model wait.
+- A no-setup demo path plus real fresh-repository generation through the user's local engine.
 
 ## What we learned
 
@@ -85,16 +87,18 @@ After Build Week, the next safe extensions are additional repository hosts, reus
 
 ## Judge testing instructions
 
-Fast path: open <https://pitchflow-ten.vercel.app> without signing in. Inspect Evidence, Preview, Copy, both videos, the social and carousel galleries, real product captures, SHA-256 values, and the downloadable ZIP. The public status endpoint reports generation disabled, and all mutation routes return `403 PUBLIC_VIEWER_READ_ONLY`.
+Fast path: open <https://pitchflow-ten.vercel.app> without signing in and choose **Try the PitchFlow demo**. Explore the complete generated project through **Website**, **Images**, **Videos**, **Copy**, and **Export**, then download the immutable package. The secondary **Evidence** route exposes provenance, hashes, security boundaries, and verification records.
 
 Fresh local path on macOS or Linux:
 
 ```bash
-pnpm install --frozen-lockfile
-pnpm pitchflow
+git clone https://github.com/sickn33/pitchflow.git
+cd pitchflow
+corepack pnpm install --frozen-lockfile
+pnpm pitchflow connect
 ```
 
-Requirements: Node.js `>=20.9 <27`, pnpm 10.32.1, Chrome/Edge/Chromium, FFmpeg/FFprobe for independent video inspection, and an authenticated Codex installation with GPT-5.6 Sol access. No OpenAI Platform API key is required. Full instructions and the five-minute judge path are in `README.md` and `docs/JUDGING.md`.
+Requirements: macOS or Linux, Node.js `>=20.9 <27`, pnpm 10.32.1, Chrome/Edge/Chromium, FFmpeg/FFprobe, and an authenticated Codex installation with GPT-5.6 Sol access. Enter a public GitHub URL, add direction and 2–4 creator-owned captures, approve the local job, and watch the real stages through packaging. No OpenAI Platform API key is required. Full instructions and the five-minute judge path are in `README.md` and `docs/JUDGING.md`.
 
 ## Originality, pre-existing material, and licenses
 
@@ -111,9 +115,6 @@ PitchFlow is new work created during the Build Week submission period. The prior
 
 The media manifest at `submission/media/manifest.json` records the real UI source hashes, creator ownership, deterministic composition method, and `fakeProductUi: false`.
 
-## Remaining gated fields
+## Publication verification still required
 
-The finished local narrated demo has passed FFprobe, full decode, audio, dense timeline, and full-resolution parent review. The required `/feedback` Session ID is recorded. Do not describe the project as submitted until both external approval gates are real:
-
-1. Nicco explicitly authorizes YouTube publication and the public URL is read back;
-2. Nicco explicitly authorizes Devpost field edits and final submission, followed by a public submission readback.
+The finished local narrated demo has passed FFprobe, full decode, audio, dense timeline, and full-resolution review. The required `/feedback` Session ID is recorded. Nicco authorized YouTube publication and Devpost submission on 2026-07-15. Do not describe the project as submitted until YouTube public visibility and the Devpost post-submit state have both been read back from their public URLs.

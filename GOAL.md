@@ -25,6 +25,17 @@ Tagline: **Ship the code. PitchFlow ships the story.**
 
 Nicco rejected the earlier audit-first cached viewer as the wrong product surface. The active finish line is now a live first-time-user comprehension gate, not the mere existence of a judge package.
 
+Nicco rejected the subsequent connected-engine candidate on 2026-07-16 because it placed marketing, repository intake, creative direction, engine security, progress, demo output, and results in one long page. The connected engine remains accepted infrastructure, but this UI candidate is not submission-ready. The main route must now be a stateful product shell with mutually legible screens:
+
+1. **Entry:** a short product promise, one repository field, one primary `Generate launch kit` action, one secondary `Explore the PitchFlow demo` action, and a compact preview of Website, Images, Videos, Copy, and ZIP.
+2. **Repository:** a focused first wizard step that validates and summarizes the selected repository.
+3. **Direction:** progressive disclosure for audience, positioning, tone, visual direction, channels, and 2–4 attributed captures; sensible defaults prevent a wall of required fields.
+4. **Engine:** Codex connection appears only when generation needs it. Disconnected and browser-policy fallback states use one focused panel, the exact companion command, concise credential-local copy, and optional detail disclosure.
+5. **Generate:** real engine stages, cancellation, retry, and errors are isolated from configuration. No timer-only or simulated completion.
+6. **Results:** a dedicated professional workspace with Website, Images, Videos, Copy, and Export tabs. A fresh job replaces the demo state. The demo opens directly here with an unmistakable read-only label and `Create from my repository` action.
+
+Each screen has one primary action. Provenance, checksums, bridge internals, Build Week material, and judge evidence remain in `/evidence`, Settings, or contextual disclosure. The visual system keeps PitchFlow's dark code-native identity while removing stacked bordered cards, excess status prose, and competing controls.
+
 At both 1440px desktop and a real 390px mobile viewport, the live homepage must make the following clear within five seconds and without documentation:
 
 1. **Input:** a public GitHub repository plus 2–4 real product captures and creative direction.
@@ -140,14 +151,16 @@ Use a small pnpm TypeScript workspace with deliberately few runtime boundaries:
 
 ## Primary verifier
 
-Against the exact deployed public SHA and without relying on README or spoken explanation, a first-time-user review at 1440px desktop and an actual 390px mobile viewport must answer correctly within five seconds:
+Against the exact deployed public SHA and without relying on README or spoken explanation, a first-time-user review at 1440×1000 desktop and an actual 390×844 mobile viewport must answer correctly within five seconds:
 
 1. What do I provide? A GitHub repository plus real product captures and direction.
 2. What does PitchFlow do? Understands the product from repository evidence and directs a launch campaign with GPT-5.6 through local Codex.
 3. What do I receive? Website, Images, Videos, Copy, and one complete Export package.
 4. How do I try it? Explore the complete public dogfood demo immediately; start `pitchflow connect`, pair the user-owned engine, and run a real fresh-repository job without sending provider credentials to Vercel.
 
-The verifier must then interact with the same continuous Analyze → Direct → Generate → Deliver → Export journey, explore every real dogfood output, exercise the immutable download, pair an actual loopback companion from the HTTPS deployment in Edge or Chrome, and run the second-repository proof through the user-owned Codex engine. It must assert exact screenshot dimensions, zero root horizontal overflow, operable controls and delivery tabs, zero console errors, and no serious or critical accessibility violations. A blunt product review must explicitly fail the gate if the interface reads as an auditor dashboard, a disconnected landing page, a decorative mock, or a hosted-generation claim whose work actually occurs only after an unexplained redirect.
+The verifier must then prove the separated state model: entry has one dominant repository action; repository, direction, engine, generation, and results are distinct wizard/workspace states; demo and fresh-project ownership cannot be confused; wizard inputs and captures survive forward/back navigation plus the policy fallback; real progress, cancellation, retry, and errors remain wired to bridge state; results tabs and ZIP belong to the current job. It must also exercise the immutable demo download, pair an actual loopback companion from the HTTPS deployment in Edge or Chrome, and reuse the already verified VibePalette package for fresh-result UI integration without rerunning GPT-5.6 or Remotion unless a regression requires it.
+
+The browser verifier must assert exact screenshot dimensions, zero root horizontal overflow, one primary CTA per state, keyboard-operable controls and results tabs, zero console errors, and no serious or critical accessibility violations. A blunt product review must explicitly fail the gate if the interface is still an endless landing page, conflates demo and generation, presents configuration before it is needed, reads as an auditor dashboard, becomes a dense card grid, or hides the user's next action.
 
 Acceptance evidence belongs under `artifacts/verification/{timestamp}/product-reset/` and must include full-page desktop/mobile screenshots, interaction/readback results, the exact deployed SHA, and Nicco's explicit approval of the redesigned live experience.
 
@@ -251,7 +264,7 @@ Still requires Nicco's explicit confirmation:
 - use any uncertain third-party copyrighted or trademarked material;
 - delete or rewrite external repositories, deployments, or user data.
 
-YouTube publication and every Devpost edit/submission are frozen until the redesigned live product has passed the primary verifier and Nicco explicitly approves that exact live experience. Earlier broad publication approval was superseded by the product reset and does not authorize publication of the rejected surface.
+YouTube publication, every Devpost edit/submission, and the final two clean-state runs are frozen until the 2026-07-16 wizard/results redesign has passed the primary verifier and Nicco explicitly approves that exact live experience. Every earlier visual or publication approval is withdrawn for the rejected surface.
 
 The gated YouTube URL and Devpost submission are mandatory for the actual competition entry. Until approved, completion proof must contain the finished local video and final Devpost copy/media inventory, and `RESULT.md` must identify publication/submission as the remaining explicit gate rather than claim the entry was submitted.
 

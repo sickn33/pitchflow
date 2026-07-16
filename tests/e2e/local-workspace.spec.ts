@@ -12,6 +12,9 @@ import {
 
 import { createTestSnapshot } from "../helpers/snapshot";
 
+const productHero = "Paste your repo. Get the whole launch kit.";
+const wizardSteps = ["Repository", "Direction", "Engine", "Generate"];
+
 function campaignFixture() {
   const snapshot = createTestSnapshot();
   const manifest = finalizeCampaignManifest(createDeterministicCampaignDraft(snapshot), snapshot, {
@@ -26,16 +29,6 @@ function campaignFixture() {
   return { manifest, snapshot };
 }
 
-const productHero = "Paste your repo. Get a launch-ready site, social kit, and product video.";
-const workflowSteps = ["Analyze", "Direct", "Generate", "Deliver", "Export"];
-const workflowMarkers = [
-  "01 · Analyze",
-  "02 · Direct",
-  "03 · Generate",
-  "04 · Deliver",
-  "05 · Export",
-];
-
 async function expectViewport(page: Page, width: number, height: number) {
   expect(page.viewportSize()).toEqual({ width, height });
   await expect
@@ -43,16 +36,13 @@ async function expectViewport(page: Page, width: number, height: number) {
     .toEqual({ width, height });
 }
 
-async function expectProductJourney(page: Page) {
-  await expect(
-    page.getByRole("navigation", { name: "PitchFlow workflow" }).locator("li strong"),
-  ).toHaveText(workflowSteps);
-  const markers = page.locator(".step-heading > span, .export-copy > span");
-  await expect(markers).toHaveText(workflowMarkers);
-  const tops = await markers.evaluateAll((elements) =>
-    elements.map((element) => element.getBoundingClientRect().top + window.scrollY),
-  );
-  expect(tops).toEqual([...tops].sort((left, right) => left - right));
+async function expectNoRootOverflow(page: Page) {
+  const overflow = await page.evaluate(() => ({
+    document: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    body: document.body.scrollWidth - document.body.clientWidth,
+  }));
+  expect(overflow.document).toBeLessThanOrEqual(1);
+  expect(overflow.body).toBeLessThanOrEqual(1);
 }
 
 async function mockLocalRuntime(page: Page) {
@@ -73,7 +63,25 @@ async function mockLocalRuntime(page: Page) {
   });
 }
 
-test("completes the local Analyze, Direct, Generate, Deliver, and Export journey", async ({
+async function addAttributedCaptures(page: Page, outputDir: string) {
+  const captureDirectory = join(outputDir, "real-ui-captures");
+  await mkdir(captureDirectory, { recursive: true });
+  const first = join(captureDirectory, "repository.png");
+  const second = join(captureDirectory, "direction.png");
+  await page.screenshot({ path: first, fullPage: false });
+  await page.screenshot({ path: second, fullPage: true });
+  await page.locator("#product-captures").setInputFiles([first, second]);
+
+  const descriptions = page.getByLabel("What this real screen shows");
+  await expect(descriptions).toHaveCount(2);
+  await descriptions.nth(0).fill("Repository confirmation inside the real PitchFlow workflow.");
+  await descriptions.nth(1).fill("Launch direction controls with the current project defaults.");
+  const provenance = page.getByLabel("Provenance");
+  await provenance.nth(0).selectOption("creator-owned");
+  await provenance.nth(1).selectOption("creator-owned");
+}
+
+test("keeps one focused action per state and completes the real local workflow", async ({
   page,
 }, testInfo) => {
   const consoleErrors: string[] = [];
@@ -88,22 +96,13 @@ test("completes the local Analyze, Direct, Generate, Deliver, and Export journey
     expect(route.request().postDataJSON()).toEqual({
       repositoryUrl: "https://github.com/acme/demo",
     });
-    await route.fulfill({
-      contentType: "application/json",
-      body: JSON.stringify({ snapshot }),
-    });
+    await route.fulfill({ contentType: "application/json", body: JSON.stringify({ snapshot }) });
   });
   await page.route("**/api/generate", async (route) => {
     const body = route.request().postDataJSON() as Record<string, unknown>;
     expect(body.snapshot).toMatchObject({ id: snapshot.id, commitSha: snapshot.commitSha });
-    expect(body.preferences).toMatchObject({
-      visualDirection: "Editorial product clarity with confident motion and high-contrast type",
-    });
     expect(JSON.stringify(body)).not.toContain("data:image/");
-    await route.fulfill({
-      contentType: "application/json",
-      body: JSON.stringify({ manifest }),
-    });
+    await route.fulfill({ contentType: "application/json", body: JSON.stringify({ manifest }) });
   });
 
   const exportRequests: Record<string, unknown>[] = [];
@@ -123,102 +122,61 @@ test("completes the local Analyze, Direct, Generate, Deliver, and Export journey
   await page.goto("/");
   await expectViewport(page, 1440, 1000);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Generate launch kit" })).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "Explore the PitchFlow demo" })).toHaveCount(1);
+  await expect(page.getByRole("navigation", { name: "New project steps" })).toHaveCount(0);
+
+  await page.getByLabel("GitHub repository").fill("https://github.com/acme/demo");
+  await page.getByRole("button", { name: "Generate launch kit" }).click();
+  await expect(page.getByRole("heading", { name: "Repository ready." })).toBeVisible();
   await expect(
-    page.getByRole("navigation", { name: "PitchFlow workflow" }).locator("li strong"),
-  ).toHaveText(workflowSteps);
+    page.getByRole("navigation", { name: "New project steps" }).locator("li strong"),
+  ).toHaveText(wizardSteps);
+  await expect(page.locator(".pf-primary-button:visible")).toHaveCount(1);
 
-  await page.getByLabel("Public GitHub repository").fill("https://github.com/acme/demo");
-  await page.getByRole("button", { name: "Analyze repository" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Here’s what PitchFlow understood." }),
-  ).toBeVisible();
-  await expect(page.getByText("Codex is ready for local generation.")).toBeVisible();
-  await expect(
-    page.locator(".understanding-grid").getByText("demo", { exact: true }),
-  ).toBeVisible();
-  await expect(page.getByText("3 files mapped")).toBeVisible();
+  await page.getByRole("button", { name: "Continue to direction" }).click();
+  await expect(page.getByRole("heading", { name: "Direct the launch." })).toBeVisible();
+  await page.getByLabel("Audience").fill("Design-minded browser extension developers");
+  await addAttributedCaptures(page, testInfo.outputDir);
+  await expect(page.getByRole("button", { name: "Continue to engine" })).toBeEnabled();
 
-  const generateButton = page.getByRole("button", { name: "Generate campaign" });
-  await expect(generateButton).toBeDisabled();
-
-  const captureDirectory = join(testInfo.outputDir, "real-ui-captures");
-  await mkdir(captureDirectory, { recursive: true });
-  const analysisPath = join(captureDirectory, "pitchflow-analysis.png");
-  await page.screenshot({ path: analysisPath, fullPage: false });
-  await page.locator("#direct").scrollIntoViewIfNeeded();
-  const directionPath = join(captureDirectory, "pitchflow-direction.png");
-  await page.screenshot({ path: directionPath, fullPage: false });
-
-  await page.locator("#product-captures").setInputFiles([analysisPath, directionPath]);
-  const descriptions = page.getByLabel("What this real screen shows");
-  await expect(descriptions).toHaveCount(2);
-  await descriptions
-    .nth(0)
-    .fill("PitchFlow repository analysis with commit-pinned product understanding.");
-  await descriptions
-    .nth(1)
-    .fill("PitchFlow launch direction controls and real product capture inputs.");
-  const provenance = page.getByLabel("Provenance");
-  await provenance.nth(0).selectOption("creator-owned");
-  await provenance.nth(1).selectOption("creator-owned");
-
-  await page.getByRole("checkbox", { name: /Use my local Codex sign-in/i }).check();
-  await expect(generateButton).toBeEnabled();
-  await generateButton.click();
-
-  await expect(
-    page.getByRole("heading", { name: "Review the campaign plan before rendering." }),
-  ).toBeVisible();
-  await expect(
-    page.getByText(
-      "Website and copy are editable now. Images are creative previews and videos are storyboards until export.",
-    ),
-  ).toBeVisible();
-  await expect(page.getByRole("tab", { name: "Website" })).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator("#campaign-panel-website h3")).toHaveText(
-    manifest.productBrief.oneLiner,
+  await page
+    .getByRole("navigation", { name: "New project steps" })
+    .getByRole("button", { name: /Repository/ })
+    .click();
+  await page.getByRole("button", { name: "Continue to direction" }).click();
+  await expect(page.getByLabel("Audience")).toHaveValue(
+    "Design-minded browser extension developers",
   );
+  await expect(page.getByLabel("What this real screen shows")).toHaveCount(2);
 
-  await page.getByRole("tab", { name: "Images" }).click();
-  await expect(page.getByText(/Creative previews only.*local image renderer/i)).toBeVisible();
-  await expect(page.locator("#campaign-panel-images img")).toHaveCount(0);
+  await page.getByRole("button", { name: "Continue to engine" }).click();
+  await expect(page.getByRole("heading", { name: "Use your Codex engine." })).toBeVisible();
+  await expect(page.getByText("Codex is connected")).toBeVisible();
+  await page.getByRole("checkbox", { name: /Use my local Codex sign-in/i }).check();
+  await page.getByRole("button", { name: "Continue to generate" }).click();
 
-  await page.getByRole("tab", { name: "Videos" }).click();
-  await expect(page.getByText(/Storyboard only.*render during export/i)).toBeVisible();
-  await expect(page.locator("#campaign-panel-videos video")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Ready to build the launch kit." })).toBeVisible();
+  await page.getByRole("button", { name: "Generate launch kit" }).click();
+  await expect(
+    page.getByText("Generated by your connected local engine · acme/demo"),
+  ).toBeVisible();
+  await expect(page.getByRole("tab")).toHaveText(["Website", "Images", "Videos", "Copy", "Export"]);
+  await expect(page.getByRole("tab", { name: "Website" })).toHaveAttribute("aria-selected", "true");
 
   await page.getByRole("tab", { name: "Copy" }).click();
   await page.getByLabel("X copy").fill("Reviewed launch copy for X.");
-
   await page.getByRole("tab", { name: "Export" }).click();
-  await expectProductJourney(page);
-  const firstClaim = page.locator("#campaign-panel-export .claim-review textarea").first();
-  await expect(firstClaim).toHaveValue(manifest.claims[0]!.text);
-  await firstClaim.fill("Reviewed locally: Demo is a testable developer utility.");
-  await expect(firstClaim).toHaveValue(/Reviewed locally/);
-
   const exportButton = page.getByRole("button", { name: "Download complete launch package" });
   await expect(exportButton).toBeEnabled();
   const downloadPromise = page.waitForEvent("download");
   await exportButton.click();
-  const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe("pitchflow-e2e.zip");
+  expect((await downloadPromise).suggestedFilename()).toBe("pitchflow-e2e.zip");
   expect(exportRequests).toHaveLength(1);
   expect((exportRequests[0]?.captures as unknown[]).length).toBe(2);
   expect(JSON.stringify(exportRequests[0])).not.toContain("/Users/");
-  const exportedCampaign = exportRequests[0]?.campaign as {
-    copy: { x: string };
-    claims: Array<Record<string, unknown>>;
-  };
-  expect(exportedCampaign.copy.x).toBe("Reviewed launch copy for X.");
-  expect(exportedCampaign.claims[0]).toMatchObject({
-    text: "Reviewed locally: Demo is a testable developer utility.",
-    classification: "user_supplied",
-    approvalRequired: false,
-  });
-  await expect(page.getByRole("heading", { name: "Your launch package is ready." })).toBeVisible();
-  await expect(page.locator("#campaign-panel-export").getByRole("status")).toHaveText(
-    "Downloaded pitchflow-e2e.zip.",
+  expect((exportRequests[0]?.campaign as { copy: { x: string } }).copy.x).toBe(
+    "Reviewed launch copy for X.",
   );
 
   const accessibility = await new AxeBuilder({ page })
@@ -229,10 +187,11 @@ test("completes the local Analyze, Direct, Generate, Deliver, and Export journey
       (violation) => violation.impact === "serious" || violation.impact === "critical",
     ),
   ).toEqual([]);
+  await expectNoRootOverflow(page);
   expect(consoleErrors).toEqual([]);
 });
 
-test("shows a truthful repository failure without unlocking generation", async ({ page }) => {
+test("shows a truthful repository error without entering the wizard", async ({ page }) => {
   await mockLocalRuntime(page);
   await page.route("**/api/analyze", async (route) => {
     await route.fulfill({
@@ -248,33 +207,31 @@ test("shows a truthful repository failure without unlocking generation", async (
   });
 
   await page.goto("/");
-  await page.getByLabel("Public GitHub repository").fill("https://github.com/acme/missing");
-  await page.getByRole("button", { name: "Analyze repository" }).click();
-
-  await expect(page.locator(".error-banner[role='alert']")).toContainText(
+  await page.getByLabel("GitHub repository").fill("https://github.com/acme/missing");
+  await page.getByRole("button", { name: "Generate launch kit" }).click();
+  await expect(page.locator("#repository-error")).toContainText(
     "The repository was not found or is not public.",
   );
-  await expect(page.getByRole("button", { name: "Generate campaign" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "New project steps" })).toHaveCount(0);
 });
 
-test("keeps its primary journey usable at a narrow mobile viewport", async ({ page }) => {
+test("keeps the entry hierarchy usable at 390 by 844", async ({ page }) => {
   const consoleErrors: string[] = [];
   page.on("console", (message) => {
     if (message.type() === "error") consoleErrors.push(message.text());
   });
   page.on("pageerror", (error) => consoleErrors.push(error.message));
-
   await mockLocalRuntime(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
 
   await expectViewport(page, 390, 844);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
-  const horizontalOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  await expect(page.getByLabel("The five launch-kit deliverables").locator("li strong")).toHaveText(
+    ["Website", "Images", "Videos", "Copy", "ZIP"],
   );
-  expect(horizontalOverflow).toBeLessThanOrEqual(1);
+  await expectNoRootOverflow(page);
   await page.getByRole("link", { name: "Skip to main content" }).focus();
   await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
   expect(consoleErrors).toEqual([]);

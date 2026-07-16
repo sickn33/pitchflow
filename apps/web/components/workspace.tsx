@@ -48,7 +48,6 @@ import {
 } from "../lib/bridge-client";
 import {
   approveCampaignClaim,
-  buildLocalWorkspaceDeepLink,
   canonicalGitHubRepositoryUrl,
   editCampaignClaim,
   evidenceAnchorId,
@@ -69,6 +68,14 @@ type RuntimeStatus = {
 type ApiFailure = { error?: { code?: string; message?: string } };
 type Stage = "idle" | "analyzing" | "review" | "generating" | "ready";
 type Panel = "website" | "images" | "videos" | "copy" | "export";
+type ProductScreen = "entry" | "repository" | "direction" | "engine" | "generate" | "results";
+type ResultOwnership = "demo" | "fresh" | null;
+type RepositorySummary = {
+  fullName: string;
+  description: string;
+  language: string | null;
+  license: string | null;
+};
 type ExportReceipt = {
   filename: string;
   assetCount: number;
@@ -208,8 +215,6 @@ function EvidenceHero() {
 
 function ProductHero({
   repositoryUrl,
-  assets,
-  publicViewer,
   busy,
   error,
   onRepositoryUrlChange,
@@ -217,8 +222,6 @@ function ProductHero({
   onTryDemo,
 }: {
   repositoryUrl: string;
-  assets: DogfoodAsset[];
-  publicViewer: boolean;
   busy: boolean;
   error: string | null;
   onRepositoryUrlChange: (value: string) => void;
@@ -226,100 +229,83 @@ function ProductHero({
   onTryDemo: () => void;
 }) {
   return (
-    <section className="product-hero" id="top" aria-labelledby="hero-heading">
-      <div className="product-hero-left">
-        <div className="product-hero-copy">
-          <h1 id="hero-heading">
-            Paste your repo. Get a launch-ready site, social kit, and product video.
-          </h1>
-          <p>
-            PitchFlow understands your product from repository evidence and directs a complete
-            launch campaign with GPT‑5.6.
-          </p>
-        </div>
-        <form className="hero-repo-form" onSubmit={onAnalyze}>
-          <label className="sr-only" htmlFor="repository-url">
-            Public GitHub repository
-          </label>
-          <input
-            id="repository-url"
-            type="url"
-            value={repositoryUrl}
-            onChange={(event) => onRepositoryUrlChange(event.target.value)}
-            placeholder="https://github.com/owner/repository"
-            title="Enter a canonical public GitHub repository URL"
-            required
-            disabled={busy}
-            autoComplete="url"
-          />
-          <div>
+    <section className="pf-entry" id="top" aria-labelledby="hero-heading">
+      <div className="pf-entry-copy">
+        <h1 id="hero-heading">Paste your repo. Get the whole launch kit.</h1>
+        <p>
+          Add real product captures and direction. PitchFlow creates a site, social assets, videos,
+          copy, and one ZIP with your local Codex engine.
+        </p>
+        <form className="pf-repo-form" onSubmit={onAnalyze} noValidate>
+          <label htmlFor="repository-url">GitHub repository</label>
+          <div className="pf-repo-control">
+            <input
+              id="repository-url"
+              type="url"
+              value={repositoryUrl}
+              onChange={(event) => onRepositoryUrlChange(event.target.value)}
+              placeholder="https://github.com/owner/repository"
+              title="Enter a canonical public GitHub repository URL"
+              required
+              disabled={busy}
+              autoComplete="url"
+              aria-describedby={error ? "repository-error" : undefined}
+            />
             <button type="submit" disabled={busy || !repositoryUrl.trim()}>
-              {busy ? "Analyzing repository…" : "Analyze repository"}
-            </button>
-            <button className="demo-button" type="button" onClick={onTryDemo} disabled={busy}>
-              <span aria-hidden="true">▶</span> Try the PitchFlow demo
+              {busy ? "Checking repository…" : "Generate launch kit"}
+              <span aria-hidden="true">→</span>
             </button>
           </div>
-          <p className="hero-input-contract">
-            Then add 2–4 real product captures plus audience, positioning, tone, and visual
-            direction.
-          </p>
-          {publicViewer ? (
-            <p>Fresh generation runs through your loopback-only PitchFlow engine.</p>
+          {error ? (
+            <p className="pf-field-error" id="repository-error" role="alert">
+              {error}
+            </p>
           ) : null}
-          {error ? <ErrorBanner message={error} /> : null}
         </form>
+        <button className="pf-demo-action" type="button" onClick={onTryDemo} disabled={busy}>
+          Explore the PitchFlow demo <span aria-hidden="true">↗</span>
+        </button>
       </div>
-      <HeroMediaMontage assets={assets} />
+      <ProductOutputs />
     </section>
   );
 }
 
-function HeroMediaMontage({ assets }: { assets: DogfoodAsset[] }) {
-  const gallery = selectDogfoodGalleryAssets(assets);
-  const leadImage = gallery.socialGraphics[0] ?? gallery.productCaptures[0];
-  if (!leadImage && !gallery.landscapeVideo && !gallery.portraitVideo) return null;
-  const leadDimensions = leadImage ? getDogfoodImageDimensions(leadImage) : null;
+function ProductStepper({
+  active,
+  onNavigate,
+}: {
+  active: Exclude<ProductScreen, "entry" | "results">;
+  onNavigate: (screen: Exclude<ProductScreen, "entry" | "results">) => void;
+}) {
+  const steps: Array<{ screen: Exclude<ProductScreen, "entry" | "results">; label: string }> = [
+    { screen: "repository", label: "Repository" },
+    { screen: "direction", label: "Direction" },
+    { screen: "engine", label: "Engine" },
+    { screen: "generate", label: "Generate" },
+  ];
+  const activeIndex = steps.findIndex((step) => step.screen === active);
   return (
-    <div className="hero-media-montage" aria-label="Real outputs from the PitchFlow demo">
-      {leadImage && leadDimensions ? (
-        <img
-          src={leadImage.href}
-          alt={leadImage.label}
-          width={leadDimensions.width}
-          height={leadDimensions.height}
-        />
-      ) : null}
-      {gallery.landscapeVideo ? (
-        <video controls playsInline preload="metadata" aria-label={gallery.landscapeVideo.label}>
-          <source src={gallery.landscapeVideo.href} type={gallery.landscapeVideo.mediaType} />
-        </video>
-      ) : null}
-      {gallery.portraitVideo ? (
-        <video controls playsInline preload="metadata" aria-label={gallery.portraitVideo.label}>
-          <source src={gallery.portraitVideo.href} type={gallery.portraitVideo.mediaType} />
-        </video>
-      ) : null}
-    </div>
-  );
-}
-
-function ProductStepper({ activeStep }: { activeStep: number }) {
-  const steps = ["Analyze", "Direct", "Generate", "Deliver", "Export"];
-  return (
-    <nav className="product-stepper" aria-label="PitchFlow workflow" tabIndex={0}>
+    <nav className="pf-stepper" aria-label="New project steps">
       <ol>
         {steps.map((step, index) => {
           const number = index + 1;
           return (
             <li
-              key={step}
+              key={step.screen}
               data-state={
-                number < activeStep ? "complete" : number === activeStep ? "active" : "upcoming"
+                index < activeIndex ? "complete" : index === activeIndex ? "active" : "upcoming"
               }
             >
-              <span>{number < activeStep ? "✓" : number}</span>
-              <strong>{step}</strong>
+              <button
+                type="button"
+                onClick={() => onNavigate(step.screen)}
+                disabled={index > activeIndex}
+                aria-current={index === activeIndex ? "step" : undefined}
+              >
+                <span>{number}</span>
+                <strong>{step.label}</strong>
+              </button>
             </li>
           );
         })}
@@ -329,15 +315,111 @@ function ProductStepper({ activeStep }: { activeStep: number }) {
 }
 
 function ProductOutputs() {
-  const outputs = ["Website", "Images", "Videos", "Copy", "Export"];
+  const outputs = ["Website", "Images", "Videos", "Copy", "ZIP"];
   return (
-    <section className="product-outputs" aria-labelledby="product-outputs-heading">
-      <p id="product-outputs-heading">What you get</p>
+    <section className="pf-output-preview" aria-label="The five launch-kit deliverables">
       <ul>
-        {outputs.map((output) => (
-          <li key={output}>{output}</li>
+        {outputs.map((output, index) => (
+          <li key={output} data-kind={output.toLowerCase()}>
+            <span className="pf-output-visual" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+            <strong>{output}</strong>
+            <small>0{index + 1}</small>
+          </li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+function ProductAppHeader({ project, onExit }: { project?: string | null; onExit?: () => void }) {
+  return (
+    <>
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
+      <header className="pf-header">
+        <button className="pf-brand" type="button" onClick={onExit} aria-label="PitchFlow home">
+          <span aria-hidden="true">PF</span>
+          <strong>PitchFlow</strong>
+        </button>
+        {project ? <span className="pf-header-project">{project}</span> : null}
+        {onExit ? (
+          <button className="pf-header-action" type="button" onClick={onExit}>
+            Exit project <span aria-hidden="true">↗</span>
+          </button>
+        ) : (
+          <a className="pf-header-action" href="/evidence">
+            Evidence <span aria-hidden="true">↗</span>
+          </a>
+        )}
+      </header>
+    </>
+  );
+}
+
+function RepositoryStep({
+  repositoryUrl,
+  summary,
+  snapshot,
+  onBack,
+  onContinue,
+}: {
+  repositoryUrl: string;
+  summary: RepositorySummary | null;
+  snapshot: RepoSnapshot | null;
+  onBack: () => void;
+  onContinue: () => void;
+}) {
+  const repositoryName = summary?.fullName ?? new URL(repositoryUrl).pathname.slice(1);
+  const description =
+    summary?.description ??
+    snapshot?.repository.description ??
+    "Public repository validated and ready for local evidence analysis.";
+  const language = summary?.language ?? Object.keys(snapshot?.languages ?? {})[0] ?? null;
+  const license = summary?.license ?? snapshot?.repository.licenseSpdx ?? null;
+  return (
+    <section className="pf-wizard-screen pf-repository-step" aria-labelledby="repository-heading">
+      <div className="pf-screen-heading">
+        <span>Repository</span>
+        <h1 id="repository-heading">Repository ready.</h1>
+        <p>Confirm the product before setting the launch direction.</p>
+      </div>
+      <div className="pf-repository-summary">
+        <div>
+          <span>GitHub repository</span>
+          <strong>{repositoryName}</strong>
+          <a href={repositoryUrl} target="_blank" rel="noreferrer">
+            {repositoryUrl} <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <p>{description}</p>
+        <dl>
+          <div>
+            <dt>Primary language</dt>
+            <dd>{language ?? "Detected during analysis"}</dd>
+          </div>
+          <div>
+            <dt>License</dt>
+            <dd>{license ?? "Not declared"}</dd>
+          </div>
+          <div>
+            <dt>Next</dt>
+            <dd>Direction and real captures</dd>
+          </div>
+        </dl>
+      </div>
+      <div className="pf-action-row">
+        <button className="pf-secondary-button" type="button" onClick={onBack}>
+          Back
+        </button>
+        <button className="pf-primary-button" type="button" onClick={onContinue}>
+          Continue to direction <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </section>
   );
 }
@@ -1622,123 +1704,9 @@ function CaptureAttachmentPanel({
   );
 }
 
-function ProductUnderstanding({
-  snapshot,
-  campaign,
-}: {
-  snapshot: RepoSnapshot;
-  campaign: CampaignManifest | null;
-}) {
-  const languages = Object.entries(snapshot.languages)
-    .sort((left, right) => right[1] - left[1])
-    .slice(0, 3)
-    .map(([language]) => language);
-  const facts = snapshot.evidence
-    .map((item) => item.normalizedFact)
-    .filter((fact): fact is string => Boolean(fact))
-    .slice(0, 4);
-
-  return (
-    <section className="product-step analyze-step" id="analyze" aria-labelledby="analyze-heading">
-      <header className="step-heading">
-        <span>01 · Analyze</span>
-        <h2 id="analyze-heading">Here’s what PitchFlow understood.</h2>
-        <p>
-          {campaign?.productBrief.oneLiner ??
-            snapshot.repository.description ??
-            `${snapshot.repository.name} is ready for a clearer launch story.`}
-        </p>
-      </header>
-      <div className="understanding-grid">
-        <article>
-          <span>Product</span>
-          <strong>{campaign?.productBrief.productName ?? snapshot.repository.name}</strong>
-          <p>{snapshot.repository.description ?? "Public repository"}</p>
-        </article>
-        <article>
-          <span>Built with</span>
-          <strong>{languages.length > 0 ? languages.join(" · ") : "Repository source"}</strong>
-          <p>{snapshot.limits.discoveredFiles.toLocaleString()} files mapped</p>
-        </article>
-        <article>
-          <span>For</span>
-          <strong>
-            {campaign?.productBrief.audience.join(" · ") ?? "The audience you choose next"}
-          </strong>
-          <p>{snapshot.repository.licenseSpdx ?? "Repository license not declared"}</p>
-        </article>
-      </div>
-      {facts.length > 0 ? (
-        <ul className="plain-fact-list" aria-label="Repository facts">
-          {facts.map((fact) => (
-            <li key={fact}>{fact}</li>
-          ))}
-        </ul>
-      ) : null}
-    </section>
-  );
-}
-
-function RepositoryQueued({ repositoryUrl }: { repositoryUrl: string }) {
-  const repository = new URL(repositoryUrl).pathname.slice(1);
-  return (
-    <section className="product-step analyze-step" id="analyze" aria-labelledby="analyze-heading">
-      <header className="step-heading">
-        <span>01 · Analyze</span>
-        <h2 id="analyze-heading">Repository ready for your local engine.</h2>
-        <p>
-          PitchFlow will pin public evidence and describe the real product only after you approve
-          the connected job.
-        </p>
-      </header>
-      <div className="understanding-grid queued-repository">
-        <article>
-          <span>Repository</span>
-          <strong>{repository}</strong>
-          <p>{repositoryUrl}</p>
-        </article>
-        <article>
-          <span>Evidence</span>
-          <strong>Not fetched yet</strong>
-          <p>No completion is simulated in the hosted page.</p>
-        </article>
-        <article>
-          <span>Execution</span>
-          <strong>User-owned engine</strong>
-          <p>Codex credentials remain on this machine.</p>
-        </article>
-      </div>
-    </section>
-  );
-}
-
-function DemoCaptureStrip({ assets }: { assets: DogfoodAsset[] }) {
-  const captures = selectDogfoodGalleryAssets(assets).productCaptures;
-  if (captures.length === 0) return null;
-  return (
-    <div className="demo-capture-strip" aria-label="Real product captures in the demo">
-      {captures.map((asset) => {
-        const dimensions = getDogfoodImageDimensions(asset);
-        return dimensions ? (
-          <img
-            key={asset.href}
-            src={asset.href}
-            alt={asset.label}
-            width={dimensions.width}
-            height={dimensions.height}
-            loading="lazy"
-          />
-        ) : null;
-      })}
-    </div>
-  );
-}
-
 function DirectionPanel({
   preferences,
   captures,
-  demoAssets,
-  publicViewer,
   busy,
   captureError,
   onPreferencesChange,
@@ -1751,8 +1719,6 @@ function DirectionPanel({
 }: {
   preferences: CampaignPreferences;
   captures: CaptureDraft[];
-  demoAssets: DogfoodAsset[];
-  publicViewer: boolean;
   busy: boolean;
   captureError: string | null;
   onPreferencesChange: (preferences: CampaignPreferences) => void;
@@ -1764,15 +1730,19 @@ function DirectionPanel({
   onUpdateCapture: (id: string, update: Partial<CaptureDraft>) => void;
 }) {
   return (
-    <section className="product-step direct-step" id="direct" aria-labelledby="direct-heading">
-      <header className="step-heading">
-        <span>02 · Direct</span>
-        <h2 id="direct-heading">Set the launch direction.</h2>
-        <p>Choose who it is for, how it should land, and what the real product looks like.</p>
+    <section
+      className="pf-wizard-screen pf-direction-step"
+      id="direct"
+      aria-labelledby="direct-heading"
+    >
+      <header className="pf-screen-heading">
+        <span>Direction</span>
+        <h1 id="direct-heading">Direct the launch.</h1>
+        <p>Start with the defaults. Add only what will make the campaign sharper.</p>
       </header>
-      <div className="direction-workspace">
-        <div className="direction-fields">
-          <label htmlFor="audience">Primary audience</label>
+      <div className="pf-direction-layout">
+        <div className="pf-direction-fields">
+          <label htmlFor="audience">Audience</label>
           <input
             id="audience"
             value={preferences.audience}
@@ -1780,7 +1750,7 @@ function DirectionPanel({
             onChange={(event) =>
               onPreferencesChange({ ...preferences, audience: event.target.value })
             }
-            disabled={busy || publicViewer}
+            disabled={busy}
           />
           <label htmlFor="positioning">Positioning</label>
           <textarea
@@ -1791,9 +1761,9 @@ function DirectionPanel({
             onChange={(event) =>
               onPreferencesChange({ ...preferences, positioning: event.target.value })
             }
-            disabled={busy || publicViewer}
+            disabled={busy}
           />
-          <div className="direction-pair">
+          <div className="pf-direction-pair">
             <label>
               Tone
               <select
@@ -1804,7 +1774,7 @@ function DirectionPanel({
                     tone: event.target.value as CampaignPreferences["tone"],
                   })
                 }
-                disabled={busy || publicViewer}
+                disabled={busy}
               >
                 <option value="precise">Precise</option>
                 <option value="bold">Bold</option>
@@ -1819,171 +1789,162 @@ function DirectionPanel({
                 value={preferences.visualDirection}
                 maxLength={140}
                 onChange={(event) => onVisualDirectionChange(event.target.value)}
-                disabled={busy || publicViewer}
+                disabled={busy}
               />
             </label>
           </div>
-          <fieldset className="channel-fieldset" disabled={busy || publicViewer}>
-            <legend>Launch channels</legend>
-            <div>
-              {(Object.keys(channelLabels) as CampaignPreferences["channels"]).map((channel) => (
-                <label key={channel}>
-                  <input
-                    type="checkbox"
-                    checked={preferences.channels.includes(channel)}
-                    onChange={() => onToggleChannel(channel)}
-                  />
-                  <span>{channelLabels[channel]}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        </div>
-        <div className="direction-captures">
-          {publicViewer ? (
-            <>
-              <div className="demo-capture-heading">
-                <span>Real product captures</span>
-                <p>The demo campaign uses creator-owned screens from PitchFlow itself.</p>
+          <details className="pf-advanced-direction">
+            <summary>Channels and advanced direction</summary>
+            <fieldset className="channel-fieldset" disabled={busy}>
+              <legend>Launch channels</legend>
+              <div>
+                {(Object.keys(channelLabels) as CampaignPreferences["channels"]).map((channel) => (
+                  <label key={channel}>
+                    <input
+                      type="checkbox"
+                      checked={preferences.channels.includes(channel)}
+                      onChange={() => onToggleChannel(channel)}
+                    />
+                    <span>{channelLabels[channel]}</span>
+                  </label>
+                ))}
               </div>
-              <DemoCaptureStrip assets={demoAssets} />
-            </>
-          ) : (
-            <CaptureAttachmentPanel
-              captures={captures}
-              disabled={busy}
-              error={captureError}
-              onFiles={onFiles}
-              onMove={onMoveCapture}
-              onRemove={onRemoveCapture}
-              onUpdate={onUpdateCapture}
-            />
-          )}
+            </fieldset>
+          </details>
+        </div>
+        <div className="pf-direction-captures">
+          <CaptureAttachmentPanel
+            captures={captures}
+            disabled={busy}
+            error={captureError}
+            onFiles={onFiles}
+            onMove={onMoveCapture}
+            onRemove={onRemoveCapture}
+            onUpdate={onUpdateCapture}
+          />
         </div>
       </div>
     </section>
   );
 }
 
-function GenerateStep({
-  publicViewer,
-  publicRepoHandoff,
-  busy,
-  campaign,
-  canGenerate,
+function LocalEngineStep({
   creditAcknowledged,
   runtime,
   runtimePending,
   onCreditAcknowledgedChange,
-  onGenerate,
+  onBack,
+  onContinue,
 }: {
-  publicViewer: boolean;
-  publicRepoHandoff: string | null;
-  busy: boolean;
-  campaign: CampaignManifest | null;
-  canGenerate: boolean;
   creditAcknowledged: boolean;
   runtime: RuntimeStatus | null;
   runtimePending: boolean;
   onCreditAcknowledgedChange: (checked: boolean) => void;
+  onBack: () => void;
+  onContinue: () => void;
+}) {
+  return (
+    <section className="pf-wizard-screen pf-engine-step" aria-labelledby="local-engine-heading">
+      <header className="pf-screen-heading">
+        <span>Engine</span>
+        <h1 id="local-engine-heading">Use your Codex engine.</h1>
+        <p>Generation runs in this local workspace with your existing Codex sign-in.</p>
+      </header>
+      <div
+        className="pf-engine-focus"
+        data-status={runtime?.generationEnabled ? "connected" : "missing"}
+      >
+        <span className="pf-engine-dot" aria-hidden="true" />
+        <div>
+          <strong>
+            {runtimePending
+              ? "Checking Codex…"
+              : runtime?.generationEnabled
+                ? "Codex is connected"
+                : "Codex authentication required"}
+          </strong>
+          <p>
+            {runtime?.generationEnabled
+              ? "GPT‑5.6 Sol will direct the campaign after your confirmation."
+              : "Sign in to Codex locally, then reload this workspace."}
+          </p>
+        </div>
+      </div>
+      <label className="pf-engine-consent">
+        <input
+          type="checkbox"
+          checked={creditAcknowledged}
+          onChange={(event) => onCreditAcknowledgedChange(event.target.checked)}
+          disabled={!runtime?.generationEnabled}
+        />
+        <span>Use my local Codex sign-in for GPT‑5.6 creative direction.</span>
+      </label>
+      <div className="pf-action-row">
+        <button className="pf-secondary-button" type="button" onClick={onBack}>
+          Back
+        </button>
+        <button
+          className="pf-primary-button"
+          type="button"
+          onClick={onContinue}
+          disabled={!runtime?.generationEnabled || !creditAcknowledged}
+        >
+          Continue to generate <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function LocalGenerateStep({
+  busy,
+  error,
+  onBack,
+  onGenerate,
+}: {
+  busy: boolean;
+  error: string | null;
+  onBack: () => void;
   onGenerate: () => void;
 }) {
-  const [handoffCopied, setHandoffCopied] = useState(false);
-
-  async function copyHandoff() {
-    if (!publicRepoHandoff) return;
-    await navigator.clipboard.writeText(publicRepoHandoff);
-    setHandoffCopied(true);
-    window.setTimeout(() => setHandoffCopied(false), 1800);
-  }
-
   return (
-    <section
-      className="product-step generate-step"
-      id="generate"
-      aria-labelledby="generate-heading"
-    >
-      <header className="step-heading">
-        <span>03 · Generate</span>
-        <h2 id="generate-heading">
-          {publicViewer
-            ? "Run the creative direction through your Codex sign-in."
-            : "Turn the brief into a launch campaign."}
-        </h2>
-        <p>
-          {publicViewer
-            ? "The public demo below was created through the same local workflow. Fresh generation stays on your machine."
-            : "GPT‑5.6 turns the repository facts, your direction, and real screens into one structured campaign."}
-        </p>
+    <section className="pf-wizard-screen pf-generate-step" aria-labelledby="local-generate-heading">
+      <header className="pf-screen-heading">
+        <span>Generate</span>
+        <h1 id="local-generate-heading">
+          {busy ? "Directing the launch kit." : "Ready to build the launch kit."}
+        </h1>
+        <p>Repository evidence, direction, and real captures stay bound to this project.</p>
       </header>
-      <div className="generate-handoff">
-        {publicViewer ? (
-          <div>
-            <strong>
-              {publicRepoHandoff
-                ? "Your repository is ready for the local workspace."
-                : "Open PitchFlow locally for a fresh repository."}
-            </strong>
-            <p>
-              Your authenticated Codex workflow performs the generation without a public AI backend.
-            </p>
-            {publicRepoHandoff ? (
-              <div className="handoff-steps">
-                <div>
-                  <span>1</span>
-                  <p>Start the loopback-only local workspace.</p>
-                  <code>pnpm pitchflow open</code>
-                </div>
-                <div>
-                  <span>2</span>
-                  <p>Open the preserved repository link after the launcher is ready.</p>
-                  <div className="handoff-deep-link">
-                    <a href={publicRepoHandoff}>{publicRepoHandoff}</a>
-                    <button type="button" onClick={() => void copyHandoff()}>
-                      {handoffCopied ? "Copied" : "Copy local link"}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <code>pnpm pitchflow open</code>
-            )}
-          </div>
-        ) : (
-          <>
-            <div>
-              <label className="credit-check">
-                <input
-                  type="checkbox"
-                  checked={creditAcknowledged}
-                  onChange={(event) => onCreditAcknowledgedChange(event.target.checked)}
-                  disabled={busy}
-                />
-                <span>Use my local Codex sign-in for GPT‑5.6 creative direction.</span>
-              </label>
-              <p className="runtime-note" role="status">
-                {runtimePending
-                  ? "Checking local Codex sign-in…"
-                  : runtime?.generationEnabled
-                    ? "Codex is ready for local generation."
-                    : "Sign in to Codex locally, then reload to enable generation."}
-              </p>
-            </div>
-            <button type="button" onClick={onGenerate} disabled={!canGenerate}>
-              {busy
-                ? "Generating campaign…"
-                : campaign
-                  ? `Regenerate campaign · v${campaign.version + 1}`
-                  : "Generate campaign"}
-            </button>
-          </>
-        )}
-      </div>
+      {busy ? (
+        <div className="pf-live-progress" role="status">
+          <span />
+          <strong>GPT‑5.6 is producing the validated campaign manifest.</strong>
+          <p>This state follows the real local request and does not advance on a timer.</p>
+        </div>
+      ) : (
+        <div className="pf-generation-ready">
+          <strong>Website · Images · Videos · Copy · ZIP</strong>
+          <p>The results workspace opens only after the real generation request succeeds.</p>
+        </div>
+      )}
+      {error ? <ErrorBanner message={error} /> : null}
+      {!busy ? (
+        <div className="pf-action-row">
+          <button className="pf-secondary-button" type="button" onClick={onBack}>
+            Back
+          </button>
+          <button className="pf-primary-button" type="button" onClick={onGenerate}>
+            Generate launch kit <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }
 
 function BridgeGenerateStep({
+  view,
   status,
   probing,
   pairing,
@@ -1992,6 +1953,8 @@ function BridgeGenerateStep({
   canStart,
   connectionError,
   fallbackMessage,
+  onBack,
+  onContinue,
   onProbe,
   onPair,
   onStart,
@@ -1999,6 +1962,7 @@ function BridgeGenerateStep({
   onRetry,
   onOpenLocal,
 }: {
+  view: "engine" | "generate";
   status: BridgeStatus | null;
   probing: boolean;
   pairing: PairingUiState;
@@ -2007,6 +1971,8 @@ function BridgeGenerateStep({
   canStart: boolean;
   connectionError: string | null;
   fallbackMessage: string | null;
+  onBack: () => void;
+  onContinue: () => void;
   onProbe: () => void;
   onPair: () => void;
   onStart: () => void;
@@ -2023,152 +1989,189 @@ function BridgeGenerateStep({
 
   return (
     <section
-      className="product-step generate-step"
+      className={`pf-wizard-screen pf-${view}-step`}
       id="generate"
-      aria-labelledby="generate-heading"
+      aria-labelledby={`bridge-${view}-heading`}
     >
-      <header className="step-heading">
-        <span>03 · Generate</span>
-        <h2 id="generate-heading">Connect your generation engine.</h2>
+      <header className="pf-screen-heading">
+        <span>{view === "engine" ? "Engine" : "Generate"}</span>
+        <h1 id={`bridge-${view}-heading`}>
+          {view === "engine"
+            ? "Connect your Codex engine."
+            : jobRunning
+              ? "Building your launch kit."
+              : "Ready to generate."}
+        </h1>
         <p>
-          PitchFlow runs Codex and GPT‑5.6 on your machine. Your credentials never enter this
-          website or a PitchFlow backend.
+          {view === "engine"
+            ? "Credentials stay on your machine. PitchFlow pairs only this project after your approval."
+            : "Every stage below comes from the real local job."}
         </p>
       </header>
-      <div className="bridge-console">
-        <div className="bridge-connection" data-status={engineStatus}>
-          <div>
-            <span className="bridge-status-dot" aria-hidden="true" />
+      {view === "engine" ? (
+        <div className="bridge-console">
+          <div
+            className="bridge-connection"
+            data-status={engineStatus}
+            data-fallback={Boolean(connectionError)}
+          >
             <div>
-              <strong>
-                {probing
-                  ? "Checking the local engine…"
-                  : connected
-                    ? `${provider} engine found`
-                    : "Local engine not connected"}
-              </strong>
-              <p>
-                {status?.engine?.message ??
-                  status?.message ??
-                  (connected
-                    ? "Pair this browser session, then start the real generation job."
-                    : "Start the loopback-only companion in a terminal. Credentials stay local.")}
-              </p>
-            </div>
-          </div>
-          <code>pnpm pitchflow connect</code>
-          <div className="bridge-actions">
-            <button type="button" onClick={onProbe} disabled={probing || jobRunning}>
-              {probing ? "Checking…" : "Check connection"}
-            </button>
-            {connected && pairing !== "paired" ? (
-              <button
-                type="button"
-                onClick={onPair}
-                disabled={!projectReady || pairingPending || jobRunning}
-              >
-                {pairingPending ? "Waiting for local approval…" : "Pair this browser"}
-              </button>
-            ) : null}
-            {pairing === "paired" ? (
-              <button type="button" onClick={onStart} disabled={!canStart || jobRunning}>
-                {jobRunning ? "Generation in progress…" : "Generate complete launch package"}
-              </button>
-            ) : null}
-          </div>
-          {!canStart && pairing === "paired" && !jobRunning ? (
-            <p className="bridge-requirement">
-              Complete the direction and attach 2–4 attributed product captures to start.
-            </p>
-          ) : null}
-          {!projectReady && connected && pairing !== "paired" ? (
-            <p className="bridge-requirement">
-              Complete the direction and 2–4 attributed captures before requesting a pairing. The
-              companion binds approval to this exact project.
-            </p>
-          ) : null}
-          {connectionError ? (
-            <div className="bridge-fallback" role="alert">
-              <strong>The hosted page could not reach loopback.</strong>
-              <p>
-                Browser HTTPS, mixed-content, or private-network policy may block the direct
-                connection. Open the same PitchFlow workspace locally and transfer only this
-                non-secret project brief after your click.
-              </p>
-              <button type="button" onClick={onOpenLocal}>
-                Open local workspace with this project
-              </button>
-              {fallbackMessage ? <span role="status">{fallbackMessage}</span> : null}
-            </div>
-          ) : null}
-        </div>
-
-        {pairing === "pending" ? (
-          <p className="pairing-notice" role="status">
-            Approve this short-lived request in the local PitchFlow window. No credentials or
-            session token are shown here.
-          </p>
-        ) : pairing === "expired" || pairing === "rejected" ? (
-          <ErrorBanner
-            message={
-              pairing === "expired"
-                ? "The pairing request expired. Request a new one when you are ready."
-                : "The local user rejected this pairing request."
-            }
-          />
-        ) : null}
-
-        {job ? (
-          <div className="bridge-job" aria-live="polite">
-            <div className="bridge-job-heading">
+              <span className="bridge-status-dot" aria-hidden="true" />
               <div>
-                <span>Real generation job</span>
-                <strong>{job.message || bridgeStageLabels[job.stage]}</strong>
+                <strong>
+                  {probing
+                    ? "Checking the local engine…"
+                    : connected
+                      ? `${provider} engine found`
+                      : "Local engine not connected"}
+                </strong>
+                <p>
+                  {status?.engine?.message ??
+                    status?.message ??
+                    (connected
+                      ? "Pair this browser session, then start the real generation job."
+                      : "Start the loopback-only companion in a terminal. Credentials stay local.")}
+                </p>
               </div>
-              <span>{Math.max(0, Math.min(100, Math.round(job.progress)))}%</span>
             </div>
-            <progress max="100" value={Math.max(0, Math.min(100, job.progress))}>
-              {job.progress}%
-            </progress>
-            <ol className="bridge-stages">
-              {(Object.entries(bridgeStageLabels) as Array<[BridgeJobStage, string]>).map(
-                ([stage, label], index) => (
-                  <li
-                    key={stage}
-                    data-state={
-                      job.status === "completed" || index < stageIndex
-                        ? "complete"
-                        : index === stageIndex && job.status !== "failed"
-                          ? "active"
-                          : job.status === "failed" && index === stageIndex
-                            ? "failed"
-                            : "upcoming"
-                    }
-                  >
-                    <span aria-hidden="true">
-                      {job.status === "completed" || index < stageIndex ? "✓" : index + 1}
-                    </span>
-                    {label}
-                  </li>
-                ),
-              )}
-            </ol>
-            {job.error ? <ErrorBanner message={job.error.message} /> : null}
-            <div className="bridge-job-actions">
-              {jobRunning ? (
-                <button type="button" onClick={onCancel}>
-                  Cancel generation
+            <code>pnpm pitchflow connect</code>
+            <div className="bridge-actions">
+              <button type="button" onClick={onProbe} disabled={probing || jobRunning}>
+                {probing ? "Checking…" : "Check connection"}
+              </button>
+              {connected && pairing !== "paired" ? (
+                <button
+                  type="button"
+                  onClick={onPair}
+                  disabled={!projectReady || pairingPending || jobRunning}
+                >
+                  {pairingPending ? "Waiting for local approval…" : "Pair this browser"}
                 </button>
               ) : null}
-              {job.status === "failed" || job.status === "cancelled" ? (
-                <button type="button" onClick={onRetry}>
-                  Retry this job
+              {pairing === "paired" ? (
+                <button type="button" onClick={onContinue} disabled={!canStart || jobRunning}>
+                  Continue to generate
                 </button>
               ) : null}
             </div>
+            {!canStart && pairing === "paired" && !jobRunning ? (
+              <p className="bridge-requirement">
+                Complete the direction and attach 2–4 attributed product captures to start.
+              </p>
+            ) : null}
+            {!projectReady && connected && pairing !== "paired" ? (
+              <p className="bridge-requirement">
+                Complete the direction and 2–4 attributed captures before requesting a pairing. The
+                companion binds approval to this exact project.
+              </p>
+            ) : null}
+            {connectionError ? (
+              <div className="bridge-fallback" role="alert">
+                <strong>The hosted page could not reach loopback.</strong>
+                <p>
+                  Browser HTTPS, mixed-content, or private-network policy may block the direct
+                  connection. Open the same PitchFlow workspace locally and transfer only this
+                  non-secret project brief after your click.
+                </p>
+                <button type="button" onClick={onOpenLocal}>
+                  Open local workspace with this project
+                </button>
+                {fallbackMessage ? <span role="status">{fallbackMessage}</span> : null}
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
+
+          {pairing === "pending" ? (
+            <p className="pairing-notice" role="status">
+              Approve this short-lived request in the local PitchFlow window. No credentials or
+              session token are shown here.
+            </p>
+          ) : pairing === "expired" || pairing === "rejected" ? (
+            <ErrorBanner
+              message={
+                pairing === "expired"
+                  ? "The pairing request expired. Request a new one when you are ready."
+                  : "The local user rejected this pairing request."
+              }
+            />
+          ) : null}
+
+          <div className="pf-action-row">
+            <button className="pf-secondary-button" type="button" onClick={onBack}>
+              Back
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="bridge-console pf-generation-console">
+          {job ? (
+            <div className="bridge-job" aria-live="polite">
+              <div className="bridge-job-heading">
+                <div>
+                  <span>Real generation job</span>
+                  <strong>{job.message || bridgeStageLabels[job.stage]}</strong>
+                </div>
+                <span>{Math.max(0, Math.min(100, Math.round(job.progress)))}%</span>
+              </div>
+              <progress max="100" value={Math.max(0, Math.min(100, job.progress))}>
+                {job.progress}%
+              </progress>
+              <ol className="bridge-stages">
+                {(Object.entries(bridgeStageLabels) as Array<[BridgeJobStage, string]>).map(
+                  ([stage, label], index) => (
+                    <li
+                      key={stage}
+                      data-state={
+                        job.status === "completed" || index < stageIndex
+                          ? "complete"
+                          : index === stageIndex && job.status !== "failed"
+                            ? "active"
+                            : job.status === "failed" && index === stageIndex
+                              ? "failed"
+                              : "upcoming"
+                      }
+                    >
+                      <span aria-hidden="true">{index + 1}</span>
+                      {label}
+                    </li>
+                  ),
+                )}
+              </ol>
+              {job.error ? <ErrorBanner message={job.error.message} /> : null}
+              <div className="bridge-job-actions">
+                {jobRunning ? (
+                  <button type="button" onClick={onCancel}>
+                    Cancel generation
+                  </button>
+                ) : null}
+                {job.status === "failed" || job.status === "cancelled" ? (
+                  <button type="button" onClick={onRetry}>
+                    Retry this job
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          ) : (
+            <div className="pf-generation-ready">
+              <strong>Website · Images · Videos · Copy · ZIP</strong>
+              <p>Start one bounded job on your paired local Codex engine.</p>
+              <div className="pf-action-row">
+                <button className="pf-secondary-button" type="button" onClick={onBack}>
+                  Back
+                </button>
+                <button
+                  className="pf-primary-button"
+                  type="button"
+                  onClick={onStart}
+                  disabled={!canStart}
+                >
+                  Generate launch kit <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </section>
   );
 }
@@ -2213,15 +2216,81 @@ function LocalPairApproval({
   );
 }
 
+function ResultsWorkspace({
+  snapshot,
+  campaign,
+  assets,
+  ownership,
+  stage,
+  error,
+  exportReceipt,
+  exporting,
+  exportDisabled,
+  exportNote,
+  onCreateProject,
+  onCampaignChange,
+  onExport,
+}: {
+  snapshot: RepoSnapshot;
+  campaign: CampaignManifest;
+  assets: DogfoodAsset[];
+  ownership: Exclude<ResultOwnership, null>;
+  stage: Stage;
+  error: string | null;
+  exportReceipt: ExportReceipt | null;
+  exporting: boolean;
+  exportDisabled: boolean;
+  exportNote: string | null;
+  onCreateProject: () => void;
+  onCampaignChange: (campaign: CampaignManifest) => void;
+  onExport: () => void;
+}) {
+  const demo = ownership === "demo";
+  return (
+    <section className="pf-results" aria-labelledby="results-heading">
+      <header className="pf-results-heading">
+        <div>
+          <span>{demo ? "Demo project" : "Generated project"}</span>
+          <h1 id="results-heading">{campaign.productBrief.productName} launch kit</h1>
+          <p>
+            {demo
+              ? "Read-only demo · generated from the PitchFlow repository"
+              : `Generated by your connected local engine · ${snapshot.repository.owner}/${snapshot.repository.name}`}
+          </p>
+        </div>
+        <button className="pf-secondary-button" type="button" onClick={onCreateProject}>
+          Create from my repository <span aria-hidden="true">→</span>
+        </button>
+      </header>
+      <CampaignCanvas
+        snapshot={snapshot}
+        campaign={campaign}
+        assets={assets}
+        stage={stage}
+        error={error}
+        editable={!demo && ownership === "fresh"}
+        onCampaignChange={onCampaignChange}
+        exportReceipt={exportReceipt}
+        exporting={exporting}
+        exportDisabled={exportDisabled}
+        exportNote={exportNote}
+        onExport={onExport}
+      />
+    </section>
+  );
+}
+
 function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
+  const [screen, setScreen] = useState<ProductScreen>("entry");
+  const [resultOwnership, setResultOwnership] = useState<ResultOwnership>(null);
   const [repositoryUrl, setRepositoryUrl] = useState("");
+  const [repositorySummary, setRepositorySummary] = useState<RepositorySummary | null>(null);
   const [stage, setStage] = useState<Stage>("idle");
   const [snapshot, setSnapshot] = useState<RepoSnapshot | null>(null);
   const [campaign, setCampaign] = useState<CampaignManifest | null>(null);
+  const [demoPackage, setDemoPackage] = useState<DogfoodPackage | null>(null);
   const [preferences, setPreferences] = useState(defaultPreferences);
   const [demoAssets, setDemoAssets] = useState<DogfoodAsset[]>([]);
-  const [showcaseAssets, setShowcaseAssets] = useState<DogfoodAsset[]>([]);
-  const [publicRepoHandoff, setPublicRepoHandoff] = useState<string | null>(null);
   const [runtime, setRuntime] = useState<RuntimeStatus | null>(null);
   const [runtimePending, setRuntimePending] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -2374,7 +2443,6 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
   useEffect(() => {
     if (!publicViewer) return;
     const controller = new AbortController();
-    setStage("analyzing");
     void fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache", signal: controller.signal })
       .then(async (response) => {
         if (!response.ok) throw new Error("The PitchFlow demo could not be loaded.");
@@ -2382,23 +2450,10 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
       })
       .then(parseDogfoodPackage)
       .then((demo) => {
-        setSnapshot(demo.snapshot);
-        setCampaign(demo.campaign);
-        setDemoAssets(demo.assets);
-        setShowcaseAssets(demo.assets);
-        setRepositoryUrl(demo.snapshot.repository.canonicalUrl);
-        setPreferences({
-          audience: demo.campaign.productBrief.audience.join(", "),
-          positioning: demo.campaign.productBrief.positioning,
-          visualDirection: `${demo.campaign.design.displayFont === "system-serif" ? "Editorial serif" : "Modern sans"}, ${demo.campaign.design.accent} accent, ${demo.campaign.design.radius}px corners`,
-          tone: demo.campaign.productBrief.tone,
-          channels: [...defaultPreferences.channels],
-        });
-        setStage("ready");
+        setDemoPackage(demo);
       })
       .catch((caught: unknown) => {
         if (caught instanceof Error && caught.name === "AbortError") return;
-        setStage("idle");
         setError(caught instanceof Error ? caught.message : "The PitchFlow demo could not load.");
       });
     return () => controller.abort();
@@ -2471,6 +2526,7 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
     setDemoAssets([]);
     setExportReceipt(null);
     setStage("generating");
+    setScreen("generate");
     try {
       const response = await bridgeClient.startJob(bridgeProject());
       setBridgeJobId(response.jobId);
@@ -2746,12 +2802,11 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
       setSnapshot(result.snapshot);
       setCampaign(result.campaign);
       setDemoAssets(loaded);
-      setShowcaseAssets(loaded);
       setBridgePackageFilename(result.packageFilename);
+      setResultOwnership("fresh");
       setStage("ready");
-      window.requestAnimationFrame(() =>
-        document.getElementById("deliver")?.scrollIntoView({ behavior: "smooth" }),
-      );
+      setScreen("results");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     async function pollJob() {
@@ -2792,23 +2847,11 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         setError("The repository in this local link is not a canonical public GitHub URL.");
       }
     }
-    const controller = new AbortController();
-    void fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache", signal: controller.signal })
-      .then(
-        async (response): Promise<unknown> =>
-          response.ok ? ((await response.json()) as unknown) : null,
-      )
-      .then((value: unknown) => {
-        if (value) setShowcaseAssets(parseDogfoodPackage(value).assets);
-      })
-      .catch(() => undefined);
-    return () => controller.abort();
   }, [publicViewer]);
 
   async function loadDemo() {
     setError(null);
     clearBridgePreviews();
-    setPublicRepoHandoff(null);
     setFreshPublicRepository(null);
     setBridgeStatus(null);
     setBridgeError(null);
@@ -2820,13 +2863,18 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
     bridgeClient.clearSession();
     setStage("analyzing");
     try {
-      const response = await fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache" });
-      if (!response.ok) throw new Error("The PitchFlow demo could not be loaded.");
-      const demo = parseDogfoodPackage((await response.json()) as unknown);
+      let demo = demoPackage;
+      if (!demo) {
+        demo = await fetch(DOGFOOD_PACKAGE_URL, { cache: "force-cache" }).then(async (response) => {
+          if (!response.ok) throw new Error("The PitchFlow demo could not be loaded.");
+          return parseDogfoodPackage((await response.json()) as unknown);
+        });
+      }
+      if (!demo) throw new Error("The PitchFlow demo could not be loaded.");
+      setDemoPackage(demo);
       setSnapshot(demo.snapshot);
       setCampaign(demo.campaign);
       setDemoAssets(demo.assets);
-      setShowcaseAssets(demo.assets);
       setRepositoryUrl(demo.snapshot.repository.canonicalUrl);
       setPreferences({
         audience: demo.campaign.productBrief.audience.join(", "),
@@ -2835,10 +2883,16 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         tone: demo.campaign.productBrief.tone,
         channels: [...defaultPreferences.channels],
       });
+      setRepositorySummary({
+        fullName: `${demo.snapshot.repository.owner}/${demo.snapshot.repository.name}`,
+        description: demo.snapshot.repository.description ?? demo.campaign.productBrief.oneLiner,
+        language: Object.keys(demo.snapshot.languages)[0] ?? null,
+        license: demo.snapshot.repository.licenseSpdx,
+      });
+      setResultOwnership("demo");
       setStage("ready");
-      window.requestAnimationFrame(() =>
-        document.getElementById("analyze")?.scrollIntoView({ behavior: "smooth" }),
-      );
+      setScreen("results");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (caught) {
       setStage("idle");
       setError(caught instanceof Error ? caught.message : "The PitchFlow demo could not load.");
@@ -2848,12 +2902,49 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
   async function analyze(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setStage("analyzing");
+    setResultOwnership(null);
     if (publicViewer) {
       try {
         const canonical = canonicalGitHubRepositoryUrl(repositoryUrl);
+        const canonicalUrl = new URL(canonical);
+        const [owner, repository] = canonicalUrl.pathname.split("/").filter(Boolean);
+        if (!owner || !repository)
+          throw new Error("Enter a canonical public GitHub repository URL.");
+        const metadataResponse = await fetch(
+          `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}`,
+          { headers: { accept: "application/vnd.github+json" } },
+        );
+        if (!metadataResponse.ok) {
+          throw new Error(
+            metadataResponse.status === 404
+              ? "That public GitHub repository could not be found."
+              : "GitHub could not validate this repository. Try again in a moment.",
+          );
+        }
+        const metadata = (await metadataResponse.json()) as {
+          full_name?: unknown;
+          description?: unknown;
+          language?: unknown;
+          license?: { spdx_id?: unknown } | null;
+        };
+        if (typeof metadata.full_name !== "string") {
+          throw new Error("GitHub returned an invalid repository summary.");
+        }
         setRepositoryUrl(canonical);
+        setRepositorySummary({
+          fullName: metadata.full_name,
+          description:
+            typeof metadata.description === "string" && metadata.description.trim()
+              ? metadata.description
+              : "Public repository validated and ready for local evidence analysis.",
+          language: typeof metadata.language === "string" ? metadata.language : null,
+          license:
+            metadata.license && typeof metadata.license.spdx_id === "string"
+              ? metadata.license.spdx_id
+              : null,
+        });
         setFreshPublicRepository(canonical);
-        setPublicRepoHandoff(buildLocalWorkspaceDeepLink(canonical));
         clearBridgePreviews();
         setSnapshot(null);
         setCampaign(null);
@@ -2869,11 +2960,10 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         setPairingId(null);
         bridgeClient.clearSession();
         setStage("review");
-        void probeBridge();
-        window.requestAnimationFrame(() =>
-          document.getElementById("direct")?.scrollIntoView({ behavior: "smooth" }),
-        );
+        setScreen("repository");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (caught) {
+        setStage("idle");
         setError(
           caught instanceof Error ? caught.message : "Enter a public GitHub repository URL.",
         );
@@ -2887,7 +2977,6 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
     if (!transferredProjectPending.current) setCaptures([]);
     setCaptureError(null);
     setExportReceipt(null);
-    setStage("analyzing");
     try {
       const payload = await parseApi<{ snapshot: RepoSnapshot }>(
         await fetch("/api/analyze", {
@@ -2897,7 +2986,16 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         }),
       );
       setSnapshot(payload.snapshot);
+      setRepositorySummary({
+        fullName: `${payload.snapshot.repository.owner}/${payload.snapshot.repository.name}`,
+        description:
+          payload.snapshot.repository.description ??
+          "Public repository analyzed from bounded evidence.",
+        language: Object.keys(payload.snapshot.languages)[0] ?? null,
+        license: payload.snapshot.repository.licenseSpdx,
+      });
       setStage("review");
+      setScreen("repository");
       if (transferredProjectPending.current) {
         transferredProjectPending.current = false;
         setTransferNotice(
@@ -2929,7 +3027,10 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
       );
       setCampaign(payload.manifest);
       setDemoAssets([]);
+      setResultOwnership("fresh");
       setStage("ready");
+      setScreen("results");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (caught) {
       setStage("review");
       setError(caught instanceof Error ? caught.message : "Campaign generation failed.");
@@ -3113,16 +3214,7 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
     );
   const busy = stage === "analyzing" || stage === "generating" || exporting || processingCaptures;
   const freshBridgeMode = publicViewer && Boolean(freshPublicRepository);
-  const demoMode = !freshBridgeMode && (publicViewer || demoAssets.length > 0);
-  const canGenerate =
-    Boolean(snapshot) &&
-    !busy &&
-    !demoMode &&
-    creditAcknowledged &&
-    capturesReady &&
-    preferences.visualDirection.trim().length >= 3 &&
-    Boolean(runtime?.generationEnabled) &&
-    preferences.channels.length > 0;
+  const demoMode = resultOwnership === "demo";
   const pendingInferenceCount = pendingClaimCount(campaign);
   const exportDisabled = freshBridgeMode
     ? busy || !bridgePackageFilename
@@ -3136,53 +3228,213 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
         : !capturesReady
           ? `Complete ${MIN_CAPTURE_COUNT}–${MAX_CAPTURE_COUNT} real product captures to download the package.`
           : "Rendering the videos and ZIP can take a few minutes. Keep this tab open.";
-  const activeStep = exportReceipt
-    ? 5
-    : campaign
-      ? 4
-      : stage === "generating" || pairing === "paired"
-        ? 3
-        : snapshot || freshPublicRepository
-          ? 2
-          : 1;
+
+  function resetProject() {
+    clearBridgePreviews();
+    bridgeClient.clearSession();
+    setScreen("entry");
+    setResultOwnership(null);
+    setRepositoryUrl("");
+    setRepositorySummary(null);
+    setStage("idle");
+    setSnapshot(null);
+    setCampaign(null);
+    setPreferences(defaultPreferences);
+    setDemoAssets([]);
+    setFreshPublicRepository(null);
+    setError(null);
+    setCreditAcknowledged(false);
+    setCaptures([]);
+    setCaptureError(null);
+    setExportReceipt(null);
+    setBridgeStatus(null);
+    setBridgeError(null);
+    setPairing("idle");
+    setPairingId(null);
+    setBridgeJob(null);
+    setBridgeJobId(null);
+    setBridgePackageFilename(null);
+    setFallbackMessage(null);
+    setTransferNotice(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function updateRepositoryInput(value: string) {
+    setRepositoryUrl(value);
+    setError(null);
+    if (freshPublicRepository && value !== freshPublicRepository) {
+      clearBridgePreviews();
+      setFreshPublicRepository(null);
+      setRepositorySummary(null);
+      setSnapshot(null);
+      setCampaign(null);
+      setDemoAssets([]);
+      setPairing("idle");
+      setBridgeJob(null);
+      setBridgeJobId(null);
+      bridgeClient.clearSession();
+    }
+  }
+
+  const projectLabel =
+    repositorySummary?.fullName ??
+    (snapshot ? `${snapshot.repository.owner}/${snapshot.repository.name}` : null);
+  const wizardScreen = screen as Exclude<ProductScreen, "entry" | "results">;
+  const projectReady =
+    capturesReady &&
+    preferences.visualDirection.trim().length >= 3 &&
+    preferences.channels.length > 0;
 
   return (
     <>
-      <ProductHero
-        repositoryUrl={repositoryUrl}
-        assets={showcaseAssets}
-        publicViewer={publicViewer}
-        busy={stage === "analyzing" || stage === "generating"}
-        error={error}
-        onRepositoryUrlChange={(value) => {
-          setRepositoryUrl(value);
-          setPublicRepoHandoff(null);
-          if (freshPublicRepository && value !== freshPublicRepository) {
-            clearBridgePreviews();
-            setFreshPublicRepository(null);
-            setSnapshot(null);
-            setCampaign(null);
-            setDemoAssets([]);
-            setShowcaseAssets([]);
-            setPairing("idle");
-            setBridgeJob(null);
-            setBridgeJobId(null);
-            bridgeClient.clearSession();
-          }
-        }}
-        onAnalyze={(event) => void analyze(event)}
-        onTryDemo={() => void loadDemo()}
+      <ProductAppHeader
+        project={screen === "entry" ? null : projectLabel}
+        {...(screen === "entry" ? {} : { onExit: resetProject })}
       />
-
-      {publicViewer && campaign ? (
-        <p className="demo-truthline">
-          {demoMode
-            ? "Interactive demo · generated from the PitchFlow repository"
-            : `Generated by your connected local engine · ${campaign.productBrief.productName}`}
-        </p>
-      ) : null}
-      <ProductStepper activeStep={activeStep} />
-      <ProductOutputs />
+      {screen === "entry" ? (
+        <ProductHero
+          repositoryUrl={repositoryUrl}
+          busy={stage === "analyzing"}
+          error={error}
+          onRepositoryUrlChange={updateRepositoryInput}
+          onAnalyze={(event) => void analyze(event)}
+          onTryDemo={() => void loadDemo()}
+        />
+      ) : screen === "results" && snapshot && campaign && resultOwnership ? (
+        <ResultsWorkspace
+          snapshot={snapshot}
+          campaign={campaign}
+          assets={demoAssets}
+          ownership={resultOwnership}
+          stage={stage}
+          error={error ?? bridgeError}
+          exportReceipt={exportReceipt}
+          exporting={exporting}
+          exportDisabled={demoMode ? false : exportDisabled}
+          exportNote={exportNote}
+          onCreateProject={resetProject}
+          onCampaignChange={(nextCampaign) => {
+            setExportReceipt(null);
+            setCampaign(nextCampaign);
+          }}
+          onExport={() => void (freshBridgeMode ? downloadBridgePackage() : exportCampaign())}
+        />
+      ) : (
+        <div className="pf-project-shell">
+          <ProductStepper
+            active={wizardScreen}
+            onNavigate={(nextScreen) => {
+              if (!busy && !(bridgeJob?.status === "queued" || bridgeJob?.status === "running")) {
+                setScreen(nextScreen);
+              }
+            }}
+          />
+          {transferNotice ? <p className="project-transfer-notice">{transferNotice}</p> : null}
+          {screen === "repository" ? (
+            <RepositoryStep
+              repositoryUrl={repositoryUrl}
+              summary={repositorySummary}
+              snapshot={snapshot}
+              onBack={resetProject}
+              onContinue={() => setScreen("direction")}
+            />
+          ) : screen === "direction" ? (
+            <>
+              <DirectionPanel
+                preferences={preferences}
+                captures={captures}
+                busy={busy}
+                captureError={captureError}
+                onPreferencesChange={setPreferences}
+                onVisualDirectionChange={(value) =>
+                  setPreferences({ ...preferences, visualDirection: value })
+                }
+                onToggleChannel={toggleChannel}
+                onFiles={(files) => void addCaptureFiles(files)}
+                onMoveCapture={moveCapture}
+                onRemoveCapture={removeCapture}
+                onUpdateCapture={updateCapture}
+              />
+              <div className="pf-action-row pf-direction-actions">
+                <button
+                  className="pf-secondary-button"
+                  type="button"
+                  onClick={() => setScreen("repository")}
+                >
+                  Back
+                </button>
+                <button
+                  className="pf-primary-button"
+                  type="button"
+                  disabled={!projectReady}
+                  onClick={() => {
+                    setScreen("engine");
+                    if (freshBridgeMode) void probeBridge();
+                  }}
+                >
+                  Continue to engine <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </>
+          ) : screen === "engine" && freshBridgeMode ? (
+            <BridgeGenerateStep
+              view="engine"
+              status={bridgeStatus}
+              probing={bridgeProbing}
+              pairing={pairing}
+              job={bridgeJob}
+              projectReady={projectReady}
+              canStart={pairing === "paired" && projectReady}
+              connectionError={bridgeError}
+              fallbackMessage={fallbackMessage}
+              onBack={() => setScreen("direction")}
+              onContinue={() => setScreen("generate")}
+              onProbe={() => void probeBridge()}
+              onPair={() => void requestBridgePairing()}
+              onStart={() => void startBridgeJob()}
+              onCancel={() => void actOnBridgeJob("cancel")}
+              onRetry={() => void actOnBridgeJob("retry")}
+              onOpenLocal={openLocalWorkspaceWithProject}
+            />
+          ) : screen === "engine" ? (
+            <LocalEngineStep
+              creditAcknowledged={creditAcknowledged}
+              runtime={runtime}
+              runtimePending={runtimePending}
+              onCreditAcknowledgedChange={setCreditAcknowledged}
+              onBack={() => setScreen("direction")}
+              onContinue={() => setScreen("generate")}
+            />
+          ) : screen === "generate" && freshBridgeMode ? (
+            <BridgeGenerateStep
+              view="generate"
+              status={bridgeStatus}
+              probing={bridgeProbing}
+              pairing={pairing}
+              job={bridgeJob}
+              projectReady={projectReady}
+              canStart={pairing === "paired" && projectReady}
+              connectionError={bridgeError}
+              fallbackMessage={fallbackMessage}
+              onBack={() => setScreen("engine")}
+              onContinue={() => setScreen("generate")}
+              onProbe={() => void probeBridge()}
+              onPair={() => void requestBridgePairing()}
+              onStart={() => void startBridgeJob()}
+              onCancel={() => void actOnBridgeJob("cancel")}
+              onRetry={() => void actOnBridgeJob("retry")}
+              onOpenLocal={openLocalWorkspaceWithProject}
+            />
+          ) : (
+            <LocalGenerateStep
+              busy={stage === "generating"}
+              error={error}
+              onBack={() => setScreen("engine")}
+              onGenerate={() => void generate()}
+            />
+          )}
+        </div>
+      )}
 
       {!publicViewer ? (
         <LocalPairApproval
@@ -3191,147 +3443,17 @@ function LocalWorkspace({ publicViewer }: { publicViewer: boolean }) {
           onDecision={(decision) => void decideLocalPairing(decision)}
         />
       ) : null}
-      {transferNotice ? <p className="project-transfer-notice">{transferNotice}</p> : null}
-
-      {stage === "analyzing" && !snapshot ? (
-        <section className="product-loading" role="status">
-          <span className="large-spinner" aria-hidden="true" />
-          <h2>{publicViewer ? "Opening the PitchFlow demo…" : "Understanding the repository…"}</h2>
-        </section>
-      ) : null}
-
-      {snapshot || freshPublicRepository ? (
-        <div className="product-intake-workbench">
-          {snapshot ? (
-            <ProductUnderstanding snapshot={snapshot} campaign={campaign} />
-          ) : freshPublicRepository ? (
-            <RepositoryQueued repositoryUrl={freshPublicRepository} />
-          ) : null}
-          <DirectionPanel
-            preferences={preferences}
-            captures={captures}
-            demoAssets={demoAssets}
-            publicViewer={demoMode}
-            busy={
-              busy ||
-              (freshBridgeMode &&
-                (pairing === "requesting" || pairing === "pending" || pairing === "paired"))
-            }
-            captureError={captureError}
-            onPreferencesChange={setPreferences}
-            onVisualDirectionChange={(value) =>
-              setPreferences({ ...preferences, visualDirection: value })
-            }
-            onToggleChannel={toggleChannel}
-            onFiles={(files) => void addCaptureFiles(files)}
-            onMoveCapture={moveCapture}
-            onRemoveCapture={removeCapture}
-            onUpdateCapture={updateCapture}
-          />
-        </div>
-      ) : null}
-
-      {snapshot || freshPublicRepository ? (
-        freshBridgeMode ? (
-          <BridgeGenerateStep
-            status={bridgeStatus}
-            probing={bridgeProbing}
-            pairing={pairing}
-            job={bridgeJob}
-            projectReady={
-              capturesReady &&
-              preferences.visualDirection.trim().length >= 3 &&
-              preferences.channels.length > 0
-            }
-            canStart={
-              pairing === "paired" &&
-              capturesReady &&
-              preferences.visualDirection.trim().length >= 3 &&
-              preferences.channels.length > 0
-            }
-            connectionError={bridgeError}
-            fallbackMessage={fallbackMessage}
-            onProbe={() => void probeBridge()}
-            onPair={() => void requestBridgePairing()}
-            onStart={() => void startBridgeJob()}
-            onCancel={() => void actOnBridgeJob("cancel")}
-            onRetry={() => void actOnBridgeJob("retry")}
-            onOpenLocal={openLocalWorkspaceWithProject}
-          />
-        ) : (
-          <GenerateStep
-            publicViewer={demoMode}
-            publicRepoHandoff={publicRepoHandoff}
-            busy={stage === "generating"}
-            campaign={campaign}
-            canGenerate={canGenerate}
-            creditAcknowledged={creditAcknowledged}
-            runtime={runtime}
-            runtimePending={runtimePending}
-            onCreditAcknowledgedChange={setCreditAcknowledged}
-            onGenerate={() => void generate()}
-          />
-        )
-      ) : null}
-
-      {campaign ? (
-        <section
-          className="product-step deliver-step"
-          id="deliver"
-          aria-labelledby="deliver-heading"
-        >
-          <header className="step-heading">
-            <span>04 · Deliver</span>
-            <h2 id="deliver-heading">
-              {demoMode
-                ? "Explore the finished PitchFlow demo."
-                : freshBridgeMode
-                  ? "Your generated launch campaign is ready."
-                  : exportReceipt
-                    ? "Your launch package is ready."
-                    : "Review the campaign plan before rendering."}
-            </h2>
-            <p>
-              {demoMode
-                ? "Every image and video here is a real rendered output from the PitchFlow dogfood campaign."
-                : freshBridgeMode
-                  ? "These website, image, video, and copy outputs belong to the repository processed by your paired local engine."
-                  : exportReceipt
-                    ? "The complete website, images, videos, copy, and manifest have been downloaded."
-                    : "Website and copy are editable now. Images are creative previews and videos are storyboards until export."}
-            </p>
-          </header>
-          <CampaignCanvas
-            snapshot={snapshot}
-            campaign={campaign}
-            assets={demoAssets}
-            stage={stage}
-            error={null}
-            editable={!demoMode && !freshBridgeMode}
-            onCampaignChange={(nextCampaign) => {
-              setExportReceipt(null);
-              setCampaign(nextCampaign);
-            }}
-            exportReceipt={exportReceipt}
-            exporting={exporting}
-            exportDisabled={exportDisabled}
-            exportNote={exportNote}
-            onExport={() => void (freshBridgeMode ? downloadBridgePackage() : exportCampaign())}
-          />
-        </section>
-      ) : null}
     </>
   );
 }
 
 export function Workspace({ publicViewer }: { publicViewer: boolean }) {
   return (
-    <main className="shell" id="main-content">
-      <AppHeader />
+    <main className="shell pf-shell" id="main-content">
       <LocalWorkspace publicViewer={publicViewer} />
-      <footer className="product-footer">
+      <footer className="pf-footer">
         <span>PitchFlow</span>
-        <a href="/evidence">View product evidence</a>
+        <a href="/evidence">Evidence</a>
       </footer>
     </main>
   );

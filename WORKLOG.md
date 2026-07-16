@@ -2,6 +2,22 @@
 
 This file is append-only in spirit: preserve prior attempts, including failures. All times use Europe/Rome unless stated otherwise.
 
+## 2026-07-16 — connected-engine UX candidate rejected
+
+- Nicco withdrew the prior visual approval. YouTube publication, Devpost mutation/submission, and the final consecutive clean-state runs are frozen again.
+- Blocking defect: the main route is one long page that mixes product promise, repository intake, direction, capture upload, bridge security, progress, demo outputs, and results. Hosted demo and fresh generation are visually conflated, the primary next action is unclear, and implementation detail arrives before user need.
+- Revised finish line: entry screen with one repository action; focused Repository → Direction → Engine → Generate wizard; dedicated Results workspace; demo opens directly as clearly labeled read-only results; one primary action per state; evidence and bridge internals remain secondary.
+- The repository engine, loopback bridge/security boundary, Codex/GPT-5.6 adapter, VibePalette candidate 2 package, Remotion outputs, provenance, and ZIP contract remain accepted and must not be rebuilt unless UI integration reveals a regression.
+- Design controls: dark code-native identity, low-to-medium density, one muted accent, open whitespace instead of stacked cards, restrained motion, code-native controls, and strict 1440×1000 plus 390×844 review.
+
+## 2026-07-15 — final approval and publication authorization
+
+- Nicco approved the exact connected-engine experience at `https://pitchflow-ten.vercel.app`, implementation commit `52cd9c32553ab754121d946a73bd4bec56922048`, and evidence commit `493d0f04e424db8fe9a6e464841755579f72cf52`.
+- Nicco explicitly authorized public publication of the already accepted narrated demo, completion of the existing PitchFlow Devpost draft, and final OpenAI Build Week submission. YouTube and Devpost are now execution gates, not approval gates.
+- Reverified the accepted demo before mutation: SHA-256 `ce868accdc0b15552b3dd3e9a8413177e6d64119724441f4155376f4d1fd9459`; 159.6 seconds; H.264 High 1920×1080 yuv420p; AAC stereo; 85,845,793 bytes.
+- Re-read the live Build Week rules/FAQ and durable submission packet. Repaired stale submission copy so it describes the approved public product workspace, loopback-only connected engine, explicit local fallback, and real fresh-repository generation instead of the superseded cached-viewer-only architecture.
+- Authenticated Edge navigation works, but the macOS computer-control surface currently returns no screenshot and no page fields for YouTube Studio or Devpost. No upload, field edit, publication, or submission has been claimed. This is the only current external interaction gate; all safe local preparation continues.
+
 ## 2026-07-15 — activation grounding
 
 ### Observations
@@ -270,3 +286,14 @@ The finish line was tested against static-demo substitution, decorative evidence
 - Fresh Edge replay at `2026-07-15T13:10:59.703Z` passed the first-viewport product contract, all five delivery tabs, demo reset, exact disconnected command/fallback, zero public mutations, zero console errors, zero root overflow, and zero serious/critical axe violations at 1440×1000 and 390×844. Full-page screenshots measure 1440×6356 and 390×8182.
 - Post-deploy Edge policy replay at `2026-07-15T13:12:17.534Z` again observed Local Network Access permission `prompt` and the direct connection blocked. The explicit local fallback preserved `https://github.com/sickn33/VibePalette`, two creator-owned captures, and all direction fields through local repository analysis; no credential moved to the hosted origin.
 - Parent full-page visual review passed the new desktop, mobile, and fallback screenshots. The live product is now at Nicco's explicit approval gate. YouTube and Devpost remain frozen; the goal remains incomplete.
+
+## 2026-07-16 — information-architecture rejection and focused product-shell repair
+
+- Nicco withdrew the prior visual approval because one long page still mixed entry marketing, repository setup, direction, engine security, progress, demo output, and results. YouTube, Devpost, the two final clean-state passes, and goal completion remain frozen.
+- Replaced that page with mutually exclusive product states: a first-viewport Entry, Repository → Direction → Engine → Generate wizard, and dedicated Website/Images/Videos/Copy/Export Results workspace. `Explore the PitchFlow demo` opens the real package directly as an explicitly read-only result; fresh projects retain their own direction, captures, engine status, progress, results, and ZIP ownership.
+- The design/frontend skill constraints produced a restrained code-native system: off-black, warm white, flat mint, hairlines, whitespace, minimal chrome, and cards only for real media. Concept references and the state/copy lock are preserved under `artifacts/verification/2026-07-16-ux-reset/`.
+- Repair loops remained fail-closed. Local E2E selectors were rewritten for the new state model. Axe found and repaired two real contrast failures (footer 4.29:1 and output indices 2.98:1). Public Engine fallback was reduced from two competing mint actions to one primary local-open action plus a secondary connection retry.
+- Independent review challenged the large Export dead space. Comparing all five tabs at 1440×1000 showed Export alone inherited an unjustified 620px generic minimum. Its natural panel height is now 278px; no filler content was added.
+- Independent review also rejected the first Images screenshot as visually blank. Root cause was capture timing after lazy media mount, not missing or corrupt assets. The strengthened public verifier now forces scroll, image `decode()`, video loaded-data/seek, two paint frames, and sampled visible-pixel variance. All 13 images and both 36-second videos pass range >100 and standard deviation >20; decoded screenshots are in `artifacts/verification/2026-07-16-ux-reset/final-proof/`.
+- Focused and supporting gates pass: 13 test files / 84 tests, typecheck, zero-warning lint, format, production build, local Edge 3/3, strengthened public Edge 4/4, immutable package/media verification, secret audit with zero findings, 480-package license audit with zero findings, and live OSV audit of 287 production packages with zero findings. The submission verifier remains red only at the intentionally frozen YouTube/Devpost gates and was not weakened.
+- Local visual review passes as a deployment candidate at 1440×1000 and 390×844 with zero overflow, console errors, or serious/critical accessibility findings. Durable review: `artifacts/verification/2026-07-16-ux-reset/UX_REVIEW.md`. Remaining work is exact-source commit/push, Vercel deploy/readback, live Edge screenshots/media proof, and Nicco approval.

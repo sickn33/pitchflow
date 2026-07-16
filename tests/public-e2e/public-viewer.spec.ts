@@ -1,19 +1,13 @@
 import { createHash } from "node:crypto";
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
 
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 import { DOGFOOD_PACKAGE_URL, parseDogfoodPackage } from "../../apps/web/lib/dogfood";
 
-const productHero = "Paste your repo. Get a launch-ready site, social kit, and product video.";
-const workflowSteps = ["Analyze", "Direct", "Generate", "Deliver", "Export"];
-const workflowMarkers = [
-  "01 · Analyze",
-  "02 · Direct",
-  "03 · Generate",
-  "04 · Deliver",
-  "05 · Export",
-];
+const productHero = "Paste your repo. Get the whole launch kit.";
 
 function sha256(data: Buffer): string {
   return createHash("sha256").update(data).digest("hex");
@@ -35,12 +29,6 @@ async function expectViewport(page: Page, width: number, height: number) {
     .toEqual({ width, height });
 }
 
-function expectPngDimensions(image: Buffer, width: number, height: number) {
-  expect(image.subarray(1, 4).toString("ascii")).toBe("PNG");
-  expect(image.readUInt32BE(16)).toBe(width);
-  expect(image.readUInt32BE(20)).toBe(height);
-}
-
 async function expectNoRootOverflow(page: Page) {
   const overflow = await page.evaluate(() => ({
     document: document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -52,19 +40,138 @@ async function expectNoRootOverflow(page: Page) {
   expect(overflow.scrollX).toBe(0);
 }
 
-async function expectProductJourney(page: Page) {
-  await expect(
-    page.getByRole("navigation", { name: "PitchFlow workflow" }).locator("li strong"),
-  ).toHaveText(workflowSteps);
-  const markers = page.locator(".step-heading > span, .export-copy > span");
-  await expect(markers).toHaveText(workflowMarkers);
-  const tops = await markers.evaluateAll((elements) =>
-    elements.map((element) => element.getBoundingClientRect().top + window.scrollY),
-  );
-  expect(tops).toEqual([...tops].sort((left, right) => left - right));
+function expectPngDimensions(image: Buffer, width: number, height: number) {
+  expect(image.subarray(1, 4).toString("ascii")).toBe("PNG");
+  expect(image.readUInt32BE(16)).toBe(width);
+  expect(image.readUInt32BE(20)).toBe(height);
 }
 
-test("serves the immutable dogfood through the complete product journey and denies public generation", async ({
+type PixelStats = {
+  width: number;
+  height: number;
+  min: number;
+  max: number;
+  mean: number;
+  stdev: number;
+};
+
+async function decodedImagePixels(image: Locator): Promise<PixelStats> {
+  await image.scrollIntoViewIfNeeded();
+  return image.evaluate(async (element: HTMLImageElement) => {
+    await element.decode();
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    );
+    const scale = Math.min(1, 160 / element.naturalWidth, 160 / element.naturalHeight);
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(element.naturalWidth * scale));
+    canvas.height = Math.max(1, Math.round(element.naturalHeight * scale));
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Canvas is unavailable for image proof.");
+    context.drawImage(element, 0, 0, canvas.width, canvas.height);
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let count = 0;
+    let sum = 0;
+    let squareSum = 0;
+    let min = 255;
+    let max = 0;
+    for (let index = 0; index < pixels.length; index += 4) {
+      const luminance =
+        0.2126 * pixels[index]! + 0.7152 * pixels[index + 1]! + 0.0722 * pixels[index + 2]!;
+      count += 1;
+      sum += luminance;
+      squareSum += luminance * luminance;
+      min = Math.min(min, luminance);
+      max = Math.max(max, luminance);
+    }
+    const mean = sum / count;
+    return {
+      width: element.naturalWidth,
+      height: element.naturalHeight,
+      min,
+      max,
+      mean,
+      stdev: Math.sqrt(squareSum / count - mean * mean),
+    };
+  });
+}
+
+async function decodedVideoPixels(video: Locator): Promise<PixelStats & { duration: number }> {
+  await video.scrollIntoViewIfNeeded();
+  return video.evaluate(async (element: HTMLVideoElement) => {
+    element.preload = "auto";
+    element.muted = true;
+    element.load();
+    if (element.readyState < 2) {
+      await new Promise<void>((resolve, reject) => {
+        element.addEventListener("loadeddata", () => resolve(), { once: true });
+        element.addEventListener("error", () => reject(new Error("Video frame failed to load.")), {
+          once: true,
+        });
+      });
+    }
+    element.currentTime = Math.min(1, element.duration / 2);
+    await new Promise<void>((resolve) =>
+      element.addEventListener("seeked", () => resolve(), { once: true }),
+    );
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    );
+    const canvas = document.createElement("canvas");
+    canvas.width = 160;
+    canvas.height = Math.max(1, Math.round((160 * element.videoHeight) / element.videoWidth));
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Canvas is unavailable for video proof.");
+    context.drawImage(element, 0, 0, canvas.width, canvas.height);
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let count = 0;
+    let sum = 0;
+    let squareSum = 0;
+    let min = 255;
+    let max = 0;
+    for (let index = 0; index < pixels.length; index += 4) {
+      const luminance =
+        0.2126 * pixels[index]! + 0.7152 * pixels[index + 1]! + 0.0722 * pixels[index + 2]!;
+      count += 1;
+      sum += luminance;
+      squareSum += luminance * luminance;
+      min = Math.min(min, luminance);
+      max = Math.max(max, luminance);
+    }
+    const mean = sum / count;
+    return {
+      width: element.videoWidth,
+      height: element.videoHeight,
+      duration: element.duration,
+      min,
+      max,
+      mean,
+      stdev: Math.sqrt(squareSum / count - mean * mean),
+    };
+  });
+}
+
+async function attachCaptures(page: Page, outputDir: string) {
+  const directory = join(outputDir, "public-project-captures");
+  await mkdir(directory, { recursive: true });
+  const first = join(directory, "repository.png");
+  const second = join(directory, "direction.png");
+  await page.screenshot({ path: first, fullPage: false });
+  await page.screenshot({ path: second, fullPage: true });
+  await page.locator("#product-captures").setInputFiles([first, second]);
+  const descriptions = page.getByLabel("What this real screen shows");
+  await descriptions
+    .nth(0)
+    .fill("Validated repository summary in the real PitchFlow project flow.");
+  await descriptions
+    .nth(1)
+    .fill("Creative direction and capture inputs for the current repository.");
+  const provenance = page.getByLabel("Provenance");
+  await provenance.nth(0).selectOption("creator-owned");
+  await provenance.nth(1).selectOption("creator-owned");
+}
+
+test("opens the immutable dogfood as an unmistakable read-only results project", async ({
   page,
   request,
 }, testInfo) => {
@@ -80,45 +187,66 @@ test("serves the immutable dogfood through the complete product journey and deni
   await page.goto("/");
   await expectViewport(page, 1440, 1000);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
-  await expect(
-    page.getByText("Interactive demo · generated from the PitchFlow repository"),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "Here’s what PitchFlow understood." }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "Explore the finished PitchFlow demo." }),
-  ).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "New project steps" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Explore the PitchFlow demo" }).click();
 
-  await expect(page.getByRole("tab", { name: "Website" })).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator("#campaign-panel-website h3")).toHaveText(
-    dogfood.campaign.productBrief.oneLiner,
-  );
-  await expect(page.getByRole("link", { name: "Open full website" })).toHaveAttribute(
-    "href",
-    "/dogfood/pitchflow/v1/site/index.html",
-  );
+  await expect(
+    page.getByText("Read-only demo · generated from the PitchFlow repository"),
+  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "PitchFlow launch kit" })).toBeVisible();
+  await expect(page.getByRole("tab")).toHaveText(["Website", "Images", "Videos", "Copy", "Export"]);
+  await expect(page.getByRole("button", { name: "Create from my repository" })).toBeVisible();
 
   await page.getByRole("tab", { name: "Images" }).click();
-  await expect(page.locator("#campaign-panel-images .gallery-image-card")).toHaveCount(13);
-  await expect(page.getByText("Production images from the complete PitchFlow demo.")).toBeVisible();
-
+  const imagePreviews = page.locator("#campaign-panel-images img");
+  await expect(imagePreviews).toHaveCount(13);
+  const imagePixelProof: PixelStats[] = [];
+  for (let index = 0; index < (await imagePreviews.count()); index += 1) {
+    const stats = await decodedImagePixels(imagePreviews.nth(index));
+    expect(stats.width).toBeGreaterThan(0);
+    expect(stats.height).toBeGreaterThan(0);
+    expect(stats.max - stats.min).toBeGreaterThan(100);
+    expect(stats.stdev).toBeGreaterThan(20);
+    imagePixelProof.push(stats);
+  }
+  await imagePreviews.first().scrollIntoViewIfNeeded();
+  const decodedImagesScreenshot = await page.screenshot({ fullPage: false });
+  await testInfo.attach("decoded-images-visible-pixels", {
+    body: decodedImagesScreenshot,
+    contentType: "image/png",
+  });
   await page.getByRole("tab", { name: "Videos" }).click();
-  await expect(page.locator("#campaign-panel-videos video")).toHaveCount(2);
-  await expect(
-    page.getByText("Play the landscape and portrait masters from the PitchFlow demo."),
-  ).toBeVisible();
-
+  const videoPreviews = page.locator("#campaign-panel-videos video");
+  await expect(videoPreviews).toHaveCount(2);
+  const videoPixelProof: Array<PixelStats & { duration: number }> = [];
+  for (let index = 0; index < (await videoPreviews.count()); index += 1) {
+    const stats = await decodedVideoPixels(videoPreviews.nth(index));
+    expect(stats.width).toBeGreaterThan(0);
+    expect(stats.height).toBeGreaterThan(0);
+    expect(stats.duration).toBe(36);
+    expect(stats.max - stats.min).toBeGreaterThan(100);
+    expect(stats.stdev).toBeGreaterThan(20);
+    videoPixelProof.push(stats);
+  }
+  await testInfo.attach("decoded-media-pixel-proof", {
+    body: Buffer.from(
+      JSON.stringify({ images: imagePixelProof, videos: videoPixelProof }, null, 2),
+    ),
+    contentType: "application/json",
+  });
   await page.getByRole("tab", { name: "Copy" }).click();
   await expect(page.getByRole("heading", { name: "Inspect the launch voice." })).toBeVisible();
-
   await page.getByRole("tab", { name: "Export" }).click();
-  await expectProductJourney(page);
   const archive = dogfood.assets.find((asset) => asset.mediaType === "application/zip");
   expect(archive).toBeDefined();
   await expect(
     page.getByRole("link", { name: "Download complete launch package" }),
   ).toHaveAttribute("href", archive!.href);
+  expect(
+    await page
+      .locator("#campaign-panel-export")
+      .evaluate((element) => Math.round(element.getBoundingClientRect().height)),
+  ).toBeLessThan(500);
 
   for (const asset of dogfood.assets) {
     const response = await request.get(asset.href, { timeout: 180_000 });
@@ -149,7 +277,7 @@ test("serves the immutable dogfood through the complete product journey and deni
   await page.evaluate(() => window.scrollTo(0, 0));
   const screenshot = await page.screenshot({ fullPage: false });
   expectPngDimensions(screenshot, 1440, 1000);
-  await testInfo.attach("public-product-desktop-1440x1000", {
+  await testInfo.attach("demo-results-desktop-1440x1000", {
     body: screenshot,
     contentType: "image/png",
   });
@@ -157,38 +285,63 @@ test("serves the immutable dogfood through the complete product journey and deni
   expect(consoleErrors).toEqual([]);
 });
 
-test("preserves an arbitrary public repository in an honest local-only handoff without mutation requests", async ({
+test("preserves a fresh project through direction and shows the honest disconnected engine state", async ({
   page,
-}) => {
+}, testInfo) => {
   const consoleErrors = collectConsoleErrors(page);
-  const mutationRequests: string[] = [];
-  page.on("request", (request) => {
-    const path = new URL(request.url()).pathname;
-    if (request.method() !== "GET" && /^\/api\/(?:analyze|generate|export)$/.test(path)) {
-      mutationRequests.push(`${request.method()} ${path}`);
-    }
+  await page.route("https://api.github.com/repos/acme/demo", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({
+        full_name: "acme/demo",
+        description: "A small public product used for the PitchFlow UI contract.",
+        language: "TypeScript",
+        license: { spdx_id: "MIT" },
+      }),
+    });
   });
+  await page.route("http://127.0.0.1:3210/api/bridge/**", async (route) =>
+    route.abort("connectionrefused"),
+  );
 
   await page.goto("/");
-  const repositoryInput = page.getByLabel("Public GitHub repository");
-  await expect(repositoryInput).toHaveValue("https://github.com/sickn33/pitchflow");
+  await page.getByLabel("GitHub repository").fill("https://github.com/acme/demo");
+  await page.getByRole("button", { name: "Generate launch kit" }).click();
+  await expect(page.getByRole("heading", { name: "Repository ready." })).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "Repository ready." }).getByText("acme/demo", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Continue to direction" }).click();
+  await page.getByLabel("Audience").fill("Developers who ship small open-source products");
+  await attachCaptures(page, testInfo.outputDir);
+  await page.getByRole("button", { name: "Continue to engine" }).click();
 
-  const repositoryUrl = "https://github.com/openai/codex";
-  await repositoryInput.fill(repositoryUrl);
-  await page.getByRole("button", { name: "Analyze repository" }).click();
+  await expect(page.getByRole("heading", { name: "Connect your Codex engine." })).toBeVisible();
+  await expect(page.getByText("Local engine not connected")).toBeVisible();
+  await expect(page.getByText("pnpm pitchflow connect")).toBeVisible();
+  await expect(page.getByText("The hosted page could not reach loopback.")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Open local workspace with this project" }),
+  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Check connection" })).toHaveCSS(
+    "background-color",
+    "rgba(0, 0, 0, 0)",
+  );
+  await expect(
+    page.getByRole("button", { name: "Open local workspace with this project" }),
+  ).not.toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
 
-  await expect(page.getByText("Your repository is ready for the local workspace.")).toBeVisible();
-  const deepLinkHref = await page.locator(".handoff-deep-link a").getAttribute("href");
-  expect(deepLinkHref).not.toBeNull();
-  const deepLink = new URL(deepLinkHref!);
-  expect(deepLink.origin).toBe("http://127.0.0.1:3210");
-  expect(deepLink.searchParams.get("repo")).toBe(repositoryUrl);
-  await expect(repositoryInput).toHaveValue(repositoryUrl);
-  expect(mutationRequests).toEqual([]);
+  await page.getByRole("button", { name: "Back" }).click();
+  await expect(page.getByLabel("Audience")).toHaveValue(
+    "Developers who ship small open-source products",
+  );
+  await expect(page.getByLabel("What this real screen shows")).toHaveCount(2);
+  await expect(page.getByRole("heading", { name: "PitchFlow launch kit" })).toHaveCount(0);
+  await expectNoRootOverflow(page);
   expect(consoleErrors).toEqual([]);
 });
 
-test("keeps repository records, claim anchors, real media, and package hashes on the evidence route", async ({
+test("keeps provenance and complete media evidence on the secondary evidence route", async ({
   page,
   request,
 }) => {
@@ -203,18 +356,6 @@ test("keeps repository records, claim anchors, real media, and package hashes on
     }),
   ).toBeVisible();
   await expect(page.locator(".evidence-card")).toHaveCount(dogfood.snapshot.evidence.length);
-  for (const evidence of dogfood.snapshot.evidence) {
-    await expect(page.locator(`#evidence-${evidence.id}`)).toHaveCount(1);
-  }
-
-  const firstClaim = dogfood.campaign.claims[0]!;
-  const firstEvidenceId = firstClaim.evidenceIds[0]!;
-  await page
-    .getByLabel(`Evidence for ${firstClaim.text}`)
-    .getByRole("button", { name: firstEvidenceId })
-    .click();
-  await expect(page.locator(`#evidence-${firstEvidenceId}`)).toBeFocused();
-
   await expect(page.locator(".video-card video")).toHaveCount(2);
   await expect(page.locator(".social-grid .gallery-image-card")).toHaveCount(4);
   await expect(page.locator(".carousel-grid .gallery-image-card")).toHaveCount(5);
@@ -226,18 +367,15 @@ test("keeps repository records, claim anchors, real media, and package hashes on
   expect(consoleErrors).toEqual([]);
 });
 
-test("keeps the product-first judge path accessible at exact desktop and mobile dimensions", async ({
+test("passes entry and demo accessibility at exact desktop and mobile viewports", async ({
   page,
 }, testInfo) => {
   const consoleErrors = collectConsoleErrors(page);
   await page.goto("/");
-  await expect(
-    page.getByRole("heading", { name: "Explore the finished PitchFlow demo." }),
-  ).toBeVisible();
   await expectViewport(page, 1440, 1000);
+  await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
   await expectNoRootOverflow(page);
-
-  const accessibility = await new AxeBuilder({ page })
+  let accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
     .analyze();
   expect(
@@ -250,28 +388,24 @@ test("keeps the product-first judge path accessible at exact desktop and mobile 
   await page.reload();
   await expectViewport(page, 390, 844);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "Explore the finished PitchFlow demo." }),
-  ).toBeVisible();
-  await page.evaluate(() => window.scrollTo(0, 0));
   await expectNoRootOverflow(page);
+  const entry = await page.screenshot({ fullPage: false });
+  expectPngDimensions(entry, 390, 844);
+  await testInfo.attach("entry-mobile-390x844", { body: entry, contentType: "image/png" });
 
-  const stepperOverflow = await page
-    .getByRole("navigation", { name: "PitchFlow workflow" })
-    .evaluate((element) => ({
-      clientWidth: element.clientWidth,
-      scrollWidth: element.scrollWidth,
-      overflowX: getComputedStyle(element).overflowX,
-    }));
-  expect(stepperOverflow.overflowX).toBe("auto");
-  expect(stepperOverflow.scrollWidth).toBeGreaterThan(stepperOverflow.clientWidth);
-
-  const screenshot = await page.screenshot({ fullPage: false });
-  expectPngDimensions(screenshot, 390, 844);
-  await testInfo.attach("public-product-mobile-390x844", {
-    body: screenshot,
-    contentType: "image/png",
-  });
+  await page.getByRole("button", { name: "Explore the PitchFlow demo" }).click();
+  await expect(
+    page.getByText("Read-only demo · generated from the PitchFlow repository"),
+  ).toBeVisible();
+  await expectNoRootOverflow(page);
+  accessibility = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .analyze();
+  expect(
+    accessibility.violations.filter(
+      (violation) => violation.impact === "serious" || violation.impact === "critical",
+    ),
+  ).toEqual([]);
   await page.getByRole("link", { name: "Skip to main content" }).focus();
   await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
   expect(consoleErrors).toEqual([]);
