@@ -7,7 +7,7 @@ PitchFlow targets **Developer Tools**. The public product workspace is designed 
 Open **<https://pitchflow-ten.vercel.app>**. No sign-in or test account is required.
 
 1. Answer the product promise from the first screen: repository plus captures/direction in; GPT-5.6-directed launch system; Website, Images, Videos, Copy, and Export out.
-2. Choose **Try the PitchFlow demo** without signing in.
+2. Choose **Explore the PitchFlow demo** without signing in.
 3. Explore **Website**, **Images**, **Videos**, **Copy**, and **Export** as one generated project.
 4. Inspect real PitchFlow UI captures, four distinct social graphics, five carousel slides, and both video ratios.
 5. Download the immutable complete package and compare its displayed SHA-256 with the downloaded bytes.

@@ -87,7 +87,7 @@ After Build Week, the next safe extensions are additional repository hosts, reus
 
 ## Judge testing instructions
 
-Fast path: open <https://pitchflow-ten.vercel.app> without signing in and choose **Try the PitchFlow demo**. Explore the complete generated project through **Website**, **Images**, **Videos**, **Copy**, and **Export**, then download the immutable package. The secondary **Evidence** route exposes provenance, hashes, security boundaries, and verification records.
+Fast path: open <https://pitchflow-ten.vercel.app> without signing in and choose **Explore the PitchFlow demo**. Explore the complete generated project through **Website**, **Images**, **Videos**, **Copy**, and **Export**, then download the immutable package. The secondary **Evidence** route exposes provenance, hashes, security boundaries, and verification records.
 
 Fresh local path on macOS or Linux:
 

@@ -27,7 +27,7 @@ The rejected candidate mixed marketing, direction, bridge setup, workflow, demo,
 - Decoded image and video surfaces: `final-proof/images-decoded-1440x1000.png`, `final-proof/videos-decoded-1440x1000.png`.
 - Compact Export: `final-proof/export-compact-1440x1000.png`.
 
-No root overflow or console/page errors were observed at either viewport. Serious/critical axe findings are zero. The generated full-page captures can repeat fixed development overlays during stitching; acceptance is based on production-mode viewport screenshots and browser assertions, not those development-only repetitions.
+No root overflow or console/page errors were observed at either viewport. Serious/critical axe findings are zero. Synthetic full-page stitching can repeat fixed development overlays or expose the keyboard skip link while Playwright fills a focused field; acceptance is based on production-mode native-viewport screenshots, computed layout, and browser assertions rather than those stitching artifacts.
 
 ## Failed gates and repairs
 
@@ -58,4 +58,4 @@ The strengthened production public suite attaches the per-preview JSON measureme
 
 ## Remaining gate
 
-Deploy this exact source, verify the live alias at both viewports with the same decoded-media protocol, preserve the reports/screenshots, and ask Nicco for visual approval. Publication remains frozen.
+The exact source is deployed and the live alias passes both viewports with the same decoded-media protocol. The only remaining product gate is Nicco's visual approval of `https://pitchflow-ten.vercel.app`. Publication remains frozen.

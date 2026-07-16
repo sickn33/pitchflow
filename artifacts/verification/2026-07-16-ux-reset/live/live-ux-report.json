@@ -1,0 +1,247 @@
+{
+  "format": "pitchflow-live-ux-verification",
+  "version": 1,
+  "status": "ok",
+  "url": "https://pitchflow-ten.vercel.app",
+  "browser": "Microsoft Edge",
+  "verifiedAt": "2026-07-16T06:12:43.822Z",
+  "viewports": [
+    {
+      "label": "desktop-1440x1000",
+      "width": 1440,
+      "height": 1000,
+      "entry": {
+        "h1": "Paste your repo. Get the whole launch kit.",
+        "primaryActions": 1,
+        "demoActions": 1,
+        "outputs": [
+          "Website",
+          "Images",
+          "Videos",
+          "Copy",
+          "ZIP"
+        ],
+        "overflow": 0,
+        "seriousOrCriticalAxe": 0
+      },
+      "demo": {
+        "ownership": "read-only",
+        "imageCount": 13,
+        "imagePixelProof": [
+          {
+            "width": 1080,
+            "height": 1080,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 39.863760015622546,
+            "stdev": 41.97927806614491
+          },
+          {
+            "width": 1200,
+            "height": 627,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 40.089245282737004,
+            "stdev": 40.76457559422595
+          },
+          {
+            "width": 1200,
+            "height": 630,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 38.406903035713256,
+            "stdev": 38.169153688259634
+          },
+          {
+            "width": 1600,
+            "height": 900,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 41.36617506944307,
+            "stdev": 43.686302152798056
+          },
+          {
+            "width": 1080,
+            "height": 1350,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 40.3927135839828,
+            "stdev": 40.783882339430626
+          },
+          {
+            "width": 1080,
+            "height": 1350,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 38.28404229492088,
+            "stdev": 37.231698309808294
+          },
+          {
+            "width": 1080,
+            "height": 1350,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 38.16213977538955,
+            "stdev": 37.0512987019818
+          },
+          {
+            "width": 1080,
+            "height": 1350,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 37.981014326170765,
+            "stdev": 37.59577482392894
+          },
+          {
+            "width": 1080,
+            "height": 1350,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 38.18599978515547,
+            "stdev": 37.341416084313785
+          },
+          {
+            "width": 1600,
+            "height": 1000,
+            "min": 2,
+            "max": 241.77939999999998,
+            "mean": 26.35665283750449,
+            "stdev": 29.098509954187882
+          },
+          {
+            "width": 1600,
+            "height": 1000,
+            "min": 2,
+            "max": 247.65099999999998,
+            "mean": 40.87529692500228,
+            "stdev": 57.04679055283576
+          },
+          {
+            "width": 1600,
+            "height": 1000,
+            "min": 2,
+            "max": 241.77939999999998,
+            "mean": 28.13090101250575,
+            "stdev": 32.40278443858328
+          },
+          {
+            "width": 1600,
+            "height": 1000,
+            "min": 2,
+            "max": 247.65099999999998,
+            "mean": 31.35332015000181,
+            "stdev": 41.61870479397856
+          }
+        ],
+        "videoPixelProof": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "min": 11.165600000000001,
+            "max": 251.231,
+            "mean": 116.72413843056188,
+            "stdev": 64.94273673145454,
+            "duration": 36
+          },
+          {
+            "width": 1080,
+            "height": 1920,
+            "min": 7.6418,
+            "max": 250.72839999999997,
+            "mean": 26.32176143055556,
+            "stdev": 31.691334146545895,
+            "duration": 36
+          }
+        ],
+        "exportHeight": 278
+      },
+      "freshProject": {
+        "repository": "https://github.com/sickn33/VibePalette",
+        "captures": 2,
+        "engine": {
+          "command": "pnpm pitchflow connect",
+          "checkBackground": "rgba(0, 0, 0, 0)",
+          "openLocalBackground": "rgb(148, 231, 161)",
+          "overflow": 0,
+          "seriousOrCriticalAxe": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "mobile-390x844",
+      "width": 390,
+      "height": 844,
+      "entry": {
+        "h1": "Paste your repo. Get the whole launch kit.",
+        "primaryActions": 1,
+        "demoActions": 1,
+        "outputs": [
+          "Website",
+          "Images",
+          "Videos",
+          "Copy",
+          "ZIP"
+        ],
+        "overflow": 0,
+        "seriousOrCriticalAxe": 0
+      },
+      "demo": {
+        "ownership": "read-only",
+        "imageCount": 13,
+        "imagePixelProof": [
+          {
+            "width": 1080,
+            "height": 1080,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 39.863760015622546,
+            "stdev": 41.97927806614491
+          },
+          {
+            "width": 1200,
+            "height": 627,
+            "min": 15.884799999999998,
+            "max": 247.65099999999998,
+            "mean": 40.089245282737004,
+            "stdev": 40.76457559422595
+          }
+        ],
+        "videoPixelProof": [
+          {
+            "width": 1920,
+            "height": 1080,
+            "min": 11.165600000000001,
+            "max": 251.231,
+            "mean": 116.72413843056188,
+            "stdev": 64.94273673145454,
+            "duration": 36
+          },
+          {
+            "width": 1080,
+            "height": 1920,
+            "min": 7.6418,
+            "max": 250.72839999999997,
+            "mean": 26.32176143055556,
+            "stdev": 31.691334146545895,
+            "duration": 36
+          }
+        ],
+        "exportHeight": 376
+      },
+      "freshProject": {
+        "repository": "https://github.com/sickn33/VibePalette",
+        "captures": 2,
+        "engine": {
+          "command": "pnpm pitchflow connect",
+          "checkBackground": "rgba(0, 0, 0, 0)",
+          "openLocalBackground": "rgb(148, 231, 161)",
+          "overflow": 0,
+          "seriousOrCriticalAxe": 0
+        }
+      },
+      "errors": []
+    }
+  ],
+  "credentialValuesPrinted": false
+}

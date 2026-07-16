@@ -43,12 +43,16 @@ const rootResponse = await fetch(baseUrl, {
 const rootHtml = (await successfulBody(rootResponse, "Public product workspace")).toString("utf8");
 const productSignals = [
   "PitchFlow",
-  "Paste your repo. Get a launch-ready site, social kit, and product video.",
-  "Analyze",
-  "Direct",
-  "Generate",
-  "Deliver",
-  "Export",
+  "Paste your repo. Get the whole launch kit.",
+  "Generate launch kit",
+  "Explore the PitchFlow demo",
+  "The five launch-kit deliverables",
+  "Website",
+  "Images",
+  "Videos",
+  "Copy",
+  "ZIP",
+  "your local Codex engine",
 ];
 for (const signal of productSignals) {
   if (!rootHtml.includes(signal)) {

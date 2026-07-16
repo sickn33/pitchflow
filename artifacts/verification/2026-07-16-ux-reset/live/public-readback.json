@@ -1,0 +1,247 @@
+{
+  "status": "ok",
+  "verifiedAt": "2026-07-16T06:01:19.482Z",
+  "url": "https://pitchflow-ten.vercel.app",
+  "repository": "https://github.com/sickn33/pitchflow",
+  "commitSha": "87d70cc297dc4320ed0a3e6aa059739565d0de43",
+  "campaignId": "campaign_a6278deb1d98cf0c",
+  "generation": {
+    "provider": "codex-sdk",
+    "model": "gpt-5.6-sol",
+    "promptVersion": "creative-director-2026-07-15.2",
+    "generatedAt": "2026-07-15T05:37:24.492Z",
+    "threadId": "019f6446-a899-7ac0-9995-b6e936c03427",
+    "repairAttempts": 0,
+    "usage": {
+      "inputTokens": 28353,
+      "cachedInputTokens": 0,
+      "outputTokens": 3902,
+      "reasoningOutputTokens": 849
+    }
+  },
+  "judgePackage": {
+    "bytes": 77804,
+    "sha256": "74d2bc013fc5e628c99091bba74df373d363efff3122c1edbb383bfcd5cfc93b"
+  },
+  "assets": [
+    {
+      "href": "/dogfood/pitchflow/v1/site/index.html",
+      "bytes": 11888,
+      "sha256": "5538b25e3120e93931582f432b809c9d66bafaca4de5d9b1a717d13e9e9fa62e",
+      "contentType": "text/html; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/site/styles.css",
+      "bytes": 4721,
+      "sha256": "867855ed9627577c2f48985863cef07f1fee154165cc4cc0fbb63b0eb3bedbdf",
+      "contentType": "text/css; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/copy/campaign.json",
+      "bytes": 3561,
+      "sha256": "6e83b661738704843e42e807b0740f42300c9d356c768336918aed6de7de1fa6",
+      "contentType": "application/json; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/copy/campaign.md",
+      "bytes": 3376,
+      "sha256": "e955ffada1c01bc07ddb60d62895e73a0491c0125b3a4d0ac5f3eb2ae17da64a",
+      "contentType": "text/markdown; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/campaign-manifest.json",
+      "bytes": 30711,
+      "sha256": "06a171624d4585032f3de27250a28135e1567ab71c29ac2b7327998cedee00ce",
+      "contentType": "application/json; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/repository-snapshot.json",
+      "bytes": 37946,
+      "sha256": "5a95b611e1e4a7f22b2dd66fd744b689d4ea36b49a4ddee358e7ae0f05994b0c",
+      "contentType": "application/json; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/capture-provenance.json",
+      "bytes": 2250,
+      "sha256": "87bf83d7438f3af47aeefde0c6e7fdcfea822099629f01374224585e85db6a2a",
+      "contentType": "application/json; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/og-1200x630.png",
+      "bytes": 78232,
+      "sha256": "2675d8fe434a1308d170539f47b7193dc0063fbec41713171e5f43e019f349a8",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/x-1600x900.png",
+      "bytes": 109856,
+      "sha256": "fa415146bf78d06abbfb134a5c9a300ac285bc06573e4acf6cfcebe0aa13c4e6",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/linkedin-1200x627.png",
+      "bytes": 79403,
+      "sha256": "96e443eef968c98e5fd1c042ce36ef3b8e59b51e463a6b9249dffd36c78802ce",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/instagram-1080x1080.png",
+      "bytes": 103687,
+      "sha256": "554e85efd866792ac7788388e2c3fea155f5b915bde66a3b21ee0b07271f5a2b",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/carousel/slide-01-1080x1350.png",
+      "bytes": 123050,
+      "sha256": "6bc579d59679a0a9751fdfadaff478da2bb72a15f93d06d45bab8b56bc9d194a",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/carousel/slide-02-1080x1350.png",
+      "bytes": 120244,
+      "sha256": "3da8617b46f1780f68fdf02144136cdfb827851bddb6964065e2b38f6e2c0646",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/carousel/slide-03-1080x1350.png",
+      "bytes": 113985,
+      "sha256": "e240453212655168a0c8065ffce8d5ef847e777b38f43606ef699e32a5bc8966",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/carousel/slide-04-1080x1350.png",
+      "bytes": 117369,
+      "sha256": "dd47509bee3b6d8882aef1284fdca793027bf9be7e0b9e5362c057f361fa508c",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/carousel/slide-05-1080x1350.png",
+      "bytes": 117532,
+      "sha256": "3e1faa745cf649bfea0afc3666dcfdd75852e2847c17f74dd72621974d467098",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/product-capture-01.png",
+      "bytes": 238771,
+      "sha256": "32cc05f90f8e8e599db8af999912d05fa99304bbde3cd8027efb5433380880a7",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/product-capture-02.png",
+      "bytes": 359473,
+      "sha256": "dc2ea2ea85d112bf49ac901aa47ab48b2ab42346a8f7b63fedb5b1f06464a3b2",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/product-capture-03.png",
+      "bytes": 278991,
+      "sha256": "8933f20014ff072777d10eb57437d99638cf622a34a22ca370d75daec6f14e7e",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/images/product-capture-04.png",
+      "bytes": 444156,
+      "sha256": "99560315c64fe328144d97d8623dae97ff7562e5a9cdfb3af6973882363d7ae7",
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/videos/launch-landscape-1920x1080.mp4",
+      "bytes": 41078320,
+      "sha256": "32743c9f4f6dd87e0b51cae9776361bb84c9dd50999ae942270d01201ac9639e",
+      "contentType": "video/mp4",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/videos/launch-portrait-1080x1920.mp4",
+      "bytes": 48468846,
+      "sha256": "2de969b9dad2dcb53cadc21313f6fc541de2557100e9f202d490083cf9efc094",
+      "contentType": "video/mp4",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/video-render-metadata.json",
+      "bytes": 7707,
+      "sha256": "9b024aea1240d195b389052c6a6237a3134d92d6b6fe9ca3a91b4d98dadb66fb",
+      "contentType": "application/json; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/asset-index.json",
+      "bytes": 9373,
+      "sha256": "df9730316f48acf3700327c1d6d10ba9122d19263312af7aec3d7911d530603f",
+      "contentType": "application/json; charset=utf-8",
+      "cacheControl": "public, max-age=31536000, immutable"
+    },
+    {
+      "href": "/dogfood/pitchflow/v1/pitchflow-campaign.zip",
+      "bytes": 91837588,
+      "sha256": "fde4380e466b8697ddadc09de52cb799926651e497e8b7a727979701f472e2fd",
+      "contentType": "application/zip",
+      "cacheControl": "public, max-age=31536000, immutable"
+    }
+  ],
+  "totalAssetBytes": 183781036,
+  "publicStatus": {
+    "mode": "public-viewer",
+    "generationEnabled": false,
+    "codex": null
+  },
+  "deniedRoutes": [
+    {
+      "route": "/api/analyze",
+      "status": 403,
+      "code": "PUBLIC_VIEWER_READ_ONLY"
+    },
+    {
+      "route": "/api/generate",
+      "status": 403,
+      "code": "PUBLIC_VIEWER_READ_ONLY"
+    },
+    {
+      "route": "/api/export",
+      "status": 403,
+      "code": "PUBLIC_VIEWER_READ_ONLY"
+    }
+  ],
+  "securityHeaders": {
+    "referrerPolicy": "strict-origin-when-cross-origin",
+    "xContentTypeOptions": "nosniff",
+    "xFrameOptions": "DENY",
+    "permissionsPolicy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  },
+  "productSignals": [
+    "PitchFlow",
+    "Paste your repo. Get the whole launch kit.",
+    "Generate launch kit",
+    "Explore the PitchFlow demo",
+    "The five launch-kit deliverables",
+    "Website",
+    "Images",
+    "Videos",
+    "Copy",
+    "ZIP",
+    "your local Codex engine"
+  ],
+  "evidenceRoute": "/evidence",
+  "credentialValuesPrinted": false
+}
