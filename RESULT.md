@@ -1,12 +1,23 @@
 # PitchFlow Result
 
-Status: **ACTIVE — SIMPLIFIED LIVE PRODUCT VERIFIED; NICCO VISUAL APPROVAL GATE REMAINS**
+Status: **ACTIVE — SECOND COMPREHENSION RESET VERIFIED LOCALLY; DEPLOYMENT AND NICCO APPROVAL REMAIN**
 Started: 2026-07-15  
 Last evidence update: 2026-07-16
 Category: Developer Tools  
 Public language: English
 
-This is the durable evidence index for the active goal. The product-first workspace, secure user-owned companion, real Codex/GPT-5.6 path, fresh VibePalette package, capture-led creative system, immutable demo, and submission media are real and verified. The rejected endless page has been replaced by a focused Entry → Repository → Direction → Engine → Generate → Results state model, deployed and read back in Microsoft Edge at desktop and mobile sizes. Completion remains forbidden until Nicco explicitly approves this exact live experience. YouTube and Devpost remain frozen until that approval.
+This is the durable evidence index for the active goal. The product-first workspace, secure user-owned companion, real Codex/GPT-5.6 path, fresh VibePalette package, capture-led creative system, immutable demo, and submission media are real and verified. The focused Entry → Repository → Direction → Engine → Generate → Results state model remains intact. A second comprehension repair now makes the homepage proposition explicit and turns `/evidence` into a guided proof page; it has passed local Edge QA and awaits exact-source deployment plus Nicco review. Completion remains forbidden until Nicco explicitly approves that deployed experience. YouTube and Devpost remain frozen until that approval.
+
+## Second comprehension reset candidate
+
+- Homepage proposition: “Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy.”
+- Audience and input: developers/open-source maintainers; one public GitHub repository plus optional real screenshots and creative direction.
+- Power and boundary: GPT-5.6 through the developer's local Codex account; credentials stay on the developer's machine.
+- Visible relationship: repository/screenshots → local Codex/GPT-5.6 → Website, Social images, Product videos, Copy, ZIP.
+- Evidence hierarchy: purpose, project summary, 3-minute judge path, Product proof, Codex & GPT-5.6, Trust & provenance, Verification, then collapsed Raw evidence.
+- Exact-size Edge screenshots and machine-readable report: `artifacts/verification/2026-07-16-comprehension-reset/local/`.
+- Local QA: 1440×1000 and 390×844; all homepage comprehension elements inside the first viewport; four evidence sections; four `Why this matters`; four raw disclosures closed by default; 25 asset rows after expansion; zero root overflow, console errors, or serious/critical axe findings.
+- Focused UI tests: 6/6. Web unit/integration tests: 65/65. Root tests: 84/84. Local E2E: 3/3. Public-mode E2E: 4/4. Production build, secret, dependency, license, immutable package, and full media decode checks pass.
 
 ## Public surfaces
 

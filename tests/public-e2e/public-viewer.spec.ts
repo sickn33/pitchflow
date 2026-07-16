@@ -7,7 +7,8 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 
 import { DOGFOOD_PACKAGE_URL, parseDogfoodPackage } from "../../apps/web/lib/dogfood";
 
-const productHero = "Paste your repo. Get the whole launch kit.";
+const productHero =
+  "Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy.";
 
 function sha256(data: Buffer): string {
   return createHash("sha256").update(data).digest("hex");
@@ -187,6 +188,22 @@ test("opens the immutable dogfood as an unmistakable read-only results project",
   await page.goto("/");
   await expectViewport(page, 1440, 1000);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
+  await expect(page.getByText("For developers and open-source maintainers")).toBeVisible();
+  await expect(
+    page.getByText(
+      "PitchFlow reads the repository, uses your product screenshots for visual truth, and runs GPT‑5.6 through your local Codex account. Your credentials stay on your machine.",
+    ),
+  ).toBeVisible();
+  await expect(page.getByLabel("GitHub repository", { exact: true })).toBeVisible();
+  await expect(page.getByText("GPT‑5.6 through local Codex", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("Generated deliverables").getByRole("listitem")).toHaveText([
+    "Website",
+    "Social images",
+    "Product videos",
+    "Copy",
+    "ZIP",
+  ]);
+  await expect(page.getByRole("button", { name: "Create marketing assets" })).toHaveCount(1);
   await expect(page.getByRole("navigation", { name: "New project steps" })).toHaveCount(0);
   await page.getByRole("button", { name: "Explore the PitchFlow demo" }).click();
 
@@ -305,8 +322,8 @@ test("preserves a fresh project through direction and shows the honest disconnec
   );
 
   await page.goto("/");
-  await page.getByLabel("GitHub repository").fill("https://github.com/acme/demo");
-  await page.getByRole("button", { name: "Generate launch kit" }).click();
+  await page.getByLabel("GitHub repository", { exact: true }).fill("https://github.com/acme/demo");
+  await page.getByRole("button", { name: "Create marketing assets" }).click();
   await expect(page.getByRole("heading", { name: "Repository ready." })).toBeVisible();
   await expect(
     page.getByRole("region", { name: "Repository ready." }).getByText("acme/demo", { exact: true }),
@@ -341,7 +358,7 @@ test("preserves a fresh project through direction and shows the honest disconnec
   expect(consoleErrors).toEqual([]);
 });
 
-test("keeps provenance and complete media evidence on the secondary evidence route", async ({
+test("turns complete provenance into a guided, progressively disclosed Evidence page", async ({
   page,
   request,
 }) => {
@@ -351,19 +368,41 @@ test("keeps provenance and complete media evidence on the secondary evidence rou
 
   await page.goto("/evidence");
   await expect(
-    page.getByRole("heading", {
-      name: "Inspect a complete campaign. Generate only on your machine.",
-    }),
+    page.getByRole("heading", { name: "See what is real and how it was proved." }),
   ).toBeVisible();
-  await expect(page.locator(".evidence-card")).toHaveCount(dogfood.snapshot.evidence.length);
-  await expect(page.locator(".video-card video")).toHaveCount(2);
-  await expect(page.locator(".social-grid .gallery-image-card")).toHaveCount(4);
-  await expect(page.locator(".carousel-grid .gallery-image-card")).toHaveCount(5);
-  await expect(page.locator(".capture-grid .gallery-image-card")).toHaveCount(4);
-  await expect(page.locator(".asset-shelf li")).toHaveCount(dogfood.assets.length);
+  await expect(
+    page.getByText(
+      "This page shows what is real, how Codex/GPT-5.6 was used, and how the outputs were verified.",
+    ),
+  ).toBeVisible();
+  await expect(page.getByText("3-minute judge path", { exact: true })).toBeVisible();
+  await expect(page.locator(".evidence-section")).toHaveCount(4);
+  for (const heading of [
+    "The public demo and fresh-repository path are both real.",
+    "GPT‑5.6 directed the campaign; Codex built and ran the studio.",
+    "The product shows real UI and keeps provider authority local.",
+    "The judge path is tested as a product, not accepted from metadata.",
+  ]) {
+    await expect(page.getByRole("heading", { name: heading })).toBeVisible();
+  }
+  await expect(page.getByText("Why this matters", { exact: true })).toHaveCount(4);
+
+  const rawDetails = page.locator(".evidence-raw details");
+  await expect(rawDetails).toHaveCount(4);
+  for (let index = 0; index < (await rawDetails.count()); index += 1) {
+    await expect(rawDetails.nth(index)).not.toHaveAttribute("open");
+  }
+  await expect(page.locator(".evidence-raw-records li")).toHaveCount(
+    dogfood.snapshot.evidence.length,
+  );
+  await expect(page.locator(".evidence-asset-table tbody tr")).toHaveCount(dogfood.assets.length);
+  await expect(page.locator(".evidence-asset-table")).not.toBeVisible();
+  await rawDetails.filter({ hasText: "immutable package files" }).locator("summary").click();
+  await expect(page.locator(".evidence-asset-table")).toBeVisible();
   await expect(
     page.getByRole("link", { name: "Return to the PitchFlow workspace" }),
   ).toHaveAttribute("href", "/");
+  await expectNoRootOverflow(page);
   expect(consoleErrors).toEqual([]);
 });
 

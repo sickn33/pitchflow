@@ -231,10 +231,14 @@ function ProductHero({
   return (
     <section className="pf-entry" id="top" aria-labelledby="hero-heading">
       <div className="pf-entry-copy">
-        <h1 id="hero-heading">Paste your repo. Get the whole launch kit.</h1>
-        <p>
-          Add real product captures and direction. PitchFlow creates a site, social assets, videos,
-          copy, and one ZIP with your local Codex engine.
+        <p className="pf-entry-eyebrow">For developers and open-source maintainers</p>
+        <h1 id="hero-heading">
+          Turn a GitHub repository into a launch website, social images, product videos, and
+          ready-to-post copy.
+        </h1>
+        <p className="pf-entry-truth">
+          PitchFlow reads the repository, uses your product screenshots for visual truth, and runs
+          GPT‑5.6 through your local Codex account. Your credentials stay on your machine.
         </p>
         <form className="pf-repo-form" onSubmit={onAnalyze} noValidate>
           <label htmlFor="repository-url">GitHub repository</label>
@@ -252,7 +256,7 @@ function ProductHero({
               aria-describedby={error ? "repository-error" : undefined}
             />
             <button type="submit" disabled={busy || !repositoryUrl.trim()}>
-              {busy ? "Checking repository…" : "Generate launch kit"}
+              {busy ? "Checking repository…" : "Create marketing assets"}
               <span aria-hidden="true">→</span>
             </button>
           </div>
@@ -315,22 +319,30 @@ function ProductStepper({
 }
 
 function ProductOutputs() {
-  const outputs = ["Website", "Images", "Videos", "Copy", "ZIP"];
+  const outputs = ["Website", "Social images", "Product videos", "Copy", "ZIP"];
   return (
-    <section className="pf-output-preview" aria-label="The five launch-kit deliverables">
-      <ul>
-        {outputs.map((output, index) => (
-          <li key={output} data-kind={output.toLowerCase()}>
-            <span className="pf-output-visual" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            <strong>{output}</strong>
-            <small>0{index + 1}</small>
-          </li>
-        ))}
-      </ul>
+    <section className="pf-output-preview" aria-label="How PitchFlow creates marketing assets">
+      <ol className="pf-product-chain">
+        <li>
+          <span>01 · Input</span>
+          <strong>GitHub repository</strong>
+          <p>Optional screenshots and creative direction</p>
+        </li>
+        <li>
+          <span>02 · Process</span>
+          <strong>GPT‑5.6 through local Codex</strong>
+          <p>Repository evidence in. Credentials stay local.</p>
+        </li>
+        <li>
+          <span>03 · Outputs</span>
+          <strong>Five deliverables</strong>
+          <ul aria-label="Generated deliverables">
+            {outputs.map((output) => (
+              <li key={output}>{output}</li>
+            ))}
+          </ul>
+        </li>
+      </ol>
     </section>
   );
 }
@@ -353,7 +365,7 @@ function ProductAppHeader({ project, onExit }: { project?: string | null; onExit
           </button>
         ) : (
           <a className="pf-header-action" href="/evidence">
-            Evidence <span aria-hidden="true">↗</span>
+            How it works <span aria-hidden="true">↗</span>
           </a>
         )}
       </header>
@@ -3453,7 +3465,7 @@ export function Workspace({ publicViewer }: { publicViewer: boolean }) {
       <LocalWorkspace publicViewer={publicViewer} />
       <footer className="pf-footer">
         <span>PitchFlow</span>
-        <a href="/evidence">Evidence</a>
+        <a href="/evidence">Build evidence</a>
       </footer>
     </main>
   );

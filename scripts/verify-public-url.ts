@@ -43,16 +43,19 @@ const rootResponse = await fetch(baseUrl, {
 const rootHtml = (await successfulBody(rootResponse, "Public product workspace")).toString("utf8");
 const productSignals = [
   "PitchFlow",
-  "Paste your repo. Get the whole launch kit.",
-  "Generate launch kit",
+  "Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy.",
+  "For developers and open-source maintainers",
+  "uses your product screenshots for visual truth",
+  "runs GPT‑5.6 through your local Codex account",
+  "Your credentials stay on your machine",
+  "Create marketing assets",
   "Explore the PitchFlow demo",
-  "The five launch-kit deliverables",
+  "How PitchFlow creates marketing assets",
   "Website",
-  "Images",
-  "Videos",
+  "Social images",
+  "Product videos",
   "Copy",
   "ZIP",
-  "your local Codex engine",
 ];
 for (const signal of productSignals) {
   if (!rootHtml.includes(signal)) {
@@ -71,7 +74,17 @@ const evidenceResponse = await fetch(publicUrl("/evidence"), {
 const evidenceHtml = (await successfulBody(evidenceResponse, "Secondary evidence route")).toString(
   "utf8",
 );
-if (!evidenceHtml.includes("Evidence") || !evidenceHtml.includes("Repo-native launch studio")) {
+if (
+  !evidenceHtml.includes(
+    "This page shows what is real, how Codex/GPT-5.6 was used, and how the outputs were verified.",
+  ) ||
+  !evidenceHtml.includes("3-minute judge path") ||
+  !evidenceHtml.includes("Product proof") ||
+  !evidenceHtml.includes("Codex &amp; GPT-5.6") ||
+  !evidenceHtml.includes("Trust &amp; provenance") ||
+  !evidenceHtml.includes("Verification") ||
+  !evidenceHtml.includes("Raw evidence")
+) {
   throw new Error("The secondary evidence route does not expose PitchFlow proof material.");
 }
 

@@ -12,7 +12,8 @@ import {
 
 import { createTestSnapshot } from "../helpers/snapshot";
 
-const productHero = "Paste your repo. Get the whole launch kit.";
+const productHero =
+  "Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy.";
 const wizardSteps = ["Repository", "Direction", "Engine", "Generate"];
 
 function campaignFixture() {
@@ -43,6 +44,33 @@ async function expectNoRootOverflow(page: Page) {
   }));
   expect(overflow.document).toBeLessThanOrEqual(1);
   expect(overflow.body).toBeLessThanOrEqual(1);
+}
+
+async function expectFullyInsideFirstViewport(
+  page: Page,
+  selectors: string[],
+  viewportHeight: number,
+) {
+  const positions = await page.evaluate((requestedSelectors) => {
+    return requestedSelectors.map((selector) => {
+      const element = document.querySelector(selector);
+      if (!element) return { selector, missing: true };
+      const rect = element.getBoundingClientRect();
+      return { selector, top: rect.top, bottom: rect.bottom, missing: false };
+    });
+  }, selectors);
+
+  for (const position of positions) {
+    expect(position.missing, `${position.selector} must exist`).toBe(false);
+    expect(
+      position.top,
+      `${position.selector} must start inside the viewport`,
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      position.bottom,
+      `${position.selector} must finish inside the ${viewportHeight}px viewport`,
+    ).toBeLessThanOrEqual(viewportHeight);
+  }
 }
 
 async function mockLocalRuntime(page: Page) {
@@ -122,12 +150,12 @@ test("keeps one focused action per state and completes the real local workflow",
   await page.goto("/");
   await expectViewport(page, 1440, 1000);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Generate launch kit" })).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "Create marketing assets" })).toHaveCount(1);
   await expect(page.getByRole("button", { name: "Explore the PitchFlow demo" })).toHaveCount(1);
   await expect(page.getByRole("navigation", { name: "New project steps" })).toHaveCount(0);
 
-  await page.getByLabel("GitHub repository").fill("https://github.com/acme/demo");
-  await page.getByRole("button", { name: "Generate launch kit" }).click();
+  await page.getByLabel("GitHub repository", { exact: true }).fill("https://github.com/acme/demo");
+  await page.getByRole("button", { name: "Create marketing assets" }).click();
   await expect(page.getByRole("heading", { name: "Repository ready." })).toBeVisible();
   await expect(
     page.getByRole("navigation", { name: "New project steps" }).locator("li strong"),
@@ -207,8 +235,10 @@ test("shows a truthful repository error without entering the wizard", async ({ p
   });
 
   await page.goto("/");
-  await page.getByLabel("GitHub repository").fill("https://github.com/acme/missing");
-  await page.getByRole("button", { name: "Generate launch kit" }).click();
+  await page
+    .getByLabel("GitHub repository", { exact: true })
+    .fill("https://github.com/acme/missing");
+  await page.getByRole("button", { name: "Create marketing assets" }).click();
   await expect(page.locator("#repository-error")).toContainText(
     "The repository was not found or is not public.",
   );
@@ -228,8 +258,30 @@ test("keeps the entry hierarchy usable at 390 by 844", async ({ page }) => {
 
   await expectViewport(page, 390, 844);
   await expect(page.getByRole("heading", { name: productHero, exact: true })).toBeVisible();
-  await expect(page.getByLabel("The five launch-kit deliverables").locator("li strong")).toHaveText(
-    ["Website", "Images", "Videos", "Copy", "ZIP"],
+  await expect(page.getByText("For developers and open-source maintainers")).toBeVisible();
+  await expect(
+    page.getByText(
+      "PitchFlow reads the repository, uses your product screenshots for visual truth, and runs GPT‑5.6 through your local Codex account. Your credentials stay on your machine.",
+    ),
+  ).toBeVisible();
+  await expect(page.getByLabel("Generated deliverables").getByRole("listitem")).toHaveText([
+    "Website",
+    "Social images",
+    "Product videos",
+    "Copy",
+    "ZIP",
+  ]);
+  await expectFullyInsideFirstViewport(
+    page,
+    [
+      ".pf-entry-eyebrow",
+      "#hero-heading",
+      ".pf-entry-truth",
+      ".pf-repo-form",
+      ".pf-demo-action",
+      ".pf-output-preview",
+    ],
+    844,
   );
   await expectNoRootOverflow(page);
   await page.getByRole("link", { name: "Skip to main content" }).focus();

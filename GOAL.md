@@ -153,16 +153,21 @@ Use a small pnpm TypeScript workspace with deliberately few runtime boundaries:
 
 Against the exact deployed public SHA and without relying on README or spoken explanation, a first-time-user review at 1440×1000 desktop and an actual 390×844 mobile viewport must answer correctly within five seconds:
 
-1. What do I provide? A GitHub repository plus real product captures and direction.
-2. What does PitchFlow do? Understands the product from repository evidence and directs a launch campaign with GPT-5.6 through local Codex.
-3. What do I receive? Website, Images, Videos, Copy, and one complete Export package.
-4. How do I try it? Explore the complete public dogfood demo immediately; start `pitchflow connect`, pair the user-owned engine, and run a real fresh-repository job without sending provider credentials to Vercel.
+1. What is PitchFlow? A repo-to-marketing studio that turns real software evidence into launch assets.
+2. What do I provide? A public GitHub repository plus optional real product screenshots and creative direction.
+3. What exactly is generated? A launch website, social images and carousel, landscape and vertical product videos, ready-to-post copy, and one downloadable ZIP.
+4. How is it powered? PitchFlow reads repository evidence, uses screenshots as visual truth, and runs GPT-5.6 through the developer's locally authenticated Codex account; credentials stay on the developer's machine.
+5. Who is it for? Developers and open-source maintainers launching software.
+
+The entry viewport must state those truths in plain English rather than rely on shorthand such as “launch kit,” abstract output pictograms, demo exploration, Evidence, or documentation. It must visibly contain the explicit proposition “Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy,” identify the audience, show the repository + screenshots → GPT-5.6/local Codex → Website/Images/Videos/Copy/ZIP relationship, expose exactly one repository input, and use one dominant action whose result is explicit. “Explore the PitchFlow demo” remains visually secondary.
 
 The verifier must then prove the separated state model: entry has one dominant repository action; repository, direction, engine, generation, and results are distinct wizard/workspace states; demo and fresh-project ownership cannot be confused; wizard inputs and captures survive forward/back navigation plus the policy fallback; real progress, cancellation, retry, and errors remain wired to bridge state; results tabs and ZIP belong to the current job. It must also exercise the immutable demo download, pair an actual loopback companion from the HTTPS deployment in Edge or Chrome, and reuse the already verified VibePalette package for fresh-result UI integration without rerunning GPT-5.6 or Remotion unless a regression requires it.
 
 The browser verifier must assert exact screenshot dimensions, zero root horizontal overflow, one primary CTA per state, keyboard-operable controls and results tabs, zero console errors, and no serious or critical accessibility violations. A blunt product review must explicitly fail the gate if the interface is still an endless landing page, conflates demo and generation, presents configuration before it is needed, reads as an auditor dashboard, becomes a dense card grid, or hides the user's next action.
 
-Acceptance evidence belongs under `artifacts/verification/{timestamp}/product-reset/` and must include full-page desktop/mobile screenshots, interaction/readback results, the exact deployed SHA, and Nicco's explicit approval of the redesigned live experience.
+The `/evidence` route is a guided proof page for judges and skeptical developers, not an always-expanded internal ledger. Its first viewport must explain its purpose in one sentence, summarize the project, and present a short three-minute judge path. The page must expose exactly four understandable top-level sections—Product proof, Codex & GPT-5.6, Trust & provenance, and Verification—with a human-language “Why this matters” in each. Conclusions and meaningful numbers lead; hashes, filenames, paths, raw JSON, inventories, and repair history remain available but collapsed by default under a separate Raw evidence disclosure. The complete evidence set and traceability must be preserved.
+
+Acceptance evidence belongs under `artifacts/verification/{timestamp}/product-reset/` and must include full-page 1440×1000 and 390×844 screenshots of the homepage and Evidence overview, at least one expanded Raw evidence state, interaction/readback results, the exact deployed SHA, a blunt comprehension review, and Nicco's explicit approval of the redesigned live experience.
 
 ## Supporting verifiers
 

@@ -1,0 +1,210 @@
+{
+  "status": "ok",
+  "checkedAt": "2026-07-16T06:53:34.939Z",
+  "browser": {
+    "name": "Microsoft Edge",
+    "version": "150.0.4078.65",
+    "headless": true
+  },
+  "url": "http://127.0.0.1:3211",
+  "fiveSecondContract": {
+    "proposition": "Turn a GitHub repository into a launch website, social images, product videos, and ready-to-post copy.",
+    "audience": "For developers and open-source maintainers",
+    "input": "GitHub repository plus optional screenshots and creative direction",
+    "process": "GPT‑5.6 through local Codex; credentials stay local",
+    "outputs": [
+      "Website",
+      "Social images",
+      "Product videos",
+      "Copy",
+      "ZIP"
+    ]
+  },
+  "homepage": {
+    "desktop": {
+      "visiblePositions": {
+        "audience": {
+          "top": 233.5,
+          "bottom": 246.5
+        },
+        "proposition": {
+          "top": 262.5,
+          "bottom": 533.4375
+        },
+        "truth": {
+          "top": 556.625,
+          "bottom": 605.71875
+        },
+        "input": {
+          "top": 663.296875,
+          "bottom": 721.296875
+        },
+        "primary": {
+          "top": 663.296875,
+          "bottom": 721.296875
+        },
+        "demo": {
+          "top": 732.484375,
+          "bottom": 776.484375
+        },
+        "chain": {
+          "top": 337,
+          "bottom": 673
+        }
+      },
+      "outputs": [
+        "Website",
+        "Social images",
+        "Product videos",
+        "Copy",
+        "ZIP"
+      ],
+      "primaryCount": 1,
+      "overflow": {
+        "body": 0,
+        "document": 0,
+        "scrollX": 0
+      },
+      "accessibility": {
+        "total": 0,
+        "seriousOrCritical": 0
+      },
+      "screenshot": {
+        "path": "artifacts/verification/2026-07-16-comprehension-reset/local/homepage-desktop-1440x1000.png",
+        "width": 1440,
+        "height": 1000,
+        "bytes": 129638,
+        "sha256": "37cefc17f1f48e3b01233ea73b08b8483308635eaf792dfb2f323e2f2c003fe1"
+      }
+    },
+    "mobile": {
+      "visiblePositions": {
+        "audience": {
+          "top": 92.390625,
+          "bottom": 102.390625
+        },
+        "proposition": {
+          "top": 113.578125,
+          "bottom": 356.953125
+        },
+        "truth": {
+          "top": 370.546875,
+          "bottom": 424.828125
+        },
+        "input": {
+          "top": 469.609375,
+          "bottom": 521.609375
+        },
+        "primary": {
+          "top": 532.796875,
+          "bottom": 584.796875
+        },
+        "demo": {
+          "top": 588.796875,
+          "bottom": 624.796875
+        },
+        "chain": {
+          "top": 647.1875,
+          "bottom": 796.453125
+        }
+      },
+      "outputs": [
+        "Website",
+        "Social images",
+        "Product videos",
+        "Copy",
+        "ZIP"
+      ],
+      "primaryCount": 1,
+      "overflow": {
+        "body": 0,
+        "document": 0,
+        "scrollX": 0
+      },
+      "accessibility": {
+        "total": 0,
+        "seriousOrCritical": 0
+      },
+      "screenshot": {
+        "path": "artifacts/verification/2026-07-16-comprehension-reset/local/homepage-mobile-390x844.png",
+        "width": 390,
+        "height": 844,
+        "bytes": 81276,
+        "sha256": "c0d7baea17d38d347573bdd97b5d2cea935df5ee031801a972664be904a3bfa7"
+      }
+    }
+  },
+  "evidence": {
+    "desktop": {
+      "sections": 4,
+      "whyThisMatters": 4,
+      "rawDisclosures": 4,
+      "rawCollapsedByDefault": true,
+      "assetRowsAfterExpansion": 25,
+      "overflow": {
+        "body": 0,
+        "document": 0,
+        "scrollX": 0
+      },
+      "expandedOverflow": {
+        "body": 0,
+        "document": 0,
+        "scrollX": 0
+      },
+      "accessibility": {
+        "total": 0,
+        "seriousOrCritical": 0
+      },
+      "overviewScreenshot": {
+        "path": "artifacts/verification/2026-07-16-comprehension-reset/local/evidence-overview-desktop-1440x1000.png",
+        "width": 1440,
+        "height": 1000,
+        "bytes": 235810,
+        "sha256": "84c1f8c3d474a7ec25f5fd91e59e9db385c1fa7df29abd2cbf8da7252081a057"
+      },
+      "expandedScreenshot": {
+        "path": "artifacts/verification/2026-07-16-comprehension-reset/local/evidence-raw-expanded-desktop-1440x1000.png",
+        "width": 1440,
+        "height": 1000,
+        "bytes": 163227,
+        "sha256": "6e3f2f83a3cbcbf938f8e8e0ee8d30af6b9f146994160e0faedfc76f01a29e55"
+      }
+    },
+    "mobile": {
+      "sections": 4,
+      "whyThisMatters": 4,
+      "rawDisclosures": 4,
+      "rawCollapsedByDefault": true,
+      "assetRowsAfterExpansion": 25,
+      "overflow": {
+        "body": 0,
+        "document": 0,
+        "scrollX": 0
+      },
+      "expandedOverflow": {
+        "body": 0,
+        "document": 0,
+        "scrollX": 0
+      },
+      "accessibility": {
+        "total": 0,
+        "seriousOrCritical": 0
+      },
+      "overviewScreenshot": {
+        "path": "artifacts/verification/2026-07-16-comprehension-reset/local/evidence-overview-mobile-390x844.png",
+        "width": 390,
+        "height": 844,
+        "bytes": 134031,
+        "sha256": "06510d10874b44b7cce98e0a5586edac0dcb08847e328d4d957a5171cdf8b5dc"
+      },
+      "expandedScreenshot": {
+        "path": "artifacts/verification/2026-07-16-comprehension-reset/local/evidence-raw-expanded-mobile-390x844.png",
+        "width": 390,
+        "height": 844,
+        "bytes": 55561,
+        "sha256": "ebc2154f5b6ca6edc5493271262bda4b253a774fc97f9f81a3134ac16df7d333"
+      }
+    }
+  },
+  "consoleErrors": []
+}
